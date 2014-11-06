@@ -15,7 +15,7 @@ namespace MC3Shopper.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "walter test ";
 
             return View();
         }
@@ -26,5 +26,6 @@ namespace MC3Shopper.Controllers
 
             return View();
         }
+
     }
 }
