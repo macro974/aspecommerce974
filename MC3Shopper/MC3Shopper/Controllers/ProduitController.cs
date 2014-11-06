@@ -28,9 +28,10 @@ namespace MC3Shopper.Controllers
         {
             String[] exclude = {"TRANSPORT","","FINANCIER",""};
 
-            List<String> request = (List<String>) (from m in db.F_ARTICLE where !exclude.Contains(m.AR_Stat02) select new  { m.AR_Stat02 }).Distinct();
-
-            return PartialView(request);
+            var request = (from m in db.F_ARTICLE where !exclude.Contains(m.AR_Stat02) select m.AR_Stat02).Distinct() ;
+            List<string> list = request.ToList<string>();
+            ViewBag.request = list;
+            return View();
         }
       
 
