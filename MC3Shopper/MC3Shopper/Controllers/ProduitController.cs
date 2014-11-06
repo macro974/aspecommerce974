@@ -13,7 +13,7 @@ namespace MC3Shopper.Controllers
         // GET: Produit
         public ActionResult Index()
         {
-            
+            return View();
         }
 
         // GET: Produit/Details/5
