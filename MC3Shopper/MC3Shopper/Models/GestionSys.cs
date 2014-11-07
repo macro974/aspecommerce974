@@ -380,7 +380,7 @@ namespace MC3Shopper.Models
             
             String[] blacklist = { "", "FINANCIER", "INUTILE", "TRANSPORT" };
             List<string> maListe = new List<string>();
-            string statement = "SELECT DISTINCT Fa_Stat02 from F_FAMILLE WHERE Fa_Stat02 NOT IN (' ','FINANCIER','TRANSPORT','INUTILE','MARKTING')";
+            string statement = "SELECT DISTINCT AR_Stat02 from F_ARTICLE WHERE AR_Stat02 NOT IN (' ','FINANCIER','TRANSPORT','INUTILE','MARKETING') ORDER BY AR_STAT02 ASC";
             SqlCommand myCommand = new SqlCommand(statement, maDB.myConnection);
             maDB.open();
             SqlDataReader myReader = null;
@@ -388,7 +388,7 @@ namespace MC3Shopper.Models
             while (myReader.Read())
             {
 
-                maListe.Add(myReader["Fa_Stat02"].ToString().Trim());
+                maListe.Add(myReader["AR_Stat02"].ToString().Trim());
 
 
 
