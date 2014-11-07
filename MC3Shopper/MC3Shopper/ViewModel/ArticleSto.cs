@@ -8,8 +8,8 @@ namespace MC3Shopper.ViewModel
      [Serializable]
     public class ArticleSto
     {
-         public MC3Shopper.Models.F_ARTICLE f_article { get; set; }
-         public MC3Shopper.Models.F_ARTSTOCK f_artstock { get; set; }
+        // public MC3Shopper.Models.F_ARTICLE f_article { get; set; }
+        // public MC3Shopper.Models.F_ARTSTOCK f_artstock { get; set; }
          public int Qte { get; set; }
 
          public int Qte_denis { get; set; }
@@ -18,7 +18,7 @@ namespace MC3Shopper.ViewModel
 
          public decimal? Qte_maximal_commande { get; set; }
 
-         public MC3Shopper.Models.F_DOCLIGNE f_doc { get; set; }
+         //public MC3Shopper.Models.F_DOCLIGNE f_doc { get; set; }
 
          public void set_Qte()
          {

@@ -25,12 +25,7 @@ namespace MC3Shopper.Models
             dbObject = DB;
             Utilisateur = user;
         }
-        public GestionSys(Database DB, Utilisateur user)
-        {
-            maDB = DB;
-            dbObject = DB;
-            Utilisateur = user;
-        }
+       
 
         public GestionSys(Database DB, Utilisateur user, BackgroundWorker bkg)
         {

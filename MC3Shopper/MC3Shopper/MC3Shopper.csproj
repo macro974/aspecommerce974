@@ -166,7 +166,6 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
-    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProduitController.cs" />
     <Compile Include="Global.asax.cs">
@@ -176,6 +175,7 @@
     <Compile Include="Models\Database.cs" />
     <Compile Include="Models\entetedocument.cs" />
     <Compile Include="Models\GestionSys.cs" />
+    <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\lignedocument.cs" />
     <Compile Include="Models\Panier.cs" />
     <Compile Include="Models\Produit.cs" />
