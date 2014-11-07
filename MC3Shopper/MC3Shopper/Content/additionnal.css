@@ -16,6 +16,9 @@
 .dropdown-menu.columns-3 {
 	min-width: 600px;
 }
+.dropdown-menu.columns-4 {
+	min-width: 500%;
+}
 .dropdown-menu li a {
 	padding: 5px 15px;
 	font-weight: 300;

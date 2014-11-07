@@ -1,26 +1,50 @@
 ﻿@model List<String>
-<div class="col-sm-4">
-    <ul class="multi-column-dropdown">
-        @for (int i = 0; i < 9; i++)
-        {
 
-            <li>@Html.ActionLink(@Model[i], "Category", new { Sate02 = @Model[i] })</li>
-        }
-    </ul>
-</div><div class="col-sm-4">
-    <ul class="multi-column-dropdown">
-        @for (int i =10; i < 19; i++)
-        {
+@*@for (int i = 0; i < @Model.Count; i++)
+{
+if(i%10==0)
+{
+@Html.Raw("<div class='col-sm-4'>")
+@Html.Raw("<ul class='multi-column-dropdown'>")
 
-            <li>@Html.ActionLink(@Model[i], "Category", new { Sate02 = @Model[i] })</li>
-        }
-    </ul>
-</div><div class="col-sm-4">
-    <ul class="multi-column-dropdown">
-        @for (int i = 20; i < 29; i++)
-        {
+<li>@Html.ActionLink(@Model[i], "Category", new { Sate02 = @Model[i] })</li>
 
-            <li>@Html.ActionLink(@Model[i], "Category", new { Sate02 = @Model[i] })</li>
-        }
-    </ul>
-</div>
+}
+else
+{
+<li>@Html.ActionLink(@Model[i], "Category", new { Sate02 = @Model[i] })</li>
+}
+
+if(i%10==0)
+{
+@Html.Raw("</ul>")
+@Html.Raw("</div>")
+}
+
+
+
+}*@
+@{
+    int i = 0;
+}
+@foreach (var item in @Model)
+{
+    switch (i)
+    {
+        case 0:
+            @Html.Raw("<div class='col-sm-4'>")
+            @Html.Raw("<ul class='multi-column-dropdown'>")
+            
+            goto default;
+            default:
+            <li>@Html.ActionLink(@item, "Category", new { Sate02 = @item })</li>
+            i++;
+            break;
+            case 20:
+            @Html.Raw("</ul>")
+            @Html.Raw("</div>")
+            i = 0;
+            break;
+    }
+
+}

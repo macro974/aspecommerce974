@@ -36,7 +36,7 @@ namespace MC3Shopper.Controllers
         {
 
             GestionSys sys = new GestionSys(Session["maDB"] as Database);
-            List<string> menu =sys.FamillePourMenu().Take(30).ToList();
+            List<string> menu =sys.FamillePourMenu();
             
             
             return PartialView(menu);
