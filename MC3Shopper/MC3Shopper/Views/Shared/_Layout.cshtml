@@ -26,9 +26,16 @@
                 <ul class="nav navbar-nav">
 
                     <li>@Html.ActionLink("Accueil", "Index", "Home")</li>
+                    <li class="dropdown">
+                        <a data-toggle="dropdown" href="#" class="dropdown-toggle">Catégories<b class="caret"></b></a>
+                        <ul class="dropdown-menu multi-column columns-3">
+                            <div class="row">
+                                @{Html.RenderAction("Menu", "Produit");}
+                            </div>
+                       
+                        </ul>
+                    </li>
                    
-                    <li id="catbouton"> Catégories </li>
-           
                     <li>@Html.ActionLink("À propos de", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
 
