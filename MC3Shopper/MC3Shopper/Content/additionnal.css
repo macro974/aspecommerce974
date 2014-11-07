@@ -1,0 +1,9 @@
+﻿.navbar-nav {
+    font-size: 1.4em;
+    padding-top: 3.5%;
+}
+
+[class*='col-lg']{
+    border: 1px solid black;
+    border-radius: 5px;
+}

@@ -26,16 +26,39 @@
                 <ul class="nav navbar-nav">
 
                     <li>@Html.ActionLink("Accueil", "Index", "Home")</li>
+                   
+                    <li id="catbouton"> Catégories </li>
+           
                     <li>@Html.ActionLink("À propos de", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+
  
                 </ul>
                <!-- render partial a mettre plus tard-->
             </div>
+
+            
         </div>
     </div>
 
+
+
     <div class="container body-content">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="col-lg-4">
+                    Pipe en bois
+                </div>
+                <div class="col-lg-4">
+                    Pipe en plastik
+                </div>
+                <div class="col-lg-4">
+                    Pipe bertrand
+                </div>
+            </div>
+        </div>
+
         @RenderBody()
         <hr />
         <footer>
