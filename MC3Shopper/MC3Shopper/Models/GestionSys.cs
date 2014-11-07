@@ -14,6 +14,11 @@ namespace MC3Shopper.Models
         Utilisateur Utilisateur;
         BackgroundWorker backGroundW;
 
+        public GestionSys(Database DB)
+        {
+            maDB = DB;
+        }
+
         public GestionSys(Database DB, Utilisateur user)
         {
             maDB = DB;
