@@ -377,9 +377,10 @@ namespace MC3Shopper.Models
         }
         public List<String> FamillePourMenu()
         {
+            
             String[] blacklist = { "", "FINANCIER", "INUTILE", "TRANSPORT" };
             List<string> maListe = new List<string>();
-            string statement = "SELECT DISTINCT Fa_Stat02 from F_FAMILLE WHERE Fa_Stat02 NOT IN (' ','FINANCIER','TRANSPORT','INUTILE')";
+            string statement = "SELECT DISTINCT Fa_Stat02 from F_FAMILLE WHERE Fa_Stat02 NOT IN (' ','FINANCIER','TRANSPORT','INUTILE','MARKTING')";
             SqlCommand myCommand = new SqlCommand(statement, maDB.myConnection);
             maDB.open();
             SqlDataReader myReader = null;

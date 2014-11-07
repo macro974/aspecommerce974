@@ -24,17 +24,22 @@ namespace MC3Shopper.Controllers
             return View();
         }
 
-        public ActionResult Category (string Stat02="",int page=0)
+        public ActionResult Category (string Stat02="",int page=1)
         {
             
            
             return View();
         }
 
+        [ChildActionOnly]
         public ActionResult Menu()
         {
+
+            GestionSys sys = new GestionSys(Session["maDB"] as Database);
+            List<string> menu =sys.FamillePourMenu().Take(30).ToList();
             
-            return View();
+            
+            return PartialView(menu);
         }
       
 
