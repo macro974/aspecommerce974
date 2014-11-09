@@ -17,6 +17,7 @@ namespace MC3Shopper.Models
         public GestionSys(Database DB)
         {
             maDB = DB;
+            dbObject = DB;
         }
 
         public GestionSys(Database DB, Utilisateur user)
@@ -35,26 +36,95 @@ namespace MC3Shopper.Models
             backGroundW = bkg;
         }
 
-        public List<Produit> ProduitsParCodeStat(string codeStat , int Page=1)
+        public List<Produit>ProductByEvent(int evenement)
         {
             List<Produit> maListe = new List<Produit>();
-            int ColonneParPage= 25;
-            int startRow = (Page - 1) * ColonneParPage + 1;
-            int EndRow = Page * ColonneParPage;
+            string statement="";
+            
+            
+            switch (evenement)
+            {   case 1:// nouveaux produits
+                    statement = "select top 10 AR_Ref,AR_Design,AR_PrixVen,AR_Stat01 from F_ARTICLE  where ar_publie=1 and ar_sommeil=0 and AR_PrixVen>0 order by AR_DateCreation DESC ";
+                    break;
+                case 2: // Promotions
+                    statement = "select top 10 AR_Ref,AR_Design,AR_PrixVen,AR_Stat01 from F_ARTICLE where Lower(AR_Design) LIKE '%promo%' and ar_publie=1 and ar_sommeil=0 and AR_PrixVen>0 order by AR_DateModif DESC";
+                    break;
+                case 3: // destockage
+                    statement = "select top 10 AR_Ref,AR_Design,AR_PrixVen,AR_Stat01 from F_ARTICLE where Lower(AR_Design) LIKE '%destockage%' AND Lower(AR_Design) NOT LIKE '%promo%'  and ar_publie=1 and ar_sommeil=0 and AR_PrixVen>0 order by AR_DateModif DESC";
+                    break;
+                default:
+                    break;
+            }
+            
+            SqlCommand myCommand = new SqlCommand(statement, dbObject.myConnection);
+            dbObject.open();
+            SqlDataReader myReader = myCommand.ExecuteReader();
+            while(myReader.Read())
+            {
+                Produit monProduit = new Produit(myReader["AR_Ref"].ToString(), myReader["AR_Ref"].ToString(), myReader["AR_Design"].ToString(), decimal.Parse(myReader["AR_PrixVen"].ToString()));
+                maListe.Add(monProduit);
+            }
+            myReader.Close();
+            dbObject.close();
+            return maListe;
+        }
+        public List<Produit> GetAllProduct(string codestat)
+        {
+            List<lignedocument> lignedoc = recupererLigneDocumentByType(12); // a mettre ensuite quand une personne se connecte
+            List<Produit> maListe = new List<Produit>();
+            string statement = "select DISTINCT F_Article.AR_Ref,AR_Design,AR_PrixVen,AS_QteSto,AS_QteRes,AS_MontSto,F_Article.FA_CodeFamille from F_Article INNER JOIN F_ARTSTOCK ON F_ARTICLE.AR_Ref = F_ARTSTOCK.AR_Ref WHERE F_ARTSTOCK.DE_No = 1 AND AR_Sommeil = 0 AND AR_Publie = 1 AND AR_Stat02=@state";
+            SqlCommand myCommand = new SqlCommand(statement, maDB.myConnection);
+            myCommand.Parameters.Add("@state", System.Data.SqlDbType.NVarChar, 50);
+            myCommand.Parameters["@state"].Value = codestat;
+            maDB.open();
+            SqlDataReader myReader = null;
+            myReader = myCommand.ExecuteReader();
+            while (myReader.Read())
+            {
+                Produit monProduit = new Produit(myReader["AR_Ref"].ToString(), myReader["AR_Ref"].ToString(), myReader["AR_Design"].ToString(), decimal.Parse(myReader["AR_PrixVen"].ToString()));
+                float stock = float.Parse(myReader["AS_QteSto"].ToString());
+                float stockRes = float.Parse(myReader["AS_QteRes"].ToString());
+                monProduit.StockDispo_denis = stock - stockRes;
+                monProduit.StockDisponible = monProduit.StockDispo_denis + monProduit.StockDispo_pierre;
+                monProduit.StockRes = stockRes;
+                decimal montSto = decimal.Parse(myReader["AS_MontSto"].ToString());
+                if (stock > 0)
+                {
+                    monProduit.CMUP = montSto / decimal.Parse(stock.ToString());
+                }
+                monProduit.CodeFamille = myReader["FA_CodeFamille"].ToString();
+                if (monProduit.StockDisponible <= 0)
+                {
+                    foreach (lignedocument item in lignedoc)
+                    {
+                        if (item.AR_Ref.Equals(monProduit.Reference))
+                        {
+                            monProduit.QteEnCommande += item.DL_Qte;
+                            monProduit.Disponibilite = item.dateArrivee;
+                        }
+                    }
+                }
+                maListe.Add(monProduit);
+            }
+            maDB.close();
+            return maListe;
 
-            string statement = "SELECT * FROM (select DISTINCT ROW_NUMBER() OVER(ORDER BY AR_Ref DESC) as intRow , F_Article.AR_Ref,AR_Design,AR_PrixVen,AS_QteSto,AS_QteRes,AS_MontSto,F_Article.FA_CodeFamille from F_Article  INNER JOIN F_ARTSTOCK "
-                                            + "ON F_ARTICLE.AR_Ref = F_ARTSTOCK.AR_Ref"
-                                            + "WHERE F_ARTSTOCK.DE_No = 1 AND AR_Sommeil = 0 AND AR_Publie = 1 AND F_FARTICLE.AR_Stat02=@state)"
-                                             + "WHERE intRow BETWEEN @intStartRow AND @intEndRow";
+        }
+        public List<Produit> ProduitsParCodeStat(string codeStat)
+        {
+            List<Produit> maListe = new List<Produit>();
+            int ColonneParPage=15;
+            
+
+            string statement = "select DISTINCT F_Article.AR_Ref,AR_Design,AR_PrixVen,AS_QteSto,AS_QteRes,AS_MontSto,F_Article.FA_CodeFamille from F_Article INNER JOIN F_ARTSTOCK ON F_ARTICLE.AR_Ref = F_ARTSTOCK.AR_Ref WHERE F_ARTSTOCK.DE_No = 1 AND AR_Sommeil = 0 AND AR_Publie = 1 AND AR_Stat02=@state";
+                                            
             SqlCommand myCommand = new SqlCommand(statement, maDB.myConnection);
 
             /** ##################### Ajout des parametres #############################**/
 
             myCommand.Parameters.Add("@state", System.Data.SqlDbType.NVarChar, 50);
             myCommand.Parameters["@state"].Value = codeStat;
-            myCommand.Parameters.AddWithValue("intStartRow", startRow);
-            myCommand.Parameters.AddWithValue("intEndRow", EndRow);
-
+          
             /** ########################## Fin #####################################*/
             maDB.open();
             SqlDataReader myReader = null;
@@ -254,7 +324,7 @@ namespace MC3Shopper.Models
         public List<lignedocument> recupererLigneDocumentByType(int DO_Type)
         {
             List<lignedocument> maliste = new List<lignedocument>();
-            dbObject.open();
+            maDB.open();
             SqlCommand myCommand = new SqlCommand("select * from F_DOCENTETE WHERE (DO_Type = '" + DO_Type + "') ORDER BY DO_Date", dbObject.myConnection);
             List<entetedocument> liste = new List<entetedocument>();
             SqlDataReader myReader = null;
@@ -265,13 +335,13 @@ namespace MC3Shopper.Models
                 fiche = remplirEntete(myReader);
                 liste.Add(fiche);
             }
-            dbObject.myConnection.Close();
+            maDB.myConnection.Close();
 
             foreach (entetedocument item in liste)
             {
-                dbObject.open();
+                maDB.open();
                 string statement = "select * from F_DOCLIGNE WHERE DO_Piece = '" + item.DO_Piece + "'";
-                myCommand = new SqlCommand(statement, dbObject.myConnection);
+                myCommand = new SqlCommand(statement, maDB.myConnection);
 
                 myReader = null;
                 myReader = myCommand.ExecuteReader();
@@ -290,7 +360,7 @@ namespace MC3Shopper.Models
                     }
                     maliste.Add(fiche);
                 }
-                dbObject.close();
+                maDB.close();
             }
             return maliste;
         }

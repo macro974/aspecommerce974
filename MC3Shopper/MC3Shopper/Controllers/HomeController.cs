@@ -14,6 +14,14 @@ namespace MC3Shopper.Controllers
         {
             db = new Database();
             Session.Add("maDB", db);
+            GestionSys masys = new GestionSys(db);
+            List<Produit> liste_arrivage = masys.ProductByEvent(1);
+            List<Produit> liste_promotions = masys.ProductByEvent(2);
+            List<Produit> liste_destockage = masys.ProductByEvent(3);
+
+            ViewBag.arrivage = liste_arrivage;
+            ViewBag.promo = liste_promotions;
+            ViewBag.destock = liste_destockage;
             return View();
         }
 

@@ -19,15 +19,19 @@ namespace MC3Shopper.Controllers
         }
 
         // GET: Produit/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(string id)
         {
             return View();
         }
-
+        [HttpGet]
         public ActionResult Category (string Stat02="",int page=1)
         {
-            
-           
+            Database mb = new Database();
+            GestionSys sys = new GestionSys(mb);
+            List<Produit> liste_perso = sys.GetAllProduct(Stat02);
+            var onePageOfProducts = liste_perso.ToPagedList(page, 25);
+            ViewBag.Category = Stat02;
+            ViewBag.onePageOfProducts = onePageOfProducts;
             return View();
         }
 
@@ -43,7 +47,7 @@ namespace MC3Shopper.Controllers
         }
       
 
-      
+        
 
       
     }
