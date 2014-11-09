@@ -1,13 +1,3 @@
-﻿@using MC3Shopper.Models;
-@{
+﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@using PagedList.Mvc; 
-@using PagedList;
-<link href="/Content/PagedList.css" rel="stylesheet" type="text/css" />
-<h2>Liste de Produits </h2>
-@foreach(var item in @ViewBag.onePageOfProducts)
-{
-    <p>@item.Designation</p>
-}
-@Html.PagedListPager((IPagedList)ViewBag.OnePageOfProducts, page => Url.Action("Category", new { State02 = ViewBag.Category,page=page }))
