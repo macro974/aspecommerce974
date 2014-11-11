@@ -11,6 +11,7 @@ namespace MC3Shopper.Controllers
 {
     public class ProduitController : Controller
     {
+        private Database mb = new Database();
        
         // GET: Produit
         public ActionResult Index()
@@ -23,15 +24,19 @@ namespace MC3Shopper.Controllers
         {
             return View();
         }
+        
         [HttpGet]
+        //[Route ("Category/{State02}/{page:int:min(1)}")]
         public ActionResult Category (string Stat02="",int page=1)
         {
-            Database mb = new Database();
+
+            
             GestionSys sys = new GestionSys(mb);
-            List<Produit> liste_perso = sys.GetAllProduct(Stat02);
-            var onePageOfProducts = liste_perso.ToPagedList(page, 25);
+            List<Produit> liste_perso = sys.GetAllProductByCAT(Stat02, page) ;
             ViewBag.Category = Stat02;
-            ViewBag.onePageOfProducts = onePageOfProducts;
+            ViewBag.liste = liste_perso;
+            ViewBag.count =liste_perso.Count;
+            ViewBag.current = page>0?page:1;
             return View();
         }
 
@@ -39,7 +44,7 @@ namespace MC3Shopper.Controllers
         public ActionResult Menu()
         {
 
-            GestionSys sys = new GestionSys(Session["maDB"] as Database);
+            GestionSys sys = new GestionSys(mb);
             List<string> menu =sys.FamillePourMenu();
             
             

@@ -13,7 +13,7 @@ namespace MC3Shopper.Models
         Database dbObject;
         Utilisateur Utilisateur;
         BackgroundWorker backGroundW;
-
+        public int count { get; set; }
         public GestionSys(Database DB)
         {
             maDB = DB;
@@ -68,45 +68,98 @@ namespace MC3Shopper.Models
             dbObject.close();
             return maListe;
         }
-        public List<Produit> GetAllProduct(string codestat)
+        public int CountGetAllProductByCat(string codestat)
         {
-            List<lignedocument> lignedoc = recupererLigneDocumentByType(12); // a mettre ensuite quand une personne se connecte
-            List<Produit> maListe = new List<Produit>();
-            string statement = "select DISTINCT F_Article.AR_Ref,AR_Design,AR_PrixVen,AS_QteSto,AS_QteRes,AS_MontSto,F_Article.FA_CodeFamille from F_Article INNER JOIN F_ARTSTOCK ON F_ARTICLE.AR_Ref = F_ARTSTOCK.AR_Ref WHERE F_ARTSTOCK.DE_No = 1 AND AR_Sommeil = 0 AND AR_Publie = 1 AND AR_Stat02=@state";
+            maDB.open();
+            int i=0;
+            string statement = "SELECT DISTINCT count(F_ARTICLE.AR_Ref) AS NUMBER from F_Article INNER JOIN F_ARTSTOCK ON F_ARTICLE.AR_Ref = F_ARTSTOCK.AR_Ref " +
+            "WHERE F_ARTSTOCK.DE_No = 1 AND AR_Sommeil = 0 AND AR_Publie = 1 AND AR_Stat02=@state";
             SqlCommand myCommand = new SqlCommand(statement, maDB.myConnection);
             myCommand.Parameters.Add("@state", System.Data.SqlDbType.NVarChar, 50);
             myCommand.Parameters["@state"].Value = codestat;
+            SqlDataReader myReader = null;
+            myReader = myCommand.ExecuteReader();
+            while (myReader.Read())
+            {
+                i = int.Parse(myReader["NUMBER"].ToString())/15;
+            }
+            maDB.close();
+            return i;
+        }
+
+        public void GetQteCommandeProduit(List<Produit> p)
+        {
+             
+            List<Produit> maListe = new List<Produit>();
+            foreach (var item in p)
+            {
+                maDB.open();
+                string statement = "SELECT DISTINCT DL_Qte,DO_DateLivr FROM F_DOCLIGNE WHERE DO_Type=12 AND DO_DateLivr >=(SELECT GETDATE()) AND AR_Ref=@ref";
+                SqlCommand myCommand = new SqlCommand(statement, maDB.myConnection);
+                myCommand.Parameters.Add("@ref", System.Data.SqlDbType.NVarChar, 50).Value = item.Reference;
+                SqlDataReader myReader = null;
+                myReader = myCommand.ExecuteReader();
+                if (!myReader.HasRows)
+                {
+                    item.QteEnCommande = 0f;
+                    item.Disponibilite = "";
+                }
+                else
+                {
+                    while (myReader.Read())
+                    {
+                        item.QteEnCommande = float.Parse(myReader["DL_Qte"].ToString());
+                        item.Disponibilite = myReader["Do_DateLivr"].ToString();
+                    }
+                }
+                myReader.Close();
+                maDB.close();
+            }
+                 
+            
+        }
+        public List<Produit> GetAllProductByCAT(string codestat,int NumberPage=1)
+        {
+            
             maDB.open();
+            List<Produit> maListe = new List<Produit>();
+            string statement = "SELECT * FROM (select DISTINCT ROW_NUMBER() OVER(ORDER BY F_Article.AR_Ref) AS NUMBER ,F_Article.AR_Ref,AR_Design,AR_PrixVen,AS_QteSto-AS_QteRes AS QTE,AS_MontSto " + 
+                                "from F_Article INNER JOIN F_ARTSTOCK ON F_ARTICLE.AR_Ref = F_ARTSTOCK.AR_Ref "+
+                                "WHERE F_ARTSTOCK.DE_No = 1 AND AR_Sommeil = 0 AND AR_Publie = 1 AND AR_Stat02=@state) AS TBL " +
+                                "WHERE NUMBER BETWEEN ((@PageNumber - 1) * 15 + 1) AND (@PageNumber * 15)";            
+            SqlCommand myCommand = new SqlCommand(statement, maDB.myConnection);
+            myCommand.Parameters.Add("@state", System.Data.SqlDbType.NVarChar, 50);
+            myCommand.Parameters["@state"].Value = codestat;
+            myCommand.Parameters.Add("@PageNumber", System.Data.SqlDbType.Int).Value = NumberPage;
             SqlDataReader myReader = null;
             myReader = myCommand.ExecuteReader();
             while (myReader.Read())
             {
                 Produit monProduit = new Produit(myReader["AR_Ref"].ToString(), myReader["AR_Ref"].ToString(), myReader["AR_Design"].ToString(), decimal.Parse(myReader["AR_PrixVen"].ToString()));
-                float stock = float.Parse(myReader["AS_QteSto"].ToString());
-                float stockRes = float.Parse(myReader["AS_QteRes"].ToString());
-                monProduit.StockDispo_denis = stock - stockRes;
-                monProduit.StockDisponible = monProduit.StockDispo_denis + monProduit.StockDispo_pierre;
-                monProduit.StockRes = stockRes;
-                decimal montSto = decimal.Parse(myReader["AS_MontSto"].ToString());
-                if (stock > 0)
-                {
-                    monProduit.CMUP = montSto / decimal.Parse(stock.ToString());
-                }
-                monProduit.CodeFamille = myReader["FA_CodeFamille"].ToString();
-                if (monProduit.StockDisponible <= 0)
-                {
-                    foreach (lignedocument item in lignedoc)
-                    {
-                        if (item.AR_Ref.Equals(monProduit.Reference))
-                        {
-                            monProduit.QteEnCommande += item.DL_Qte;
-                            monProduit.Disponibilite = item.dateArrivee;
-                        }
-                    }
-                }
+                monProduit.StockDispo_denis = float.Parse(myReader["QTE"].ToString()) < 0 ? 0 : float.Parse(myReader["QTE"].ToString());
+                
+                // get stock st pierre
                 maListe.Add(monProduit);
             }
             maDB.close();
+            foreach (Produit item in maListe)
+            {
+                maDB.open();
+                string statement2 = "select Distinct AS_QteSto-AS_QteRes AS pierre from F_ARTSTOCK where DE_No=2 AND AR_Ref=@ref";
+                SqlCommand myCommand2 = new SqlCommand(statement2, maDB.myConnection);
+                myCommand2.Parameters.Add("@ref", System.Data.SqlDbType.NVarChar, 50);
+                myCommand2.Parameters["@ref"].Value = item.Reference;
+
+                SqlDataReader myReader2 = null;
+                myReader2 = myCommand2.ExecuteReader();
+                while (myReader2.Read())
+                {
+                    item.StockDispo_pierre = float.Parse(myReader2["pierre"].ToString()) < 0 ? 0 : float.Parse(myReader2["pierre"].ToString());
+                    //item.StockDisponible = item.StockDispo_pierre + item.StockDispo_denis;
+                }
+                maDB.close();
+            }
+            GetQteCommandeProduit(maListe);
             return maListe;
 
         }

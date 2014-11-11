@@ -176,12 +176,18 @@ namespace MC3Shopper.Models
             }
         }
 
-        public float StockDisponible { get; set; }
+        public float StockDisponible { 
+            get {
+                return this.StockDispo_denis + StockDispo_pierre;
+            } 
+            set {
+                
+            } }
         public float StockDispo_pierre { get; set; }
         public float StockDispo_denis { get; set; }
         public float QteEnCommande { get; set; }
         public string Disponibilite { get; set; }
-
+        public DateTime? QteLivraison { get; set; }
         public float QteDemande { get; set; }
 
         public Produit()
