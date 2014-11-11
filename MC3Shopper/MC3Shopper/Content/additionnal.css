@@ -65,3 +65,27 @@ float:right;
      margin: 10% 10% 10% 10% ;
      text-indent: -9999px; /* hides the link text */
 }
+
+/* Footer */
+
+.container-folio.row-fluid .span3:nth-child(4n+1), #container-folio.row-fluid .span3:nth-child(4n+1){
+		margin-left:0px;
+}
+
+.span3{
+    display: inline-block;
+    float:left;
+    margin-left: 4em;
+    margin-right: 4em;
+}
+
+li{
+    list-style-type:none;
+}
+
+@media (max-width: 940px) and (min-width: 768px){
+	.fixed-top{
+		max-width:225px;
+	}
+
+}
