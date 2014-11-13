@@ -15,24 +15,23 @@
         <div class="page-header">
             <h2>Nouveautés</h2>
         </div>
-        
-       <div class="slider arrivage">
-           @foreach (Produit item in @ViewBag.arrivage)
-           {
-            <div>
-                <p class="flotte">
-                    <img src="~/Content/img/hp.png" alt="HP" width="100" height="100">
-                </p>
-                <p style="line-height:10px">
-                    <!-- le lien vers le produit-->
-                <p><em>@item.Reference</em></p>
-                <p><strong>@item.Designation</strong></p>
-                <p>Prix : @item.Prix €</p>
-                </p>	
-            </div>
-           }
 
-       </div> 
+        <div class="slider arrivage">
+            @foreach (Produit item in @ViewBag.arrivage)
+            {
+                <div>
+                    <p class="flotte">
+                        <img src="~/Content/img/hp.png" alt="HP" width="100" height="100">
+                    </p>
+                    <p style="line-height:10px">
+                        <!-- le lien vers le produit-->
+                    <p><em>@item.Reference</em></p>
+                    <p><strong>@item.Designation</strong></p>
+                    <p>Prix : @item.Prix €</p>
+                    </p>
+                </div>
+            }
+        </div>
     </div>
     <div class="col-md-10">
         <div class="page-header">
@@ -47,14 +46,13 @@
                     </p>
                     <p style="line-height:65px;">
                         <!-- le lien vers le produit-->
-                        <p><em>@item.Reference</em></p>
-                        <p><strong>@item.Designation</strong></p>
-                        <p>Prix : @item.Prix €</p>
+                    <p><em>@item.Reference</em></p>
+                    <p><strong>@item.Designation</strong></p>
+                    <p>Prix : @item.Prix €</p>
                     </p>
                 </div>
             }
-
-        </div> 
+        </div>
     </div>
     <div class="col-md-10">
         <div class="page-header">
@@ -75,7 +73,6 @@
                     </p>
                 </div>
             }
-
-        </div> 
+        </div>
     </div>
 </div>

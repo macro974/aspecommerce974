@@ -1,29 +1,27 @@
 ﻿@model List<String>
 
 @*@for (int i = 0; i < @Model.Count; i++)
-{
-if(i%10==0)
-{
-@Html.Raw("<div class='col-sm-4'>")
-@Html.Raw("<ul class='multi-column-dropdown'>")
+    {
+    if(i%10==0)
+    {
+    @Html.Raw("<div class='col-sm-4'>")
+    @Html.Raw("<ul class='multi-column-dropdown'>")
 
-<li>@Html.ActionLink(@Model[i], "Category", new { Sate02 = @Model[i] })</li>
+    <li>@Html.ActionLink(@Model[i], "Category", new { Sate02 = @Model[i] })</li>
 
-}
-else
-{
-<li>@Html.ActionLink(@Model[i], "Category", new { Sate02 = @Model[i] })</li>
-}
+    }
+    else
+    {
+    <li>@Html.ActionLink(@Model[i], "Category", new { Sate02 = @Model[i] })</li>
+    }
 
-if(i%10==0)
-{
-@Html.Raw("</ul>")
-@Html.Raw("</div>")
-}
+    if(i%10==0)
+    {
+    @Html.Raw("</ul>")
+    @Html.Raw("</div>")
+    }
 
-
-
-}*@
+    }*@
 @{
     int i = 0;
 }
@@ -34,15 +32,15 @@ if(i%10==0)
         case 0:
             @Html.Raw("<div class='col-sm-4'>")
             @Html.Raw("<ul class='multi-column-dropdown'>")
-            
+
             goto default;
-            default:
-            <li>@Html.ActionLink(@item, "Category", new { Stat02 = @item })</li>
+        default:
+        <li>@Html.ActionLink(@item, "Category", new { Stat02 = @item })</li>
             i++;
             break;
-            case 20:
-            @Html.Raw("</ul>")
-            @Html.Raw("</div>")
+        case 20:
+        @Html.Raw("</ul>")
+        @Html.Raw("</div>")
             i = 0;
             break;
     }
