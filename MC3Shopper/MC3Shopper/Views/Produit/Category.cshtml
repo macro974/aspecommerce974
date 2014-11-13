@@ -1,106 +1,136 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
     IFormatProvider culture = new System.Globalization.CultureInfo("fr-FR", true);
+   
 }
 @using MC3Shopper.Models;
+<div class="page-header">
 <h2>@ViewBag.category</h2>
-
-<div class="table-responsive">
-    <table class="table table-striped table-hover table-bordered table-body-center">
-        <thead>
-            <tr>
-                <th>
-                    Référence
-                </th>
-                <th>
-                    Description
-                </th>
-                <th>
-                    Quantité
-                </th>
-                <th>
-                    Prix
-                </th>
-                <th>
-                    Ajouter au panier
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (Produit item in @ViewBag.liste)
-            {
-
-                if (item.StockDisponible + item.QteEnCommande <= 0)
-                {
-                    continue;
-                }
-                string dispo_denis = item.StockDispo_denis > 0 ? item.StockDispo_denis.ToString() : "Stock Epuisé";
-                string dispo_pierre = item.StockDispo_pierre > 0 ? item.StockDispo_pierre.ToString() : "Stock Epuisé";
-                string arrive = "";
-                if (item.QteEnCommande > 0 && item.Disponibilite != "")
-                {
-                    DateTime dt = Convert.ToDateTime(item.Disponibilite);
-                    arrive = item.QteEnCommande.ToString() + " le " + dt.Day + "/" + dt.Month + "/" + dt.Year;
-                }
-
-                <tr>
-                    <td>
-                        @Html.ActionLink(item.Reference, "Detail", new { id = @GestionSys.EncodeTo64(item.Reference) }, new { @class = "Reference" })
-                    </td>
-                    <td>
-                        @Html.ActionLink(item.Designation, "Detail", new { id = @GestionSys.EncodeTo64(item.Reference) }, new { @class = "Désignation" })
-                    </td>
-                    <td>
-                        <input type="text" class="qte" value="0" id="Qte" />@item.StockDisponible
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Saint-Denis </th>
-                                    <th>Saint-Pierre</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        @dispo_denis
-                                    </td>
-                                    <td>
-                                        @dispo_pierre
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <p><em>@arrive</em></p>
-                    <td>
-                        @Math.Round((double)item.Prix, 2)<span class="glyphicon-euro"></span>
-                    </td>
-
-                    <td>
-                        <a href="#data" class="add_panier">Ajouter au panier</a>
-                    </td>
-
-                </tr>
-
-            }
-        </tbody>
-    </table>
 </div>
-        <nav>
-    <ul class="pager">
-        @if (@ViewBag.count > 14)
-        {
-            
-            int next = ViewBag.current + 1 <= 1 ? 2 : ViewBag.current + 1;
-            int prev = ViewBag.current - 1 <= 0 ? 1 : ViewBag.current - 1;
-            
+@Html.Action("_fam", new {Stat02=@ViewBag.category})
+    <div class="table-responsive" id="list_product">
+        <table class="table table-striped table-hover table-bordered table-body-center table-condensed">
+            <thead>
+                <tr>
+                    <th>
+                        Référence
+                    </th>
+                    <th>
+                        Description
+                    </th>
+                    <th>
+                        Quantité
+                    </th>
+                    <th>
+                        Prix
+                    </th>
+                    <th>
+                        Ajouter au panier
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Produit item in @ViewBag.liste)
+                {
 
-            <li>@Html.ActionLink("Précédent", "Category", new { Stat02 = ViewBag.category, page = prev }, new { @class = "previous" })</li>
-            <li>@Html.ActionLink("Suivant", "Category", new { Stat02 = ViewBag.category, page = next }, new { @class = "next" })</li>
+                    if (item.StockDisponible + item.QteEnCommande <= 0)
+                    {
+                        continue;
+                    }
+                    string dispo_denis = item.StockDispo_denis > 0 ? item.StockDispo_denis.ToString() : "Stock Epuisé";
+                    string dispo_pierre = item.StockDispo_pierre > 0 ? item.StockDispo_pierre.ToString() : "Stock Epuisé";
+                    string arrive = "";
+                    if (item.QteEnCommande > 0 && item.Disponibilite != "")
+                    {
+                        DateTime dt = Convert.ToDateTime(item.Disponibilite);
+                        arrive = item.QteEnCommande.ToString() + " le " + dt.Day + "/" + dt.Month + "/" + dt.Year;
+                    }
+
+                    <tr>
+                        <td>
+                            @Html.ActionLink(item.Reference, "Detail", new { id = @GestionSys.EncodeTo64(item.Reference) }, new { @class = "Reference" })
+                        </td>
+                        <td>
+                            @Html.ActionLink(item.Designation, "Detail", new { id = @GestionSys.EncodeTo64(item.Reference) }, new { @class = "Désignation" })
+                        </td>
+                        <td>
+                            <input type="text" class="qte"  value="0" id="Qte" />   <span class="">@item.StockDisponible </span>
+                            <p>Saint-Denis: <span class="badge">@dispo_denis</span></p>
+                            <p>Saint-Denis: <span class="badge">@dispo_pierre</span></p>
+                            <p><em>@arrive</em></p>
+                        <td>
+                            @Math.Round((double)item.Prix, 2)<span class="glyphicon-euro"></span>
+                        </td>
+
+                        <td>
+                            <a href="#data" class="add_panier">Ajouter au panier</a>
+                        </td>
+
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+    </div>
+    <nav>
+        <div class="paginatior">
+
+            <ul class="pagination pagination-sm">
+                @if (@ViewBag.current > 3)
+                {
+                    for (int i = @ViewBag.current-3; i < @ViewBag.count; i++)
+                    {
+                        if (i == @ViewBag.current)
+                        {
+                            <li class="active">
+                                <a href="#">
+                                    @i <span class="sr-only">
+                                        (current)
+                                    </span>
+                                </a>
+                            </li>
+                        }
+
+                        else
+                        {
 
 
-         }
-           
-        
+                            <li>@Html.ActionLink(@i.ToString(), "Category", new { Stat02 = @ViewBag.category, Famille = @ViewBag.Famille, page = @i })</li>
 
-    </ul>
-</nav>
+                        }
+                    }
+                }
+                else
+                {
+                    for (int i = @ViewBag.current; i < @ViewBag.count; i++)
+                    {
+
+                        if (i == @ViewBag.current)
+                        {
+                            <li class="active">
+                                <a href="#">
+                                    @i <span class="sr-only">
+                                        (current)
+                                    </span>
+                                </a>
+                            </li>
+                        }
+
+                        else
+                        {
+
+
+                            <li>@Html.ActionLink(@i.ToString(), "Category", new { Stat02 = @ViewBag.category, Famille = @ViewBag.Famille, page = @i })</li>
+
+                        }
+
+                    }
+                }
+
+               
+
+
+            </ul>
+
+        </div>
+    </nav>

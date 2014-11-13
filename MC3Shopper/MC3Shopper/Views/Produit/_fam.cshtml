@@ -1,0 +1,14 @@
+﻿<div class="dropdown">
+    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+        Trier par Marque
+        <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+        
+        @foreach (string item in @ViewBag.fam)
+        {
+
+            <li role="presentation">@Html.ActionLink(@item, "Category", new { Stat02 = @ViewBag.stat02, Famille = item }, new { role = "menuitem", tabindex = "-1" })</li>
+        }
+    </ul>
+</div>
