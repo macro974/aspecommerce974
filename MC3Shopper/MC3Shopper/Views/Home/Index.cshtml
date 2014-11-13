@@ -4,74 +4,37 @@
 @using MC3Shopper.Models;
 @Styles.Render("~/Content/css")
 
-<div id="my_carousel" class="carousel slide" data-ride="carousel">
-    <!-- Bulles -->
-    <ol class="carousel-indicators">
-        <li data-target="#my_carousel" data-slide-to="0" class="active"></li>
-        <li data-target="#my_carousel" data-slide-to="1"></li>
-        <li data-target="#my_carousel" data-slide-to="2"></li>
-    </ol>
-    <!-- Slides -->
-    <div class="carousel-inner">
-        <!-- Page 1 -->
-        <div class="item active">
-            <div class="carousel-page">
-                <img src="~/Content/img/responsive.png" class="img-responsive" style="margin:0px auto;" />
-            </div>
-            <div class="carousel-caption">Page 1 de présentation</div>
-        </div>
-        <!-- Page 2 -->
-        <div class="item">
-            <div class="carousel-page">
-                <img src="~/Content/img/showcase-slider.png" class="img-responsive img-rounded"
-                     style="margin:0px auto;" />
-            </div>
-            <div class="carousel-caption">Page 2 de présentation</div>
-        </div>
-        <!-- Page 3 -->
-        <div class="item">
-            <div class="carousel-page">
-                <img src="~/Content/img/showcase-slider_code.png" class="img-responsive img-rounded"
-                     style="margin:0px auto;max-height:100%;" />
-            </div>
-            <div class="carousel-caption">Page 3 de présentation</div>
-        </div>
-    </div>
-    <!-- Contrôles -->
-    <a class="left carousel-control" href="#my_carousel" data-slide="prev">
-        <span class="glyphicon glyphicon-chevron-left"></span>
-    </a>
-    <a class="right carousel-control" href="#my_carousel" data-slide="next">
-        <span class="glyphicon glyphicon-chevron-right"></span>
-    </a>
+<div class="jumbotron">
+    <h1>ASP.NET</h1>
+    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
+    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
 </div>
 
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-10">
         <div class="page-header">
             <h2>Nouveautés</h2>
         </div>
+        
+       <div class="slider arrivage">
+           @foreach (Produit item in @ViewBag.arrivage)
+           {
+            <div>
+                <p class="flotte">
+                    <img src="~/Content/img/hp.png" alt="HP" width="100" height="100">
+                </p>
+                <p style="line-height:10px">
+                    <!-- le lien vers le produit-->
+                <p><em>@item.Reference</em></p>
+                <p><strong>@item.Designation</strong></p>
+                <p>Prix : @item.Prix €</p>
+                </p>	
+            </div>
+           }
 
-        <div class="slider arrivage">
-            @foreach (Produit item in @ViewBag.arrivage)
-            {
-                <div>
-                    <div class="col-md-2">
-                        <img src="~/Content/img/hp.png" alt="HP" width="100" height="100">
-                    </div>
-                    <div class="col-md-offset-1 col-md-9">
-                        <p style="line-height:10px">
-                            <!-- le lien vers le produit-->
-                        <p><em>@item.Reference</em></p>
-                        <p><strong>@item.Designation</strong></p>
-                        <p>Prix : @item.Prix €</p>
-                        </p>
-                    </div>
-                </div>
-            }
-        </div>
+       </div> 
     </div>
-    <div class="col-md-12">
+    <div class="col-md-10">
         <div class="page-header">
             <h2>Promotions</h2>
         </div>
@@ -79,22 +42,21 @@
             @foreach (Produit item in @ViewBag.promo)
             {
                 <div>
-                    <div class="col-md-2">
+                    <p class="flotte">
                         <img src="~/Content/img/hp.png" alt="HP" width="100" height="100">
-                    </div>
-                    <div class="col-md-offset-1 col-md-9">
-                        <p style="line-height:65px;">
-                            <!-- le lien vers le produit-->
+                    </p>
+                    <p style="line-height:65px;">
+                        <!-- le lien vers le produit-->
                         <p><em>@item.Reference</em></p>
                         <p><strong>@item.Designation</strong></p>
                         <p>Prix : @item.Prix €</p>
-                        </p>
-                    </div>
+                    </p>
                 </div>
             }
-        </div>
+
+        </div> 
     </div>
-    <div class="col-md-12">
+    <div class="col-md-10">
         <div class="page-header">
             <h2>Destockage</h2>
         </div>
@@ -102,19 +64,18 @@
             @foreach (Produit item in @ViewBag.destock)
             {
                 <div>
-                    <div class="col-md-2">
+                    <p class="flotte">
                         <img src="~/Content/img/hp.png" alt="HP" width="100" height="100">
-                    </div>
-                    <div class="col-md-offset-1 col-md-9">
-                        <p style="line-height:65px;">
-                            <!-- le lien vers le produit-->
-                        <p><em>@item.Reference</em></p>
-                        <p><strong>@item.Designation</strong></p>
-                        <p>Prix : @item.Prix €</p>
-                        </p>
-                    </div>
+                    </p>
+                    <p style="line-height:65px;">
+                        <!-- le lien vers le produit-->
+                    <p><em>@item.Reference</em></p>
+                    <p><strong>@item.Designation</strong></p>
+                    <p>Prix : @item.Prix €</p>
+                    </p>
                 </div>
             }
-        </div>
+
+        </div> 
     </div>
 </div>
