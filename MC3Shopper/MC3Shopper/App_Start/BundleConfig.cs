@@ -20,6 +20,7 @@ namespace MC3Shopper
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
+                       "~/Scripts/jquery.unobtrusive-ajax.min.js",
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/additionnal.js",
                       "~/Scripts/respond.js"));

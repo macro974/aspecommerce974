@@ -68,25 +68,26 @@ namespace MC3Shopper.Models
             dbObject.close();
             return maListe;
         }
-        public int CountGetAllProductByCat(string codestat)
+        public int CountGetAllProductByCat(string codestat,string famille)
         {
             maDB.open();
             int i=0;
             string statement = "SELECT DISTINCT count(F_ARTICLE.AR_Ref) AS NUMBER from F_Article INNER JOIN F_ARTSTOCK ON F_ARTICLE.AR_Ref = F_ARTSTOCK.AR_Ref " +
-            "WHERE F_ARTSTOCK.DE_No = 1 AND AR_Sommeil = 0 AND AR_Publie = 1 AND AR_Stat02=@state";
+            "WHERE F_ARTSTOCK.DE_No = 1 AND AR_Sommeil = 0 AND AR_Publie = 1 AND AR_Stat02=@state  AND AR_Stat01 LIKE @famille";
             SqlCommand myCommand = new SqlCommand(statement, maDB.myConnection);
             myCommand.Parameters.Add("@state", System.Data.SqlDbType.NVarChar, 50);
             myCommand.Parameters["@state"].Value = codestat;
+            myCommand.Parameters.Add("@famille", System.Data.SqlDbType.NVarChar).Value = "%" + famille + "%";
             SqlDataReader myReader = null;
             myReader = myCommand.ExecuteReader();
             while (myReader.Read())
             {
-                i = int.Parse(myReader["NUMBER"].ToString())/15;
+                i = int.Parse(myReader["NUMBER"].ToString())/30;
             }
             maDB.close();
             return i;
         }
-
+      
         public void GetQteCommandeProduit(List<Produit> p)
         {
              
@@ -118,19 +119,20 @@ namespace MC3Shopper.Models
                  
             
         }
-        public List<Produit> GetAllProductByCAT(string codestat,int NumberPage=1)
+        public List<Produit> GetAllProductByCAT(string codestat,string famille,int NumberPage=1)
         {
             
             maDB.open();
             List<Produit> maListe = new List<Produit>();
             string statement = "SELECT * FROM (select DISTINCT ROW_NUMBER() OVER(ORDER BY F_Article.AR_Ref) AS NUMBER ,F_Article.AR_Ref,AR_Design,AR_PrixVen,AS_QteSto-AS_QteRes AS QTE,AS_MontSto " + 
                                 "from F_Article INNER JOIN F_ARTSTOCK ON F_ARTICLE.AR_Ref = F_ARTSTOCK.AR_Ref "+
-                                "WHERE F_ARTSTOCK.DE_No = 1 AND AR_Sommeil = 0 AND AR_Publie = 1 AND AR_Stat02=@state) AS TBL " +
-                                "WHERE NUMBER BETWEEN ((@PageNumber - 1) * 15 + 1) AND (@PageNumber * 15)";            
+                                "WHERE F_ARTSTOCK.DE_No = 1 AND AR_Sommeil = 0 AND AR_Publie = 1 AND AR_Stat02=@state AND AR_Stat01 LIKE @famille) AS TBL " +
+                                "WHERE NUMBER BETWEEN ((@PageNumber - 1) * 30 + 1) AND (@PageNumber * 30)";            
             SqlCommand myCommand = new SqlCommand(statement, maDB.myConnection);
             myCommand.Parameters.Add("@state", System.Data.SqlDbType.NVarChar, 50);
             myCommand.Parameters["@state"].Value = codestat;
             myCommand.Parameters.Add("@PageNumber", System.Data.SqlDbType.Int).Value = NumberPage;
+            myCommand.Parameters.Add("@famille", System.Data.SqlDbType.NVarChar).Value = "%" + famille + "%";
             SqlDataReader myReader = null;
             myReader = myCommand.ExecuteReader();
             while (myReader.Read())
@@ -512,6 +514,30 @@ namespace MC3Shopper.Models
             {
 
                 maListe.Add(myReader["AR_Stat02"].ToString().Trim());
+
+
+
+            }
+            maDB.close();
+            // traitment des  inutile 
+
+            return maListe;
+        }
+        public List<String> FamilleParCat(string Stat02)
+        {
+            List<string> maListe = new List<string>();
+            string statement = "SELECT DISTINCT AR_Stat01 from F_ARTICLE WHERE AR_Stat02=@Stat02 ORDER BY AR_Stat01 ASC";
+            SqlCommand myCommand = new SqlCommand(statement, maDB.myConnection);
+
+            myCommand.Parameters.Add("@Stat02", System.Data.SqlDbType.NVarChar, 50);
+            myCommand.Parameters["@Stat02"].Value = Stat02;
+            maDB.open();
+            SqlDataReader myReader = null;
+            myReader = myCommand.ExecuteReader();
+            while (myReader.Read())
+            {
+
+                maListe.Add(myReader["AR_Stat01"].ToString().Trim());
 
 
 
