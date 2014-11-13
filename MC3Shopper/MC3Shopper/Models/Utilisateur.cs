@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 
 namespace MC3Shopper.Models
 {
     public class Utilisateur
     {
         public string CodeClient { get; set; }
+
         public string NomPre { get; set; }
+
         public string Email { get; set; }
 
         public string Password;
@@ -16,17 +15,27 @@ namespace MC3Shopper.Models
         public bool AncienUser { get; set; }
 
         public string Intitule { get; set; }
+
         public string Adresse { get; set; }
+
         public string ComplementAdresse { get; set; }
+
         public string CodePostal { get; set; }
+
         public string Ville { get; set; }
+
         public string Pays { get; set; }
+
         public string CodeApe { get; set; }
+
         public string SIRET { get; set; }
+
         public string Telephone { get; set; }
+
         public string Telecopie { get; set; }
 
-        string _EncoursMax = "";
+        private string _EncoursMax = "";
+
         public string EncoursMax
         {
             get
@@ -35,7 +44,6 @@ namespace MC3Shopper.Models
                 {
                     decimal toRet = decimal.Parse(_EncoursMax);
                     _EncoursMax = toRet.ToString("#,#0.00");
-
                 }
                 else
                 {
@@ -49,7 +57,8 @@ namespace MC3Shopper.Models
             }
         }
 
-        string _EncoursAss = "";
+        private string _EncoursAss = "";
+
         public string EncoursAss
         {
             get
@@ -71,8 +80,8 @@ namespace MC3Shopper.Models
             }
         }
 
+        private string _Solde = "";
 
-        string _Solde = "";
         public string Solde
         {
             get
@@ -99,7 +108,8 @@ namespace MC3Shopper.Models
             }
         }
 
-        string _Echus1mois = "";
+        private string _Echus1mois = "";
+
         public string Echus1mois
         {
             get
@@ -112,7 +122,6 @@ namespace MC3Shopper.Models
                     //    decimal toReturn = this.Statisitques["Debit1mois"] + this.Statisitques["Credit1mois"];
                     //    _Echus1mois = toReturn.ToString("0.00");
                     //}
-
                 }
                 else if (this.Statisitques.ContainsKey("Credit1mois"))
                 {
@@ -130,7 +139,8 @@ namespace MC3Shopper.Models
             }
         }
 
-        string _Echus2mois = "";
+        private string _Echus2mois = "";
+
         public string Echus2mois
         {
             get
@@ -143,7 +153,6 @@ namespace MC3Shopper.Models
                     //    decimal toReturn = this.Statisitques["Debit2mois"] + this.Statisitques["Credit2mois"];
                     //    _Echus2mois = toReturn.ToString("0.00");
                     //}
-
                 }
                 else if (this.Statisitques.ContainsKey("Credit2mois"))
                 {
@@ -161,7 +170,8 @@ namespace MC3Shopper.Models
             }
         }
 
-        string _Echus3mois = "";
+        private string _Echus3mois = "";
+
         public string Echus3mois
         {
             get
@@ -188,8 +198,6 @@ namespace MC3Shopper.Models
                         toReturn -= this.Statisitques["Credit1mois"];
                         _Echus3mois = toReturn.ToString("#,#0.00");
                     }
-
-
                 }
                 else if (this.Statisitques.ContainsKey("Credit3mois"))
                 {
@@ -208,7 +216,8 @@ namespace MC3Shopper.Models
             }
         }
 
-        string _NonEchus = "";
+        private string _NonEchus = "";
+
         public string NonEchus
         {
             get
@@ -243,9 +252,11 @@ namespace MC3Shopper.Models
         public List<Utilisateur> Contact { get; set; }
 
         public List<entetedocument> Factures { get; set; }//DO_TYpe=6
+
         public List<Panier> FacturesAvoirs { get; set; }
 
         public Dictionary<string, float> Remises { get; set; }
+
         public Dictionary<string, decimal> Statisitques { get; set; }
 
         public Utilisateur(string codeClient)

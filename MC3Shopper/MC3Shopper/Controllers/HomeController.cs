@@ -1,15 +1,13 @@
-﻿using System;
+﻿using MC3Shopper.Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using MC3Shopper.Models;
 
 namespace MC3Shopper.Controllers
 {
     public class HomeController : Controller
     {
-        Database db;
+        private Database db;
+
         public ActionResult Index()
         {
             db = new Database();
@@ -38,6 +36,5 @@ namespace MC3Shopper.Controllers
 
             return View();
         }
-
     }
 }

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace MC3Shopper.Models
 {
@@ -10,6 +8,7 @@ namespace MC3Shopper.Models
         public List<Produit> monPanier;
 
         private decimal totalPanier;
+
         public decimal TotalPanier
         {
             get
@@ -22,7 +21,9 @@ namespace MC3Shopper.Models
                 TotalPanierFormate = value.ToString("0.00") + "€";
             }
         }
+
         public string TotalPanierFormate { get; set; }
+
         public decimal TVAPanier
         {
             get
@@ -30,7 +31,6 @@ namespace MC3Shopper.Models
                 return decimal.Round(GetTVADuPanier(), 2);
             }
         }
-
 
         public Panier()
         {
@@ -45,7 +45,6 @@ namespace MC3Shopper.Models
 
         public void Add(string Reference)
         {
-
         }
 
         public decimal GetEcoTaxePanier()
@@ -61,7 +60,6 @@ namespace MC3Shopper.Models
                         item.Taxe2 = taxx.Value;
                     }
                 }
-
             }
             return totalEcoTax;
         }
@@ -72,7 +70,7 @@ namespace MC3Shopper.Models
             decimal totalHT = 0;
             foreach (Produit item in this.monPanier)
             {
-                foreach (KeyValuePair<string,float> taxx in item.Taxes)
+                foreach (KeyValuePair<string, float> taxx in item.Taxes)
                 {
                     if (taxx.Key.ToLower().Contains("tva"))
                     {
@@ -117,7 +115,6 @@ namespace MC3Shopper.Models
                 }
             }
             Add(monProduit);
-
         }
 
         public void Suprrimer(string Reference)
@@ -127,12 +124,11 @@ namespace MC3Shopper.Models
             {
                 if (item.Reference.Equals(Reference))
                 {
-                    item.QteDemande =0;
+                    item.QteDemande = 0;
                     monProduit = item;
                 }
             }
             Add(monProduit);
-
         }
 
         public void Add(Produit Product)
@@ -149,7 +145,6 @@ namespace MC3Shopper.Models
                     {
                         item.QteDemande = Product.QteDemande;
                         item.PrixTotal = item.Prix * int.Parse(item.QteDemande.ToString());
-                        
                     }
                     else
                     {
@@ -166,7 +161,7 @@ namespace MC3Shopper.Models
             {
                 Product.PrixTotal = Product.Prix * int.Parse(Product.QteDemande.ToString());
                 monPanier.Add(Product);
-                
+
                 this.TotalPanier += Product.Prix * int.Parse(Product.QteDemande.ToString());
                 if (Product.ProduitAssocies.Count > 0)
                 {
@@ -192,7 +187,5 @@ namespace MC3Shopper.Models
                 }
             }
         }
-
-    
     }
 }

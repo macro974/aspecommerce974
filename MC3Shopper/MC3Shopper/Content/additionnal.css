@@ -1,10 +1,15 @@
 ﻿.navbar-nav {
     font-size: 1.4em;
-    padding-top: 3.5%;
+    padding-top: 2.4%;
+}
+
+.navbar-logo {
+    width: 75%;
+    height: 75%;
 }
 
 [class*='col-lg'] {
-    border: 1px solid black;
+    /*/border: 1px solid black;*/
     /**border-radius: 5px;**/
 }
 
@@ -62,10 +67,6 @@
     }
 }
 
-.flotte {
-    float: right;
-}
-
 .add_panier {
     /** background:url("../Content/img/ajouter-panier.gif") no-repeat;**/
     background: url(data:image/gif;base64,R0lGODlhVQAdAOZkAP/x5f/CjP+9gv/bu/z8/P+VOP39/fX19d7e3v+QLvn5+ejo6PPz89vb2/f39/T09Pj4+Ofn5+7u7uDg4OHh4eXl5e/v79/f39ra2unp6fb29vHx8ei6kuvr6+rq6vDw8P+SMePj4/r6+uy1hODPv/7kzf+6ffyiUfefUtzc3POmYePGrO3g1PuXPf6RMfbEmPqZQv/Jmenj3v6QMP61dv/y5v/w4uq4jPjm1f+PLfPgz//o1PyzcvSucPieTuDg3//17f/Ej//38P/Il93Sx/6mWf+gTP/48uzs7PqaRv/JmPepZPz59v3ImfvNpf/u3/3Jmvfl1v+RL/GvdeTk5Pzm0v+dRu3t7dnZ2OnIrP/8+f/79/+bQ9nZ2fLy8ubm5t3d3fv7+/////+PLP///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEAAGQALAAAAABVAB0AAAf/gGSCg4NPSkZjiYqLjI2Oj5CRjVwxNluEmJlCQZKdnp+giTQlmaU1IKGpqqoJUAalg0Coq7SOBbcFtAlOBLBaJrXBjABiYgC5qydRYaU7ws+JAdIAAbUvB8yYQ9DcYwAAtUsWDr2EVt3QAt/e7ODgAwXrjS4LXiKYn2KL+p38qvKP4g14FEKCg1eDPOnzl4+WugDu2nmDCGmChwPlBCkc449fMY+KPnoslmhhJAADHwFshCDCg2wa+3EMObNkzZkgbZKMpG5gRHcABEBC8IUBTDIybeKk2bGmSJOSBCJbNAAcJDBfvBztJ1In0683lUoKYOyb2W9Cr2bdGonh0qYj/52CjSqgrl27krBqJZSgLSOoH0Oa3Bk4LLpEeo8WUeX2cLQB1RQFgBypRWJCTVI1djxmgJiUiTyDdqTi8qAqnJ9NjvyYtaMbRI0SYsIjte1HPkhcWPCSkAEcUm4LT5SAQwOLGDEp0DFjuO0EI7qkKAgB4SACB1j0cO4YBYcuDX7Uu0foCBkFG2RkmZIkR1/utGCMWEEESwMEFQxmJETAwYcFFIDRAAZdFGjggQgmqOCCDDaYIAYNgDFBBVdgAwsZBECwQQcVUHABAmCEKOKIJJZo4okopjgiAhdQQEUGFlh4IYYKHPBBBwtE8MWOPPbo449ABinkkD1GkAESFjAAwTZRFxoQhgIaPMCAF1RWaeWVWGap5ZZcWsnAAxooEIZ1M/pGQBhopqnmmmy26eabcLJJAJmEBAIAOw==) no-repeat;
@@ -82,11 +83,8 @@
     margin-left: 0px;
 }
 
-.span3 {
-    display: inline-block;
-    float: left;
-    margin-left: 4em;
-    margin-right: 4em;
+.footer-links {
+    padding-left: 0px;
 }
 
 li {
@@ -99,6 +97,10 @@ li {
     }
 }
 
-.qte {
-    width: 10%;
+/*SLIDER*/
+.carousel-page {
+    width: 100%;
+    height: 400px;
+    background-color: #5f666d;
+    color: white;
 }

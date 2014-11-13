@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace MC3Shopper.Models
 {
@@ -9,8 +6,11 @@ namespace MC3Shopper.Models
     {
         public int DO_Domaine;
         public int DO_Type;
+
         public string DO_Piece { get; set; }
+
         public DateTime DO_Date { get; set; }
+
         public string DO_DateFormate
         {
             get
@@ -20,6 +20,7 @@ namespace MC3Shopper.Models
         }
 
         public string DO_Ref { get; set; }
+
         public string DO_Tiers;
         public int RE_No;
         public int DO_Period;
@@ -38,10 +39,8 @@ namespace MC3Shopper.Models
         public bool complete = false;
         public DateTime dateLivraison;
 
-
         public entetedocument()
         {
-
         }
     }
 }

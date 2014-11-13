@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Routing;
 
 namespace MC3Shopper
@@ -12,8 +8,8 @@ namespace MC3Shopper
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-            //routes.MapMvcAttributeRoutes(); 
-           
+            //routes.MapMvcAttributeRoutes();
+
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
@@ -25,7 +21,6 @@ namespace MC3Shopper
                url: "{controller}/{action}/{Stat02}/{page}"
 
                );**/
-            
         }
     }
 }
