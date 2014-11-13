@@ -1,7 +1,7 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
     IFormatProvider culture = new System.Globalization.CultureInfo("fr-FR", true);
-   
+
 }
 @using MC3Shopper.Models;
 <div class="page-header">
@@ -65,7 +65,6 @@
                         <td>
                             <a href="#data" class="add_panier">Ajouter au panier</a>
                         </td>
-
                     </tr>
 
                 }
@@ -94,7 +93,6 @@
                         else
                         {
 
-
                             <li>@Html.ActionLink(@i.ToString(), "Category", new { Stat02 = @ViewBag.category, Famille = @ViewBag.Famille, page = @i })</li>
 
                         }
@@ -119,18 +117,12 @@
                         else
                         {
 
-
                             <li>@Html.ActionLink(@i.ToString(), "Category", new { Stat02 = @ViewBag.category, Famille = @ViewBag.Famille, page = @i })</li>
 
                         }
 
                     }
                 }
-
-               
-
-
             </ul>
-
         </div>
     </nav>

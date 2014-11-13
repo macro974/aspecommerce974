@@ -7,11 +7,11 @@
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
-    padding-top: 30px;
+    padding-top: 57px;
 }
 
-/* Override the default bootstrap behavior where horizontal description lists 
-   will truncate terms that are too long to fit in the left column 
+/* Override the default bootstrap behavior where horizontal description lists
+   will truncate terms that are too long to fit in the left column
 */
 .dl-horizontal dt {
     white-space: normal;
@@ -23,13 +23,14 @@ select,
 textarea {
     max-width: 280px;
 }
+
 .navbar .divider-vertical {
-height: 40px;
-margin: 0 9px;
-border-left: 1px solid #f2f2f2;
-border-right: 1px solid #ffffff;
+    height: 40px;
+    margin: 0 9px;
+    border-left: 1px solid #f2f2f2;
+    border-right: 1px solid #ffffff;
 }
 
 #category-container {
-    width :300%;
+    width: 300%;
 }

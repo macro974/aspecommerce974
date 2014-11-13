@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace MC3Shopper.Models
 {
@@ -44,7 +41,6 @@ namespace MC3Shopper.Models
         public string refFournisseurSiNonStock = "";
         public bool enStock = false;
         public string DoTiersF = "";
-
 
         public lignedocument()
         { }

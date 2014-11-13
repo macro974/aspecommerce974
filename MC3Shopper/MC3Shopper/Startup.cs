@@ -2,6 +2,7 @@
 using Owin;
 
 [assembly: OwinStartupAttribute(typeof(MC3Shopper.Startup))]
+
 namespace MC3Shopper
 {
     public partial class Startup

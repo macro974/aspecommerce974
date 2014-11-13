@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.IO;
 
 namespace MC3Shopper.Models
@@ -9,14 +7,18 @@ namespace MC3Shopper.Models
     public class Produit
     {
         public lignedocument LigneAssociee { get; set; }
+
         public string ImgPath { get; set; }
+
         public string Reference { get; set; }
 
         public bool isOK { get; set; }
+
         public string Informations { get; set; }
 
         private string _designationOriginal;
         private string _designation;
+
         public string Designation
         {
             get
@@ -48,6 +50,7 @@ namespace MC3Shopper.Models
         public string PrixFormate { get; set; }
 
         private float _remise = 0;
+
         public float Remise
         {
             get
@@ -59,10 +62,13 @@ namespace MC3Shopper.Models
                 _remise = value;
             }
         }
+
         public string CodeFamille { get; set; }
+
         public float StockRes { get; set; }
 
         private float tva = 0;
+
         public float TVA
         {
             get
@@ -86,6 +92,7 @@ namespace MC3Shopper.Models
         }
 
         private float _Taxe2 = 0;
+
         public float Taxe2
         {
             get
@@ -99,6 +106,7 @@ namespace MC3Shopper.Models
         }
 
         private float _Taxe3 = 0;
+
         public float Taxe3
         {
             get
@@ -113,6 +121,7 @@ namespace MC3Shopper.Models
 
         public decimal PrixOriginal;
         private decimal _prix;
+
         public decimal Prix
         {
             get
@@ -129,11 +138,13 @@ namespace MC3Shopper.Models
                 PrixOriginal = value;
             }
         }
+
         public string PrixTotalFormate { get; set; }
 
         public List<Produit> ProduitAssocies { get; set; }
 
         private Dictionary<string, float> _taxes;
+
         public Dictionary<string, float> Taxes
         {
             get
@@ -147,8 +158,11 @@ namespace MC3Shopper.Models
         }
 
         public decimal PUTTC { get; set; }
+
         public decimal CMUP { get; set; }
+
         private decimal prixTotal;
+
         public decimal PrixTotal
         {
             get
@@ -176,18 +190,27 @@ namespace MC3Shopper.Models
             }
         }
 
-        public float StockDisponible { 
-            get {
+        public float StockDisponible
+        {
+            get
+            {
                 return this.StockDispo_denis + StockDispo_pierre;
-            } 
-            set {
-                
-            } }
+            }
+            set
+            {
+            }
+        }
+
         public float StockDispo_pierre { get; set; }
+
         public float StockDispo_denis { get; set; }
+
         public float QteEnCommande { get; set; }
+
         public string Disponibilite { get; set; }
+
         public DateTime? QteLivraison { get; set; }
+
         public float QteDemande { get; set; }
 
         public Produit()
@@ -212,7 +235,6 @@ namespace MC3Shopper.Models
             ProduitAssocies = new List<Produit>();
             Taxes = new Dictionary<string, float>();
         }
-
 
         public Produit(bool livraisonFree)
         {

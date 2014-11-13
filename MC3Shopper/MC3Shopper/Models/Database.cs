@@ -1,18 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Data;
 using System.Data.SqlClient;
-using System.Text;
-
 
 namespace MC3Shopper.Models
 {
     public class Database
     {
-         public SqlConnection myConnection;
+        public SqlConnection myConnection;
         public static bool isOK = true;
+
         public Database()
         {
             connection();
@@ -22,13 +17,13 @@ namespace MC3Shopper.Models
         {
             //this.myConnection = new SqlConnection("Data Source=193.253.99.121,6123;Network Library=DBMSSOCN;Initial Catalog=MC3REUNION;User ID=saa;Password=sa;");
             //this.myConnection = new SqlConnection("Data Source=MC3REUSRV001,6123;Network Library=DBMSSOCN;Initial Catalog=MC3REUNION;User ID=saa;Password=sa;"); // le bon celui la
-            this.myConnection = new SqlConnection("Data Source=BRIAN-MSI;Initial Catalog=mc3_sage;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=False");
+            this.myConnection = new SqlConnection("Data Source=WALTER-PC\\SQLEXPRESS;Initial Catalog=mc3_sage;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=False");
             // 192.168.174.252
 
             try
             {
-                  this.myConnection.Open();
-                  Database.isOK = true;
+                this.myConnection.Open();
+                Database.isOK = true;
             }
             catch (Exception e)
             {
@@ -41,8 +36,7 @@ namespace MC3Shopper.Models
                 this.myConnection.Close();
             }
             catch (Exception ex)
-            { 
-            
+            {
             }
         }
 
@@ -71,7 +65,5 @@ namespace MC3Shopper.Models
                 Database.isOK = false;
             }
         }
-
     }
-    
 }

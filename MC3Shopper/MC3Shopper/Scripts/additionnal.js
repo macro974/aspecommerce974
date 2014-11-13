@@ -1,13 +1,12 @@
 ﻿$('.slider').slick({
     slidesToShow: 2,
-    slidesToScroll: 1,
+    slidesToScroll: 2,
     autoplay: true,
-    autoplaySpeed: 2000,
+    autoplaySpeed: 2500,
     adaptiveHeight:true
 });
 $('.paginator').slick({
     slidesToShow: 15,
     slidesToScroll: 1,
     autoplay: false,
-   
 });

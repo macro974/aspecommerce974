@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Xml.Serialization;
 using System.IO;
+using System.Xml.Serialization;
 
 namespace MC3Shopper.Models
 {
@@ -11,14 +9,11 @@ namespace MC3Shopper.Models
     {
         public bool isOK = false;
         public DateTime DateInstancied = DateTime.Now;
+
         public List<lignedocument> Achats { get; set; }
-
-
-
 
         public BackgroundWorker()
         {
-
         }
 
         public void Start()
@@ -31,7 +26,7 @@ namespace MC3Shopper.Models
             Ticker_Elapsed(null, null);
         }
 
-        void Ticker_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        private void Ticker_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             Database maDB = new Database();
             GestionSys maSys = new GestionSys(maDB);
