@@ -1,0 +1,20 @@
+﻿@{
+    ViewBag.Title = "Se Connecter";
+    Layout = "";
+}
+@using MC3Shopper.Models;
+@Styles.Render("~/Content/css")
+@Styles.Render("~/Content/signIn.css")
+
+    <div class="wrapper">
+        <form class="form-signin">
+            <img class="login-logo" src="~/Content/img/logoMC3.png" />
+            <h2 class="form-signin-heading">Connectez-vous</h2>
+            <input type="text" class="form-control" name="username" placeholder="Email" required="" autofocus="" />
+            <input type="password" class="form-control" name="password" placeholder="Mot de passe" required="" />
+            <label class="checkbox">
+                <input type="checkbox" value="remember-me" id="rememberMe" name="rememberMe"> Se souvenir de moi
+            </label>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Connexion</button>
+        </form>
+    </div>
