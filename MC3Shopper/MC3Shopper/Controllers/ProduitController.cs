@@ -22,8 +22,9 @@ namespace MC3Shopper.Controllers
         // GET: Produit/Details/5
         public ActionResult Details(string id)
         {
-
-            return View();
+            GestionSys sys = new GestionSys(mb);
+            Produit p = sys.ProductParRef(id);
+            return View(p);
         }
         
         [HttpGet]

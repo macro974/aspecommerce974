@@ -119,9 +119,49 @@ namespace MC3Shopper.Models
             }
         }
 
-        public void getQteCommandeProduitByRef(string Ar_Ref)
+        public void getQteCommandeProduitByRef(Produit P)
         {
+            maDB.open();
+            string statement = "SELECT DISTINCT DL_Qte,DO_DateLivr FROM F_DOCLIGNE WHERE DO_Type=12 AND DO_DateLivr >=(SELECT GETDATE()) AND AR_Ref=@ref";
+            SqlCommand myCommand = new SqlCommand(statement, maDB.myConnection);
+            myCommand.Parameters.Add("@ref", System.Data.SqlDbType.NVarChar, 50).Value = P.Reference;
+            SqlDataReader myReader = null;
+            myReader = myCommand.ExecuteReader();
+            if (!myReader.HasRows)
+            {
+                P.QteEnCommande = 0f;
+                P.Disponibilite = "";
+            }
+            else
+            {
+                while (myReader.Read())
+                {
+                    P.QteEnCommande = float.Parse(myReader["DL_Qte"].ToString());
+                    P.Disponibilite = myReader["Do_DateLivr"].ToString();
+                }
+            }
+            myReader.Close();
+            maDB.close();
+        }
 
+        public void getProduitAssocie(Produit P)
+        {
+            maDB.open();
+            string statement = "SELECT * FROM F_ARTICLE INNER JOIN F_NOMENCLAT ON F_ARTICLE.AR_Ref = F_NOMENCLAT.NO_RefDet AND F_ARTICLE.AR_Ref = F_NOMENCLAT.NO_RefDet AND F_NOMENCLAT.AR_Ref = @ref";
+            myCommand.Parameters.Add("@ref", System.Data.SqlDbType.NVarChar, 50).Value = P.Reference;
+            SqlCommand myCommand = new SqlCommand(statement, dbObject.myConnection);
+
+            SqlDataReader myReader = null;
+            myReader = myCommand.ExecuteReader();
+            //
+            while (myReader.Read())
+            {
+                Produit monProduit = new Produit(myReader["AR_Ref"].ToString(), myReader["AR_Ref"].ToString(), myReader["AR_Design"].ToString(), decimal.Parse(myReader["AR_PrixVen"].ToString()));
+
+                P.ProduitAssocies.Add(monProduit);
+            }
+            myReader.Close();
+            maDB.close();
         }
 
         public List<Produit> GetAllProductByCAT(string codestat, string famille, int NumberPage = 1)
@@ -614,6 +654,9 @@ namespace MC3Shopper.Models
                 monProduit.StockDispo_denis = stock - stockRes;
 
             }
+            monProduit.StockDispo_pierre = ArticleParStock(monProduit.Reference, 2);
+            getProduitAssocie(monProduit);
+            getQteCommandeProduitByRef(monProduit);
             return monProduit;
         }
         public float ArticleParStock(string AR_Ref,int DE_No)
