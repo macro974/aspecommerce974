@@ -148,9 +148,9 @@ namespace MC3Shopper.Models
         {
             maDB.open();
             string statement = "SELECT * FROM F_ARTICLE INNER JOIN F_NOMENCLAT ON F_ARTICLE.AR_Ref = F_NOMENCLAT.NO_RefDet AND F_ARTICLE.AR_Ref = F_NOMENCLAT.NO_RefDet AND F_NOMENCLAT.AR_Ref = @ref";
-            myCommand.Parameters.Add("@ref", System.Data.SqlDbType.NVarChar, 50).Value = P.Reference;
+           
             SqlCommand myCommand = new SqlCommand(statement, dbObject.myConnection);
-
+            myCommand.Parameters.Add("@ref", System.Data.SqlDbType.NVarChar, 50).Value = P.Reference;
             SqlDataReader myReader = null;
             myReader = myCommand.ExecuteReader();
             //
@@ -637,10 +637,10 @@ namespace MC3Shopper.Models
         public Produit ProductParRef(string AR_Ref)
         {
             Produit monProduit = null; ;
-            string statement = "select DISTINCT F_Article.AR_Ref,AR_Design,AR_PrixVen,AS_QteSto,AS_QteRes,AS_MontSto,F_Article.FA_CodeFamille from F_Article INNER JOIN F_ARTSTOCK ON F_ARTICLE.AR_Ref = F_ARTSTOCK.AR_Ref WHERE F_ARTSTOCK.DE_No = 1 AND AR_Sommeil = 0 AND AR_Publie = 1 AND AR_Ref=@ref";
+            string statement = "select DISTINCT F_Article.AR_Ref,AR_Design,AR_PrixVen,AS_QteSto,AS_QteRes,AS_MontSto,F_Article.FA_CodeFamille from F_Article INNER JOIN F_ARTSTOCK ON F_ARTICLE.AR_Ref = F_ARTSTOCK.AR_Ref WHERE F_ARTSTOCK.DE_No = 1 AND AR_Sommeil = 0 AND AR_Publie = 1 AND F_Article.AR_Ref=@ref";
             SqlCommand myCommand = new SqlCommand(statement, maDB.myConnection);
-            myCommand.Parameters.Add("@state", System.Data.SqlDbType.NVarChar, 50);
-            myCommand.Parameters["@state"].Value = AR_Ref;
+            myCommand.Parameters.Add("@ref", System.Data.SqlDbType.NVarChar, 50);
+            myCommand.Parameters["@ref"].Value = AR_Ref;
 
             /** ########################## Fin #####################################*/
             maDB.open();
@@ -654,6 +654,8 @@ namespace MC3Shopper.Models
                 monProduit.StockDispo_denis = stock - stockRes;
 
             }
+            myReader.Close();
+            maDB.close();
             monProduit.StockDispo_pierre = ArticleParStock(monProduit.Reference, 2);
             getProduitAssocie(monProduit);
             getQteCommandeProduitByRef(monProduit);
@@ -661,6 +663,7 @@ namespace MC3Shopper.Models
         }
         public float ArticleParStock(string AR_Ref,int DE_No)
         {
+            maDB.open();
             float qte = 0f;
             string statement = "select AS_QteSto-AS_QteRes AS Qte from F_ARTSTOCK where AR_Ref=@ref and DE_No=@depot ";
             SqlCommand myCommand = new SqlCommand(statement, maDB.myConnection);
@@ -668,7 +671,7 @@ namespace MC3Shopper.Models
             myCommand.Parameters["@ref"].Value = AR_Ref;
             myCommand.Parameters.Add("@depot", System.Data.SqlDbType.Int).Value=DE_No;
             /** ########################## Fin #####################################*/
-            maDB.open();
+            
             SqlDataReader myReader = null;
             myReader = myCommand.ExecuteReader();
             while (myReader.Read())

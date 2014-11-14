@@ -8,9 +8,11 @@
     height: 75%;
 }
 
-[class*='col-lg'] {
+[class*='lg'] {
     /*/border: 1px solid black;*/
     /**border-radius: 5px;**/
+    
+  
 }
 
 .dropdown-menu {

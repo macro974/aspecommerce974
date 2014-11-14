@@ -40,10 +40,10 @@
 
                     <tr>
                         <td>
-                            @Html.ActionLink(item.Reference, "Detail", new { id = @GestionSys.EncodeTo64(item.Reference) }, new { @class = "Reference" })
+                            @Html.ActionLink(item.Reference, "Details", new { id = item.Reference }, new { @class = " modal-link Reference" })
                         </td>
                         <td>
-                            @Html.ActionLink(item.Designation, "Detail", new { id = @GestionSys.EncodeTo64(item.Reference) }, new { @class = "Désignation" })
+                         @Html.ActionLink(item.Designation, "Details", new { id = item.Reference }, new { @class = " modal-link Reference" })
                         </td>
                         <td>
                             <input type="text" class="qte" value="0" id="Qte" />   <span class="">@item.StockDisponible </span>

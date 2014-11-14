@@ -188,6 +188,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\additionnal.css" />
+    <Content Include="Content\avgrund.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\img\hp.png" />
@@ -203,6 +204,7 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.avgrund.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -234,7 +236,8 @@
     <Content Include="Views\Produit\Category.cshtml" />
     <Content Include="Views\Produit\_fam.cshtml" />
     <Content Include="Views\Produit\_getListProduct.cshtml" />
-    <Content Include="Views\Produit\Details.cshtml" />
+    <Content Include="Views\Shared\_blank.cshtml" />
+    <Content Include="Views\Produit\_Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -22,9 +22,18 @@ namespace MC3Shopper.Controllers
         // GET: Produit/Details/5
         public ActionResult Details(string id)
         {
-            GestionSys sys = new GestionSys(mb);
-            Produit p = sys.ProductParRef(id);
-            return View(p);
+            string arref=id;
+            if(arref.Equals(""))
+            {
+                return PartialView("~/Views/Shared/_blank.cshtml");
+            }
+            else
+            {
+                GestionSys sys = new GestionSys(mb);
+                Produit p = sys.ProductParRef(arref);
+                return PartialView("_Details",p);
+            }
+           
         }
         
         [HttpGet]
@@ -59,6 +68,8 @@ namespace MC3Shopper.Controllers
             return PartialView();
         }
 
+        [OutputCache(Duration = 60)]
+        [HttpGet]
         public ActionResult _getListProduct(string Stat02="",string Famille="" ,int page=1)
         {
             GestionSys sys = new GestionSys(mb);
