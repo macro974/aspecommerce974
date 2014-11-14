@@ -13,5 +13,10 @@ namespace MC3Shopper.Controllers
         {
             return View();
         }
+
+        public ActionResult SignIn()
+        {
+            return View();
+        }
     }
 }

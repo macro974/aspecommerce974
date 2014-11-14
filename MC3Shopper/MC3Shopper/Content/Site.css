@@ -1,11 +1,18 @@
 ﻿.navbar-nav {
     font-size: 1.4em;
-    padding-top: 2.4%;
+    padding-top: 2%;
+}
+
+.navbar-brand{
+    padding:0;
+    padding-top:3px;
+    padding-bottom: 3px;
+    margin:0;
 }
 
 .navbar-logo {
-    width: 75%;
-    height: 75%;
+    width: 65%;
+    height: 65%;
 }
 
 [class*='col-lg'] {
