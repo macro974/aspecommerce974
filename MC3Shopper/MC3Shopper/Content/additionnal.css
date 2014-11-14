@@ -1,4 +1,4 @@
-﻿.navbar-nav {
+﻿﻿.navbar-nav {
     font-size: 1.4em;
     padding-top: 2.4%;
 }
@@ -103,4 +103,16 @@ li {
     height: 400px;
     background-color: #5f666d;
     color: white;
+}
+.flotte {
+    float: right;
+}
+.span3 {
+    display: inline-block;
+    float: left;
+    margin-left: 4em;
+    margin-right: 4em;
+}
+.qte {
+    width: 10%;
 }

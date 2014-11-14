@@ -22,6 +22,7 @@ namespace MC3Shopper.Controllers
         // GET: Produit/Details/5
         public ActionResult Details(string id)
         {
+
             return View();
         }
         

@@ -1,36 +1,108 @@
-﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+﻿.navbar-nav {
+    font-size: 1.4em;
+    padding-top: 2.4%;
 }
 
-/* Set padding to keep content from hitting the edges */
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
-    padding-top: 57px;
+.navbar-logo {
+    width: 75%;
+    height: 75%;
 }
 
-/* Override the default bootstrap behavior where horizontal description lists
-   will truncate terms that are too long to fit in the left column
-*/
-.dl-horizontal dt {
-    white-space: normal;
+[class*='col-lg'] {
+    /*/border: 1px solid black;*/
+    /**border-radius: 5px;**/
 }
 
-/* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-    max-width: 280px;
+.dropdown-menu {
+    min-width: 200px;
 }
 
-.navbar .divider-vertical {
-    height: 40px;
-    margin: 0 9px;
-    border-left: 1px solid #f2f2f2;
-    border-right: 1px solid #ffffff;
+    .dropdown-menu.columns-2 {
+        min-width: 400px;
+    }
+
+    .dropdown-menu.columns-3 {
+        min-width: 600px;
+    }
+
+    .dropdown-menu.columns-4 {
+        min-width: 500%;
+    }
+
+    .dropdown-menu li a {
+        padding: 5px 15px;
+        font-weight: 300;
+    }
+
+.multi-column-dropdown {
+    list-style: none;
+    padding-left: 0;
 }
 
-#category-container {
-    width: 300%;
+    .multi-column-dropdown li a {
+        display: block;
+        clear: both;
+        line-height: 1.428571429;
+        color: #333;
+        white-space: normal;
+    }
+
+        .multi-column-dropdown li a:hover {
+            text-decoration: none;
+            color: #ff6a00;
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+            background-color: #333;
+            -webkit-transition: background-color 100ms linear;
+            -moz-transition: background-color 100ms linear;
+            -o-transition: background-color 100ms linear;
+            -ms-transition: background-color 100ms linear;
+            transition: background-color 100ms linear;
+        }
+
+@media (max-width: 767px) {
+    .dropdown-menu.multi-column {
+        min-width: 240px !important;
+        overflow-x: hidden;
+    }
 }
+
+.add_panier {
+    /** background:url("../Content/img/ajouter-panier.gif") no-repeat;**/
+    background: url(data:image/gif;base64,R0lGODlhVQAdAOZkAP/x5f/CjP+9gv/bu/z8/P+VOP39/fX19d7e3v+QLvn5+ejo6PPz89vb2/f39/T09Pj4+Ofn5+7u7uDg4OHh4eXl5e/v79/f39ra2unp6fb29vHx8ei6kuvr6+rq6vDw8P+SMePj4/r6+uy1hODPv/7kzf+6ffyiUfefUtzc3POmYePGrO3g1PuXPf6RMfbEmPqZQv/Jmenj3v6QMP61dv/y5v/w4uq4jPjm1f+PLfPgz//o1PyzcvSucPieTuDg3//17f/Ej//38P/Il93Sx/6mWf+gTP/48uzs7PqaRv/JmPepZPz59v3ImfvNpf/u3/3Jmvfl1v+RL/GvdeTk5Pzm0v+dRu3t7dnZ2OnIrP/8+f/79/+bQ9nZ2fLy8ubm5t3d3fv7+/////+PLP///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEAAGQALAAAAABVAB0AAAf/gGSCg4NPSkZjiYqLjI2Oj5CRjVwxNluEmJlCQZKdnp+giTQlmaU1IKGpqqoJUAalg0Coq7SOBbcFtAlOBLBaJrXBjABiYgC5qydRYaU7ws+JAdIAAbUvB8yYQ9DcYwAAtUsWDr2EVt3QAt/e7ODgAwXrjS4LXiKYn2KL+p38qvKP4g14FEKCg1eDPOnzl4+WugDu2nmDCGmChwPlBCkc449fMY+KPnoslmhhJAADHwFshCDCg2wa+3EMObNkzZkgbZKMpG5gRHcABEBC8IUBTDIybeKk2bGmSJOSBCJbNAAcJDBfvBztJ1In0683lUoKYOyb2W9Cr2bdGonh0qYj/52CjSqgrl27krBqJZSgLSOoH0Oa3Bk4LLpEeo8WUeX2cLQB1RQFgBypRWJCTVI1djxmgJiUiTyDdqTi8qAqnJ9NjvyYtaMbRI0SYsIjte1HPkhcWPCSkAEcUm4LT5SAQwOLGDEp0DFjuO0EI7qkKAgB4SACB1j0cO4YBYcuDX7Uu0foCBkFG2RkmZIkR1/utGCMWEEESwMEFQxmJETAwYcFFIDRAAZdFGjggQgmqOCCDDaYIAYNgDFBBVdgAwsZBECwQQcVUHABAmCEKOKIJJZo4okopjgiAhdQQEUGFlh4IYYKHPBBBwtE8MWOPPbo449ABinkkD1GkAESFjAAwTZRFxoQhgIaPMCAF1RWaeWVWGap5ZZcWsnAAxooEIZ1M/pGQBhopqnmmmy26eabcLJJAJmEBAIAOw==) no-repeat;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    margin: 10% 10% 10% 10%;
+    text-indent: -9999px; /* hides the link text */
+}
+
+/* Footer */
+
+.container-folio.row-fluid .span3:nth-child(4n+1), #container-folio.row-fluid .span3:nth-child(4n+1) {
+    margin-left: 0px;
+}
+
+.footer-links {
+    padding-left: 0px;
+}
+
+li {
+    list-style-type: none;
+}
+
+@media (max-width: 940px) and (min-width: 768px) {
+    .fixed-top {
+        max-width: 225px;
+    }
+}
+
+/*SLIDER*/
+.carousel-page {
+    width: 100%;
+    height: 400px;
+    background-color: #5f666d;
+    color: white;
+}
+.navbar-nav > li > a {padding-top:5px !important; padding-bottom:5px !important;}
+.navbar {min-height:32px !important}

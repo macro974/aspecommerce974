@@ -119,6 +119,11 @@ namespace MC3Shopper.Models
             }
         }
 
+        public void getQteCommandeProduitByRef(string Ar_Ref)
+        {
+
+        }
+
         public List<Produit> GetAllProductByCAT(string codestat, string famille, int NumberPage = 1)
         {
             maDB.open();
@@ -587,6 +592,53 @@ namespace MC3Shopper.Models
                System.Text.ASCIIEncoding.ASCII.GetString(encodedDataAsBytes);
 
             return returnValue;
+        }
+
+        public Produit ProductParRef(string AR_Ref)
+        {
+            Produit monProduit = null; ;
+            string statement = "select DISTINCT F_Article.AR_Ref,AR_Design,AR_PrixVen,AS_QteSto,AS_QteRes,AS_MontSto,F_Article.FA_CodeFamille from F_Article INNER JOIN F_ARTSTOCK ON F_ARTICLE.AR_Ref = F_ARTSTOCK.AR_Ref WHERE F_ARTSTOCK.DE_No = 1 AND AR_Sommeil = 0 AND AR_Publie = 1 AND AR_Ref=@ref";
+            SqlCommand myCommand = new SqlCommand(statement, maDB.myConnection);
+            myCommand.Parameters.Add("@state", System.Data.SqlDbType.NVarChar, 50);
+            myCommand.Parameters["@state"].Value = AR_Ref;
+
+            /** ########################## Fin #####################################*/
+            maDB.open();
+            SqlDataReader myReader = null;
+            myReader = myCommand.ExecuteReader();
+            while (myReader.Read())
+            {
+                monProduit = new Produit(myReader["AR_Ref"].ToString(), myReader["AR_Ref"].ToString(), myReader["AR_Design"].ToString(), decimal.Parse(myReader["AR_PrixVen"].ToString()));
+                float stock = float.Parse(myReader["AS_QteSto"].ToString());
+                float stockRes = float.Parse(myReader["AS_QteRes"].ToString());
+                monProduit.StockDispo_denis = stock - stockRes;
+
+            }
+            return monProduit;
+        }
+        public float ArticleParStock(string AR_Ref,int DE_No)
+        {
+            float qte = 0f;
+            string statement = "select AS_QteSto-AS_QteRes AS Qte from F_ARTSTOCK where AR_Ref=@ref and DE_No=@depot ";
+            SqlCommand myCommand = new SqlCommand(statement, maDB.myConnection);
+            myCommand.Parameters.Add("@ref", System.Data.SqlDbType.NVarChar, 50);
+            myCommand.Parameters["@ref"].Value = AR_Ref;
+            myCommand.Parameters.Add("@depot", System.Data.SqlDbType.Int).Value=DE_No;
+            /** ########################## Fin #####################################*/
+            maDB.open();
+            SqlDataReader myReader = null;
+            myReader = myCommand.ExecuteReader();
+            while (myReader.Read())
+            {
+                float f = float.Parse(myReader["Qte"].ToString());
+                if(f>0)
+                {
+                    qte = f;
+                }
+            }
+            myReader.Close();
+            maDB.close();
+            return qte;
         }
     }
 }
