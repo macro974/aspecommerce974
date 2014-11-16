@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
-
 namespace MC3Shopper.Models
 {
-    public class Utilisateur
+   
+    
+    public class Utilisateur 
     {
         public string CodeClient { get; set; }
 

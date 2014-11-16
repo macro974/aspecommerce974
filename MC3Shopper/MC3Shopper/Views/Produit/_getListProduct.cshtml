@@ -40,10 +40,11 @@
 
                     <tr>
                         <td>
-                            @Html.ActionLink(item.Reference, "Details", new { id = item.Reference }, new { @class = " modal-link Reference" })
+                            @Html.ActionLink(item.Reference, "Details", new { id = HttpUtility.UrlEncode(item.Reference).Replace('%','!') }, new { @class = " modal-link Reference" })
+                            
                         </td>
                         <td>
-                         @Html.ActionLink(item.Designation, "Details", new { id = item.Reference }, new { @class = " modal-link Reference" })
+                         @Html.ActionLink(item.Designation, "Details", new { id = HttpUtility.UrlEncode(item.Reference).Replace('%', '!') }, new { @class = " modal-link Reference" })
                         </td>
                         <td>
                             <input type="text" class="qte" value="0" id="Qte" />   <span class="">@item.StockDisponible </span>

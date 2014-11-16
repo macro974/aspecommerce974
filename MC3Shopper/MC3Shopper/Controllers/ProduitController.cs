@@ -19,10 +19,10 @@ namespace MC3Shopper.Controllers
             return View();
         }
 
-        // GET: Produit/Details/5
+        
         public ActionResult Details(string id)
         {
-            string arref=id;
+            string arref = HttpUtility.UrlDecode(id.Replace('!', '%'));
             if(arref.Equals(""))
             {
                 return PartialView("~/Views/Shared/_blank.cshtml");

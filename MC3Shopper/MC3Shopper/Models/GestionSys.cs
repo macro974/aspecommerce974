@@ -686,5 +686,21 @@ namespace MC3Shopper.Models
             maDB.close();
             return qte;
         }
+        public void RecupererListeFamilleRemise(Utilisateur monUser)
+        {
+            string statement = "SELECT * FROM F_FAMCLIENT WHERE CT_Num = '" + monUser.CodeClient + "'";
+            //RECUPERER LES INFOS UTILISATEUR
+
+
+            SqlCommand myCommand = new SqlCommand(statement, maDB.myConnection);
+            maDB.open();
+            SqlDataReader myReader = null;
+            myReader = myCommand.ExecuteReader();
+            while (myReader.Read())
+            {
+                monUser.Remises[myReader["FA_CodeFamille"].ToString()] = float.Parse(myReader["FC_Remise"].ToString());
+            }
+            maDB.close();
+        }
     }
 }
