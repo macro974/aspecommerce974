@@ -5,22 +5,27 @@ using System.Web;
 using System.Web.Mvc;
 using MC3Shopper.Models;
 using System.Data.SqlClient;
-using System.Web.Security
+using System.Web.Security;
 namespace MC3Shopper.Controllers
 {
     public class CompteController : Controller
     {
         // GET: Compte
+        
         public ActionResult Index()
         {
             return View();
         }
 
+        [AllowAnonymous]
+        
         public ActionResult SignIn()
         {
             return View();
         }
-        public ActionResult SignIn (Utilisateur user , string returnUrl)
+        [AllowAnonymous]
+        [HttpPost]
+        public ActionResult SignIn (UserViewModel user , string returnUrl)
         {
             if(ModelState.IsValid)
             {
@@ -33,6 +38,7 @@ namespace MC3Shopper.Controllers
                 SqlCommand myCommand = new SqlCommand(statement, maDB.myConnection);
                 myCommand.Parameters.Add("@user", System.Data.SqlDbType.NVarChar).Value = username;
                 myCommand.Parameters.Add("@password", System.Data.SqlDbType.NVarChar).Value = password;
+                maDB.open();
                 SqlDataReader myReader = null;
                 myReader = myCommand.ExecuteReader();
                 if(myReader.HasRows)
@@ -48,15 +54,9 @@ namespace MC3Shopper.Controllers
                     myReader.Close();
                     sys.RecupererListeFamilleRemise(monUser);
                     Session.Add("user",Security.Serialize(monUser));
-                    if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
-                    && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
-                    {
-                    return Redirect(returnUrl);
-                        }
-                        else
-                        {
+                   
                     return RedirectToAction("Index", "Home");
-                        }
+                      
                 }
                 else {
                     ModelState.AddModelError("", "Le nom d'utilisateur et/ou le mot de passe ne correspond pas");
@@ -66,6 +66,14 @@ namespace MC3Shopper.Controllers
             }
             return View(user);
 
+        }
+        // POST: /Account/LogOff
+        [HttpPost]
+        public ActionResult LogOff()
+        {
+            FormsAuthentication.SignOut();
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }

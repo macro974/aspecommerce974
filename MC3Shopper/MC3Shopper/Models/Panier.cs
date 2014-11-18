@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace MC3Shopper.Models
 {
+    [Serializable()]
     public class Panier
     {
         public List<Produit> monPanier;

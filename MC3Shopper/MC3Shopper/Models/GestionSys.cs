@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-
+using System.Diagnostics;
 namespace MC3Shopper.Models
 {
     public class GestionSys
@@ -24,6 +24,7 @@ namespace MC3Shopper.Models
             maDB = DB;
             dbObject = DB;
             Utilisateur = user;
+           
         }
 
         public GestionSys(Database DB, Utilisateur user, BackgroundWorker bkg)
@@ -84,7 +85,7 @@ namespace MC3Shopper.Models
             myReader = myCommand.ExecuteReader();
             while (myReader.Read())
             {
-                i = int.Parse(myReader["NUMBER"].ToString()) / 30;
+                i = int.Parse(myReader[0].ToString()) / 30;
             }
             maDB.close();
             return i;
@@ -92,7 +93,7 @@ namespace MC3Shopper.Models
 
         public void GetQteCommandeProduit(List<Produit> p)
         {
-            List<Produit> maListe = new List<Produit>();
+           
             foreach (var item in p)
             {
                 maDB.open();
@@ -110,13 +111,61 @@ namespace MC3Shopper.Models
                 {
                     while (myReader.Read())
                     {
-                        item.QteEnCommande = float.Parse(myReader["DL_Qte"].ToString());
-                        item.Disponibilite = myReader["Do_DateLivr"].ToString();
+                        item.QteEnCommande = float.Parse(myReader[0].ToString());
+                        item.Disponibilite = myReader[1].ToString();
                     }
                 }
                 myReader.Close();
                 maDB.close();
             }
+        }
+
+        public void GEtqteCommandeProduit(List<Produit> p)
+        {
+            List<Produit> p_copie = new List<Produit>(); 
+            maDB.open();
+            string statement = "SELECT DISTINCT AR_Ref,DL_Qte,DO_DateLivr FROM F_DOCLIGNE WHERE DO_Type=12 AND DO_DateLivr >=(SELECT GETDATE()) AND AR_Ref IN(";
+            for (int i = 0; i < p.Count; i++)
+            {
+                if (i+1 == p.Count)
+                {
+                    statement += "'"+p[i].Reference + "')";
+                }
+                else
+                {
+                    statement += "'"+p[i].Reference + "',";
+                }
+            }
+            SqlCommand myCommand = new SqlCommand(statement, maDB.myConnection);
+            //myCommand.Parameters.Add("@ref", System.Data.SqlDbType.NVarChar, 50).Value = item.Reference;
+            SqlDataReader myReader = null;
+            myReader = myCommand.ExecuteReader();
+            while(myReader.Read())
+            {
+
+                Produit pr = new Produit();
+                pr.Reference = myReader[0].ToString();
+                pr.QteEnCommande = float.Parse(myReader[1].ToString());
+                pr.Disponibilite = myReader[2].ToString();
+                p_copie.Add(pr);
+
+            }
+
+            myReader.Close();
+            maDB.close();
+            foreach (var item in p_copie)
+            {
+                foreach (var prod in p)
+                {   
+                    if(item.Reference.Equals(prod.Reference))
+                    {
+                        prod.QteEnCommande = item.QteEnCommande;
+                        prod.Disponibilite = item.Disponibilite;
+                    }
+                }
+            }
+            
+
         }
 
         public void getQteCommandeProduitByRef(Produit P)
@@ -167,6 +216,12 @@ namespace MC3Shopper.Models
         public List<Produit> GetAllProductByCAT(string codestat, string famille, int NumberPage = 1)
         {
             maDB.open();
+            Stopwatch sw = new Stopwatch();
+            sw.Start(); 
+            // execution time
+
+            SqlCommand blah = new SqlCommand("SET ARITHABORT ON", maDB.myConnection);
+            blah.ExecuteNonQuery();
             List<Produit> maListe = new List<Produit>();
             string statement = "SELECT * FROM (select DISTINCT ROW_NUMBER() OVER(ORDER BY F_Article.AR_Ref) AS NUMBER ,F_Article.AR_Ref,AR_Design,AR_PrixVen,AS_QteSto-AS_QteRes AS QTE,AS_MontSto " +
                                 "from F_Article INNER JOIN F_ARTSTOCK ON F_ARTICLE.AR_Ref = F_ARTSTOCK.AR_Ref " +
@@ -188,6 +243,10 @@ namespace MC3Shopper.Models
                 maListe.Add(monProduit);
             }
             maDB.close();
+            sw.Stop();
+            Debug.WriteLine(" temps fonction recup produit est de :{0}", sw.Elapsed);
+
+            sw.Restart();
             foreach (Produit item in maListe)
             {
                 maDB.open();
@@ -200,12 +259,21 @@ namespace MC3Shopper.Models
                 myReader2 = myCommand2.ExecuteReader();
                 while (myReader2.Read())
                 {
-                    item.StockDispo_pierre = float.Parse(myReader2["pierre"].ToString()) < 0 ? 0 : float.Parse(myReader2["pierre"].ToString());
+                    item.StockDispo_pierre = float.Parse(myReader2[0].ToString()) < 0 ? 0 : float.Parse(myReader2[0].ToString());
                     //item.StockDisponible = item.StockDispo_pierre + item.StockDispo_denis;
                 }
+                myReader2.Close();
                 maDB.close();
+               
+               
             }
-            GetQteCommandeProduit(maListe);
+            sw.Stop();
+            Debug.WriteLine(" temps fonction recup stock est de :{0}", sw.Elapsed);
+            sw.Restart();
+            GEtqteCommandeProduit(maListe);
+            sw.Stop();
+            Debug.WriteLine(" temps fonction doc_ligne est de :{0}", sw.Elapsed);
+            
             return maListe;
         }
 

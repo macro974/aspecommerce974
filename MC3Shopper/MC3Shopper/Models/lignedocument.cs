@@ -2,6 +2,7 @@
 
 namespace MC3Shopper.Models
 {
+    [Serializable()]
     public class lignedocument
     {
         public int DO_Type;

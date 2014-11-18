@@ -1,20 +1,31 @@
-﻿@{
+﻿@model MC3Shopper.Models.UserViewModel
+@{
     ViewBag.Title = "Se Connecter";
     Layout = "";
+    ViewBag.ReturnUrl = Request["ReturnUrl"];
 }
-@using MC3Shopper.Models;
 @Styles.Render("~/Content/css")
 @Styles.Render("~/Content/signIn.css")
 
     <div class="wrapper">
-        <form class="form-signin">
+@using (Html.BeginForm(null, null, new { returnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new {@class="form-signin"}))
+    {
+            @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)<br />
             <img class="login-logo" src="~/Content/img/logoMC3.png" />
             <h2 class="form-signin-heading">Connectez-vous</h2>
-            <input type="text" class="form-control" name="username" placeholder="Email" required="" autofocus="" />
-            <input type="password" class="form-control" name="password" placeholder="Mot de passe" required="" />
+    
+           
+            @Html.TextBoxFor(m => m.CodeClient, new { placeholder = Html.DisplayNameFor(m => m.CodeClient), @class="form-control" })<br />
+            @Html.ValidationMessageFor(model => Model.CodeClient)
+             @Html.PasswordFor(m => m.Password, new { placeholder = Html.DisplayNameFor(m => m.Password),@class="form-control" })<br />
+             @Html.ValidationMessageFor(model => Model.Password)
+
             <label class="checkbox">
-                <input type="checkbox" value="remember-me" id="rememberMe" name="rememberMe"> Se souvenir de moi
+               
+                @Html.CheckBoxFor(m => m.RememberMe, new {id="rememberMe" })
+                @Html.DisplayNameFor(m => m.RememberMe)
             </label>
             <button class="btn btn-lg btn-primary btn-block" type="submit">Connexion</button>
-        </form>
+    }
     </div>

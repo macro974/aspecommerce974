@@ -8,6 +8,7 @@ namespace MC3Shopper.Controllers
     {
         private Database db;
 
+        [Authorize]
         public ActionResult Index()
         {
             db = new Database();
@@ -22,14 +23,14 @@ namespace MC3Shopper.Controllers
             ViewBag.destock = liste_destockage;
             return View();
         }
-
+        [Authorize]
         public ActionResult About()
         {
             ViewBag.Message = "walter test ";
 
             return View();
         }
-
+        [Authorize]
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";

@@ -4,6 +4,7 @@ using System.IO;
 
 namespace MC3Shopper.Models
 {
+    [Serializable()]
     public class Produit
     {
         public lignedocument LigneAssociee { get; set; }

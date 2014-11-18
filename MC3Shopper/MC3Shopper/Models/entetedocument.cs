@@ -2,6 +2,7 @@
 
 namespace MC3Shopper.Models
 {
+    [Serializable()]
     public class entetedocument
     {
         public int DO_Domaine;

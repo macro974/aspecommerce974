@@ -24,7 +24,7 @@ namespace MC3Shopper
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
-                LoginPath = new PathString("/Account/Login"),
+                LoginPath = new PathString("/Compte/SignIn"),
                 Provider = new CookieAuthenticationProvider
                 {
                     // Permet à l'application de valider le timbre de sécurité quand l'utilisateur se connecte.

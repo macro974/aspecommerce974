@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using System;
 namespace MC3Shopper.Models
 {
-   
-    
+
+   [Serializable()]	
     public class Utilisateur 
     {
         public string CodeClient { get; set; }
