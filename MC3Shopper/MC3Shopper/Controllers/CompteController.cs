@@ -49,7 +49,7 @@ namespace MC3Shopper.Controllers
                 myReader = myCommand.ExecuteReader();
                 if(myReader.HasRows)
                 {
-                    FormsAuthentication.SetAuthCookie(username,false);
+                    FormsAuthentication.SetAuthCookie(username,user.RememberMe);
                     while(myReader.Read())
                     {
                         monUser= new Utilisateur(username);

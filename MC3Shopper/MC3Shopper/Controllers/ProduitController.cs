@@ -77,16 +77,16 @@ namespace MC3Shopper.Controllers
             Stopwatch sw = new Stopwatch();
             sw.Start(); 
             List<Produit> liste_perso = sys.GetAllProductByCAT(Stat02, Famille, page).Where(x => x.QteEnCommande + x.StockDisponible > 0).ToList();
-            sw.Stop();
+            
             ViewBag.Category = Stat02;
             
             ViewBag.famille = Famille;
             ViewBag.liste = liste_perso;
-            sw.Restart();
-
+          
             ViewBag.count = sys.CountGetAllProductByCat(Stat02, Famille);
             sw.Stop();
-            Debug.WriteLine(" temps fonction count est de :{0}", sw.Elapsed);
+            ViewBag.time = sw.Elapsed;
+            Debug.WriteLine(" temps fonction total est de :{0}", sw.Elapsed);
             ViewBag.current = page > 0 ? page : 1;
             return PartialView();
         }
