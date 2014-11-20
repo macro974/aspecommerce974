@@ -23,6 +23,12 @@ namespace MC3Shopper.Controllers
         {
             return View();
         }
+
+        public ActionResult MonCompte()
+        {
+            return View();
+        }
+
         [AllowAnonymous]
         [HttpPost]
         public ActionResult SignIn (UserViewModel user , string returnUrl)
