@@ -1,0 +1,50 @@
+﻿@model MC3Shopper.Models.Produit
+@if (@Model != null && !String.IsNullOrEmpty(Model.Reference))
+{
+    <div id="st" style="width:70%;height:70%;margin:auto;background-color:white;">
+        <div class="modal-header">
+            <h2>Details de l'article :@Model.Reference  </h2>
+
+            <!-- -->
+            <img src="@Model.Reference" alt="@Model.Designation" />
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        </div>
+        <div class="modal-body">
+            <!-- appliquer css et html pour les informations-->
+            <p>@Model.Reference</p>
+            <p><strong>@Model.Designation</strong></p>
+            <p>Quantité total :<em><span class="badge">@Model.StockDisponible</span></em></p>
+            <p>Stock Saint-Denis :<em><span class="badge">@Model.StockDispo_denis</span></em></p>
+            <p>Stock Saint-Denis :<em><span class="badge">@Model.StockDispo_pierre</span></em></p>
+
+        </div>
+        <div>
+            @foreach (var item in @Model.ProduitAssocies)
+            {
+                <div>
+                    <p>@Model.Reference</p>
+                    <p><strong>@Model.Designation</strong></p>
+                    <p>Quantité total :<em><span class="badge">@Model.StockDisponible</span></em></p>
+                    <p>Stock Saint-Denis :<em><span class="badge">@Model.StockDispo_denis</span></em></p>
+                    <p>Stock Saint-Denis :<em><span class="badge">@Model.StockDispo_pierre</span></em></p>
+                </div>
+            }
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+        </div>
+    </div>
+}
+else
+{
+        <span class="has-error"> Erreur  article introuvable</span>
+        }
+   
+
+<script type="text/javascript">
+    $(function () {
+        $('#approve-btn').click(function () {
+            $('#modal-container').modal('hide');
+        });
+    });
+</script>
