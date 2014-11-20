@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Diagnostics;
+
 namespace MC3Shopper.Models
 {
     public class GestionSys
@@ -90,80 +91,117 @@ namespace MC3Shopper.Models
             maDB.close();
             return i;
         }
-
-        public void GetQteCommandeProduit(List<Produit> p)
+        public void listArticleStock(List<Produit> P)
         {
            
-            foreach (var item in p)
+            List<Produit> p_copie = new List<Produit>(); 
+            string statement2 = "select Distinct AR_Ref,AS_QteSto-AS_QteRes AS pierre from F_ARTSTOCK where DE_No=2 AND AR_Ref IN(";
+            if (P.Count <= 0)
             {
-                maDB.open();
-                string statement = "SELECT DISTINCT DL_Qte,DO_DateLivr FROM F_DOCLIGNE WHERE DO_Type=12 AND DO_DateLivr >=(SELECT GETDATE()) AND AR_Ref=@ref";
-                SqlCommand myCommand = new SqlCommand(statement, maDB.myConnection);
-                myCommand.Parameters.Add("@ref", System.Data.SqlDbType.NVarChar, 50).Value = item.Reference;
-                SqlDataReader myReader = null;
-                myReader = myCommand.ExecuteReader();
-                if (!myReader.HasRows)
+
+            }
+            else
+            {
+                for (int i = 0; i < P.Count; i++)
                 {
-                    item.QteEnCommande = 0f;
-                    item.Disponibilite = "";
-                }
-                else
-                {
-                    while (myReader.Read())
+                    if (i + 1 == P.Count)
                     {
-                        item.QteEnCommande = float.Parse(myReader[0].ToString());
-                        item.Disponibilite = myReader[1].ToString();
+                        statement2 += "'" + P[i].Reference + "')";
+                    }
+                    else
+                    {
+                        statement2 += "'" + P[i].Reference + "',";
                     }
                 }
-                myReader.Close();
+                maDB.open();
+                SqlCommand myCommand2 = new SqlCommand(statement2, maDB.myConnection);
+
+
+                SqlDataReader myReader2 = null;
+                myReader2 = myCommand2.ExecuteReader();
+                while (myReader2.Read())
+                {
+                    Produit p = new Produit();
+                    p.Reference = myReader2[0].ToString();
+                    p.StockDispo_pierre = float.Parse(myReader2[1].ToString()) < 0 ? 0 : float.Parse(myReader2[1].ToString());
+                    p_copie.Add(p);
+
+                }
+                myReader2.Close();
                 maDB.close();
+                    foreach (var item in p_copie)
+                    {
+                        foreach (var prod in P)
+                        {
+                            if (item.Reference.Equals(prod.Reference))
+                            {
+                                prod.StockDispo_pierre = item.StockDispo_pierre;
+
+                            }
+                        }
+                    }
+                }
             }
+
+        public void RemiseToListProduit(List<Produit>P)
+        {
+            // Deserialisation
+            
         }
+        
 
         public void GEtqteCommandeProduit(List<Produit> p)
         {
             List<Produit> p_copie = new List<Produit>(); 
             maDB.open();
             string statement = "SELECT DISTINCT AR_Ref,DL_Qte,DO_DateLivr FROM F_DOCLIGNE WHERE DO_Type=12 AND DO_DateLivr >=(SELECT GETDATE()) AND AR_Ref IN(";
-            for (int i = 0; i < p.Count; i++)
+            if (p.Count <= 0)
             {
-                if (i+1 == p.Count)
-                {
-                    statement += "'"+p[i].Reference + "')";
-                }
-                else
-                {
-                    statement += "'"+p[i].Reference + "',";
-                }
-            }
-            SqlCommand myCommand = new SqlCommand(statement, maDB.myConnection);
-            //myCommand.Parameters.Add("@ref", System.Data.SqlDbType.NVarChar, 50).Value = item.Reference;
-            SqlDataReader myReader = null;
-            myReader = myCommand.ExecuteReader();
-            while(myReader.Read())
-            {
-
-                Produit pr = new Produit();
-                pr.Reference = myReader[0].ToString();
-                pr.QteEnCommande = float.Parse(myReader[1].ToString());
-                pr.Disponibilite = myReader[2].ToString();
-                p_copie.Add(pr);
 
             }
-
-            myReader.Close();
-            maDB.close();
-            foreach (var item in p_copie)
+            else
             {
-                foreach (var prod in p)
-                {   
-                    if(item.Reference.Equals(prod.Reference))
+                for (int i = 0; i < p.Count; i++)
+                {
+                    if (i + 1 == p.Count)
                     {
-                        prod.QteEnCommande = item.QteEnCommande;
-                        prod.Disponibilite = item.Disponibilite;
+                        statement += "'" + p[i].Reference + "')";
+                    }
+                    else
+                    {
+                        statement += "'" + p[i].Reference + "',";
+                    }
+                }
+                SqlCommand myCommand = new SqlCommand(statement, maDB.myConnection);
+                //myCommand.Parameters.Add("@ref", System.Data.SqlDbType.NVarChar, 50).Value = item.Reference;
+                SqlDataReader myReader = null;
+                myReader = myCommand.ExecuteReader();
+                while (myReader.Read())
+                {
+
+                    Produit pr = new Produit();
+                    pr.Reference = myReader[0].ToString();
+                    pr.QteEnCommande = float.Parse(myReader[1].ToString());
+                    pr.Disponibilite = myReader[2].ToString();
+                    p_copie.Add(pr);
+
+                }
+
+                myReader.Close();
+                maDB.close();
+                foreach (var item in p_copie)
+                {
+                    foreach (var prod in p)
+                    {
+                        if (item.Reference.Equals(prod.Reference))
+                        {
+                            prod.QteEnCommande = item.QteEnCommande;
+                            prod.Disponibilite = item.Disponibilite;
+                        }
                     }
                 }
             }
+           
             
 
         }
@@ -247,26 +285,8 @@ namespace MC3Shopper.Models
             Debug.WriteLine(" temps fonction recup produit est de :{0}", sw.Elapsed);
 
             sw.Restart();
-            foreach (Produit item in maListe)
-            {
-                maDB.open();
-                string statement2 = "select Distinct AS_QteSto-AS_QteRes AS pierre from F_ARTSTOCK where DE_No=2 AND AR_Ref=@ref";
-                SqlCommand myCommand2 = new SqlCommand(statement2, maDB.myConnection);
-                myCommand2.Parameters.Add("@ref", System.Data.SqlDbType.NVarChar, 50);
-                myCommand2.Parameters["@ref"].Value = item.Reference;
-
-                SqlDataReader myReader2 = null;
-                myReader2 = myCommand2.ExecuteReader();
-                while (myReader2.Read())
-                {
-                    item.StockDispo_pierre = float.Parse(myReader2[0].ToString()) < 0 ? 0 : float.Parse(myReader2[0].ToString());
-                    //item.StockDisponible = item.StockDispo_pierre + item.StockDispo_denis;
-                }
-                myReader2.Close();
-                maDB.close();
+            listArticleStock(maListe);
                
-               
-            }
             sw.Stop();
             Debug.WriteLine(" temps fonction recup stock est de :{0}", sw.Elapsed);
             sw.Restart();
