@@ -6,6 +6,9 @@ temps :@ViewBag.time
             <thead>
                 <tr>
                     <th>
+                        Photos
+                    </th>
+                    <th>
                         Référence
                     </th>
                     <th>
@@ -36,24 +39,29 @@ temps :@ViewBag.time
                     if (item.QteEnCommande > 0 && item.Disponibilite != "")
                     {
                         DateTime dt = Convert.ToDateTime(item.Disponibilite);
-                        arrive = item.QteEnCommande.ToString() + " le " + dt.Day + "/" + dt.Month + "/" + dt.Year;
+                        arrive = "Dont "+item.QteEnCommande.ToString() + "supplémentaire  le " + dt.Day + "/" + dt.Month + "/" + dt.Year;
                     }
 
                     <tr>
+                        <td>
+                            <img src="@Url.Content("~/Content/img/no-image.png")" alt="@item.Reference" width="150" />
+                        </td>
                         <td>
                             @Html.ActionLink(item.Reference, "Details", new { id = HttpUtility.UrlEncode(item.Reference).Replace('%','!') }, new { @class = " modal-link Reference" })
                             
                         </td>
                         <td>
-                         @Html.ActionLink(item.Designation, "Details", new { id = HttpUtility.UrlEncode(item.Reference).Replace('%', '!') }, new { @class = " modal-link Reference" })
+                         @Html.ActionLink(item.Designation, "Details", new { id = HttpUtility.UrlEncode(item.Reference).Replace('%', '!') }, new { @class = " modal-link Reference" })<br />
+                            <p><em class="alert-success">@arrive</em></p>
                         </td>
                         <td>
                             <input type="text" class="qte" value="0" id="Qte" />   <span class="">@item.StockDisponible </span>
                             <p>Saint-Denis: <span class="badge">@dispo_denis</span></p>
                             <p>Saint-Denis: <span class="badge">@dispo_pierre</span></p>
-                            <p><em>@arrive</em></p>
+                            
                         <td>
-                            @Math.Round((double)item.Prix, 2)<span class="glyphicon-euro"></span>
+                            <!--@Math.Round((double)item.Prix, 2)<span class="glyphicon-euro"></span>-->
+                            @item.PrixFormate
                         </td>
 
                         <td>

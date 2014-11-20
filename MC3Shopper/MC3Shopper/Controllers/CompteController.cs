@@ -53,8 +53,8 @@ namespace MC3Shopper.Controllers
                     }
                     myReader.Close();
                     sys.RecupererListeFamilleRemise(monUser);
-                    Session.Add("user",Security.Serialize(monUser));
-                   
+                    //Session.Add("user",Security.Serialize(monUser));
+                    Session["user"] = monUser;
                     return RedirectToAction("Index", "Home");
                       
                 }

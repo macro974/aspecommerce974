@@ -143,9 +143,31 @@ namespace MC3Shopper.Models
                 }
             }
 
-        public void RemiseToListProduit(List<Produit>P)
+        public void RemiseToListProduit(List<Produit>P,Utilisateur user)
         {
-            // Deserialisation
+            foreach ( var monProduit in P)
+            {
+                foreach (KeyValuePair<string, float> item in user.Remises)
+                {
+                    if (item.Key.Equals(monProduit.CodeFamille))
+                    {
+                        monProduit.Remise = item.Value;
+
+                    }
+                }
+            }
+            foreach(var item in P )
+            {
+                if (item.Remise > 0)
+                {
+                    item.PrixFormate = item.Prix.ToString("0.00") + "€ (PP:" + item.PrixOriginal.ToString("0.00") + "€)";
+                }
+                else
+                {
+                    item.PrixFormate = item.Prix.ToString("0.00") + "€";
+                }
+            }
+            
             
         }
         

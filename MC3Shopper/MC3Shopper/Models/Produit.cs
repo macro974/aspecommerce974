@@ -225,13 +225,13 @@ namespace MC3Shopper.Models
             this.Prix = Price;
             this.QteDemande = 0;
 
-            if (File.Exists("~/Imgs/articles/" + Img))
+            if (File.Exists("~/img/articles/" + Img))
             {
-                this.ImgPath = "~/Imgs/articles/" + Img;
+                this.ImgPath = "~/img/articles/" + Img;
             }
             else
             {
-                this.ImgPath = "~/Imgs/no_picture2.png";
+                this.ImgPath = "~/Content/img/no-image.png";
             }
             ProduitAssocies = new List<Produit>();
             Taxes = new Dictionary<string, float>();
