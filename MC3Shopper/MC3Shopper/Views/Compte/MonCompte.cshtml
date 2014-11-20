@@ -1,0 +1,16 @@
+﻿@{
+    ViewBag.Title = "Mon Compte";
+}
+@using MC3Shopper.Models;
+@Styles.Render("~/Content/css")
+
+<ul class="nav nav-tabs">
+    <li class="active"><a href="#accueil" data-toggle="tab">Accueil</a></li>
+    <li><a href="#livres" data-toggle="tab">Livres</a></li>
+    <li><a href="#temoignages" data-toggle="tab">Témoignages</a></li>
+</ul>
+<div class="tab-content">
+    <div class="tab-pane active" id="accueil">Texte d'accueil</div>
+    <div class="tab-pane" id="livres">Tous les livres</div>
+    <div class="tab-pane" id="témoignages">Tous les temoignages</div>
+</div>
