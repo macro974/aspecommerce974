@@ -11,7 +11,7 @@ namespace MC3Shopper.Models
         private Utilisateur Utilisateur;
         private BackgroundWorker backGroundW;
 
-        public int count { get; set; }
+       
 
         public GestionSys(Database DB)
         {
