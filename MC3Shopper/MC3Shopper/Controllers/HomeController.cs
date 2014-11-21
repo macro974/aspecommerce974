@@ -23,13 +23,7 @@ namespace MC3Shopper.Controllers
             ViewBag.destock = liste_destockage;
             return View();
         }
-        [Authorize]
-        public ActionResult About()
-        {
-            ViewBag.Message = "walter test ";
-
-            return View();
-        }
+        
         [Authorize]
         public ActionResult Contact()
         {

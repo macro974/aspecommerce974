@@ -85,6 +85,7 @@
 
 /* Footer */
 
+
 .container-folio.row-fluid .span3:nth-child(4n+1), #container-folio.row-fluid .span3:nth-child(4n+1) {
     margin-left: 0px;
 }
@@ -123,4 +124,8 @@ li {
     width: 10%;
 }
 
-
+/*MONCOMPTE*/
+.texte-compte{
+    padding-top:7px;
+    margin:0;
+}
