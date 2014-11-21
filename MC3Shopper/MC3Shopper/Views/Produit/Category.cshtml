@@ -7,5 +7,10 @@
 <div class="page-header">
     <h2>@ViewBag.category</h2>
 </div>
-@Html.Action("_fam", new { Stat02 = @ViewBag.category })
+<div class="row">
+    <div class="pull-left">@Html.Action("_fam", new { Stat02 = @ViewBag.category })</div>
+    <div class="pull-right"><a href="#" class="btn btn-xs btn-warning " id="export_csv">Exporter au format CSV</a></div>
+</div>
+<div class="row">
 @Html.Action("_getListProduct", new { Stat02 = @ViewBag.Category })
+</div>
