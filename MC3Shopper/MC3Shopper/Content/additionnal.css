@@ -173,3 +173,27 @@ li {
     -webkit-animation-timing-function: cubic-bezier(1.0,0,0,1.0);
     -webkit-animation-duration: 0.8s;
 }
+.btn-primary{
+    border-color:#ca5400;
+    background-color:#ff7d00;
+}
+.btn-primary:hover{
+    border-color:#ca5400;
+    background-color:#ff8128;
+    -webkit-transition: background-color 300ms ease-out;
+    -moz-transition: background-color 300ms ease-out;
+    -o-transition: background-color 300ms ease-out;
+    transition: background-color 300ms ease-out;
+}
+.pagination-sm .active a{
+    border-color:#ff7d00;
+    background-color:#ff7d00;
+}
+.pagination-sm .active a:hover{
+    border-color:#ff6a00;
+    background-color:#ff6a00;
+}
+.pagination-sm a{
+    color:#ff6a00;
+    /*background-color:#ff6a00;*/
+}
