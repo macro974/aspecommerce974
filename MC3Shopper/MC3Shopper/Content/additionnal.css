@@ -85,7 +85,6 @@
 
 /* Footer */
 
-
 .container-folio.row-fluid .span3:nth-child(4n+1), #container-folio.row-fluid .span3:nth-child(4n+1) {
     margin-left: 0px;
 }
@@ -121,11 +120,80 @@ li {
     margin-right: 4em;
 }
 .qte {
-    width: 10%;
+    width: 20px;
+}
+.full-product{
+    border-left : 5px solid whitesmoke;
 }
 
-/*MONCOMPTE*/
-.texte-compte{
-    padding-top:7px;
-    margin:0;
+.full-header{
+    border-left: 5px lightgray solid;
+    border-bottom: transparent;   
+}
+.deco:hover{
+    background: -moz-radial-gradient(center, ellipse cover,  rgba(201,4,7,0.65) 0%, rgba(0,2,34,0.01) 50%, rgba(0,2,34,0) 51%); 
+    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(201,4,7,0.65)), color-stop(50%,rgba(0,2,34,0.01)), color-stop(51%,rgba(0,2,34,0))); 
+    background: -webkit-radial-gradient(center, ellipse cover,  rgba(201,4,7,0.65) 0%,rgba(0,2,34,0.01) 50%,rgba(0,2,34,0) 51%); 
+    background: -o-radial-gradient(center, ellipse cover,  rgba(201,4,7,0.65) 0%,rgba(0,2,34,0.01) 50%,rgba(0,2,34,0) 51%); 
+    background: -ms-radial-gradient(center, ellipse cover,  rgba(201,4,7,0.65) 0%,rgba(0,2,34,0.01) 50%,rgba(0,2,34,0) 51%); 
+    background: radial-gradient(ellipse at center,  rgba(201,4,7,0.65) 0%,rgba(0,2,34,0.01) 50%,rgba(0,2,34,0) 51%); 
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6c90407', endColorstr='#00000222',GradientType=1 );
+}
+.navbar-inverse{
+    -webkit-box-shadow: 0px -15px 20px 20px rgba(16,16,16,1);
+    -moz-box-shadow: 0px -15px 20px 20px rgba(16,16,16,1);
+    box-shadow: 0px -15px 20px 20px rgba(16,16,16,1);
+}
+.footer-links a{
+    color:#ff6a00;
+}
+.footer-links a:hover{
+    color:#ca5400;
+}
+.glyphicon-off{
+    color:red;
+}
+.glyphicon-off:hover{
+    color:#ff6a00;
+    -webkit-transition: color 300ms ease-out;
+    -moz-transition: color 300ms ease-out;
+    -o-transition: color 300ms ease-out;
+    transition: color 300ms ease-out;
+}
+.glyphicon-shopping-cart{
+    color:white;
+}
+@-webkit-keyframes blinker {  
+  from { color: white; }
+  to { color: #ff6a00; }
+}
+.glyphicon-shopping-cart:hover{
+    -webkit-animation-name: blinker;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: cubic-bezier(1.0,0,0,1.0);
+    -webkit-animation-duration: 0.8s;
+}
+.btn-primary{
+    border-color:#ca5400;
+    background-color:#ff7d00;
+}
+.btn-primary:hover{
+    border-color:#ca5400;
+    background-color:#ff8128;
+    -webkit-transition: background-color 300ms ease-out;
+    -moz-transition: background-color 300ms ease-out;
+    -o-transition: background-color 300ms ease-out;
+    transition: background-color 300ms ease-out;
+}
+.pagination-sm .active a{
+    border-color:#ff7d00;
+    background-color:#ff7d00;
+}
+.pagination-sm .active a:hover{
+    border-color:#ff6a00;
+    background-color:#ff6a00;
+}
+.pagination-sm a{
+    color:#ff6a00;
+    /*background-color:#ff6a00;*/
 }
