@@ -3,124 +3,141 @@
 }
 @using MC3Shopper.Models;
 @Styles.Render("~/Content/css")
+<div class="min-size">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#monCompte" data-toggle="tab">Mon Compte</a></li>
+        <li><a href="#encours" data-toggle="tab">Encours</a></li>
+        <li><a href="#historique" data-toggle="tab">Historique des commandes</a></li>
+        <li><a href="#cotation" data-toggle="tab">Cotation</a></li>
+    </ul>
 
-<ul class="nav nav-tabs">
-    <li class="active"><a href="#monCompte" data-toggle="tab">Mon Compte</a></li>
-    <li><a href="#encours" data-toggle="tab">Encours</a></li>
-    <li><a href="#historique" data-toggle="tab">Historique des commandes</a></li>
-    <li><a href="#cotation" data-toggle="tab">Cotation</a></li>
-</ul>
-
-<div class="tab-content">
-
-    
-    <!---------MON COMPTE--------->
-    <br />
-    <div class="tab-pane active" id="monCompte">
-        <form class="form-horizontal">
-            <fieldset>
-
-                <!--Infos Client-->
+    <div class="tab-content">
 
 
-                <div class="col-md-6">
-                    <!-- Form Name -->
-                    <legend>Informations</legend>
+        <!---------MON COMPTE--------->
+        <br />
+        <div class="tab-pane active" id="monCompte">
+            <form class="form-horizontal">
+                <fieldset>
 
-                    <div class="form-group">
-                        <label class="col-md-4 control-label">Société</label>
-                        <div class="col-md-4">
-                            <p class="texte-compte">ORDI974</p>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-4 control-label">Adresse</label>
-                        <div class="col-md-4">
-                            <p class="texte-compte"></p>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-4 control-label">Code Postal</label>
-                        <div class="col-md-4">
-                            <p class="texte-compte"></p>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-4 control-label">Pays</label>
-                        <div class="col-md-4">
-                            <p class="texte-compte"></p>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-4 control-label">Siret</label>
-                        <div class="col-md-4">
-                            <p class="texte-compte"></p>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-4 control-label">NAF</label>
-                        <div class="col-md-4">
-                            <p class="texte-compte"></p>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-4 control-label">Téléphone</label>
-                        <div class="col-md-4">
-                            <p class="texte-compte">0692.74.52.69</p>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-4 control-label">Fax</label>
-                        <div class="col-md-4">
-                            <p class="texte-compte"></p>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-4 control-label">Email</label>
-                        <div class="col-md-4">
-                            <p class="texte-compte">ordi974@gmail.com</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Password input-->
-                <div class="col-md-6">
-                    <!-- Form Name -->
-                    <legend>Changer le mot de passe</legend>
+                    <!--Infos Client-->
 
-                    <div class="form-group">
-                        <label class="col-md-4 control-label" for="passwordinput">Nouveau mot de passe</label>
-                        <div class="col-md-6">
-                            <input id="passwordinput" name="passwordinput" type="password" placeholder="Mot de passe" class="form-control input-md" required="">
+
+                    <div class="col-md-6">
+                        <!-- Form Name -->
+                        <legend>Informations</legend>
+
+                        <div class="row marginer">
+                            <div class="col-md-4">
+                                <label class="col-md-4 pull-text">Société</label>
+                             </div>
+                             <div class="col-md-6">
+                                 <p class="texte-compte">ORDI974</p>
+                             </div>
+                        </div>
+                        <div class="row marginer">
+                            <div class="col-md-4">
+                                <label class="col-md-4 pull-text">Adresse</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="texte-compte"></p>
+                            </div>
+                        </div>
+                        <div class="row marginer">
+                            <div class="col-md-4">
+                                <label class="col-md-4 pull-text">Code postal</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="texte-compte"></p>
+                            </div>
+                        </div>
+                        <div class="row marginer">
+                            <div class="col-md-4">
+                                <label class="col-md-4 pull-text">Pays</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="texte-compte"></p>
+                            </div>
+                        </div>
+                        <div class="row marginer">
+                            <div class="col-md-4">
+                                <label class="col-md-4 pull-text">Siret</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="texte-compte"></p>
+                            </div>
+                        </div> 
+                        <div class="row marginer">
+                            <div class="col-md-4">
+                                <label class="col-md-4 pull-text">NAF</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="texte-compte"></p>
+                            </div>
+                        </div>
+                        <div class="row marginer">
+                            <div class="col-md-4">
+                                <label class="col-md-4 pull-text">Téléphone</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="texte-compte">0692.74.52.69</p>
+                            </div>
+                        </div>
+                        <div class="row marginer">
+                            <div class="col-md-4">
+                                <label class="col-md-4 pull-text">Fax</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="texte-compte"></p>
+                            </div>
+                        </div>
+                        <div class="row marginer">
+                            <div class="col-md-4">
+                                <label class="col-md-4 pull-text">Email</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="texte-compte">ordi974@gmail.com</p>
+                            </div>
                         </div>
                     </div>
-
                     <!-- Password input-->
-                    <div class="form-group">
-                        <label class="col-md-4 control-label" for="passwordinput">Confirmer mot de passe</label>
-                        <div class="col-md-6">
-                            <input id="passwordinput" name="passwordinput" type="password" placeholder="Mot de passe" class="form-control input-md" required="">
+                    <div class="col-md-6">
+                        <!-- Form Name -->
+                        <legend>Changer le mot de passe</legend>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="passwordinput">Nouveau mot de passe</label>
+                            <div class="col-md-6">
+                                <input id="passwordinput" name="passwordinput" type="password" placeholder="Mot de passe" class="form-control input-md" required="">
+                            </div>
+                        </div>
+
+                        <!-- Password input-->
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="passwordinput">Confirmer mot de passe</label>
+                            <div class="col-md-6">
+                                <input id="passwordinput" name="passwordinput" type="password" placeholder="Mot de passe" class="form-control input-md" required="">
+                            </div>
+                        </div>
+
+                        <!-- Button -->
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="singlebutton"></label>
+                            <div class="col-md-4">
+                                <button id="singlebutton" name="singlebutton" class="btn btn-success">Valider</button>
+                            </div>
                         </div>
                     </div>
+                </fieldset>
+            </form>
+        </div>
 
-                    <!-- Button -->
-                    <div class="form-group">
-                        <label class="col-md-4 control-label" for="singlebutton"></label>
-                        <div class="col-md-4">
-                            <button id="singlebutton" name="singlebutton" class="btn btn-success">Valider</button>
-                        </div>
-                    </div>
-                </div>
-            </fieldset>
-        </form>
-    </div>
+        <!---------ENCOURS--------->
+        <div class="tab-pane" id="encours">
+            <form class="form-horizontal">
+                <fieldset>
 
-    <!---------ENCOURS--------->
-    <div class="tab-pane" id="encours">
-        <form class="form-horizontal">
-            <fieldset>
-
-                <!--Infos Client-->
-
+                    <!--Infos Client-->
                     <!-- Form Name -->
                     <legend>Informations</legend>
 
@@ -159,27 +176,28 @@
                         <div class="col-md-4">
                             <p class="texte-compte"></p>
                         </div>
-                    </div>             
-    </div>
-
-    <div class="tab-pane" id="historique">Tous les temoignages</div>
-    <div class="tab-pane" id="cotation">
-        <form class="form-horizontal">
-            <fieldset>
-
-                <!-- Form Name -->
-                <legend>Cotation</legend>
-
-                <!-- Textarea -->
-                <div class="form-group">
-                    <label class="col-md-4 control-label" for="textarea">Cotation</label>
-                    <div class="col-md-4">
-                        <textarea class="form-control" id="textarea" name="textarea">Cotation</textarea>
                     </div>
-                </div>
+        </div>
 
-            </fieldset>
-        </form>
+        <div class="tab-pane" id="historique">Historique des commandes</div>
+        <div class="tab-pane" id="cotation">
+            <form class="form-horizontal">
+                <fieldset>
 
+                    <!-- Form Name -->
+                    <legend>Cotation</legend>
+
+                    <!-- Textarea -->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="textarea">Cotation</label>
+                        <div class="col-md-4">
+                            <textarea class="form-control" id="textarea" name="textarea">Cotation</textarea>
+                        </div>
+                    </div>
+
+                </fieldset>
+            </form>
+
+        </div>
     </div>
 </div>

@@ -197,3 +197,21 @@ li {
     color:#ff6a00;
     /*background-color:#ff6a00;*/
 }
+.min-size{
+    min-height:500px;
+}
+.pull-text{
+    padding:5px;
+    width:100%;
+    text-align:right;
+}
+.marginer{
+    margin-bottom:10px;
+}
+.texte-compte{
+    min-height:29px;
+    padding:5px;
+    padding-left:10px;
+    background-color:lightgray;
+    border-radius:5px;
+}
