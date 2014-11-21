@@ -116,7 +116,22 @@ li {
     margin-right: 4em;
 }
 .qte {
-    width: 10%;
+    width: 20px;
+}
+.full-product{
+    border-left : 5px solid whitesmoke;
+}
+/*.full-product:hover{
+    border-left: 5px orange solid;
+    -webkit-transition: border-left 200ms ease;
+    -moz-transition: border-left 200ms ease;
+    -o-transition: border-left 200ms ease;
+    transition: border-left 200ms ease;
+}*/
+
+.full-header{
+    border-left: 5px lightgray solid;
+    border-bottom: transparent;   
 }
 
 

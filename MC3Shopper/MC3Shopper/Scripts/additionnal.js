@@ -10,10 +10,14 @@ $('.paginator').slick({
     slidesToScroll: 1,
     autoplay: false,
 });
-$(".full-product").mouseover(function()
-{
+$(".full-product").click(function () {
+    $(this).effect("highlight", 100);
+})
+
+
+$(".full-product").mouseover(function () {
     $(this).css({ "border-left": "5px orange solid" });
 })
 $(".full-product").mouseout(function () {
-    $(this).css({ "border-left": "0px" });
+    $(this).css({ "border-left": "5px whitesmoke solid" });
 })
