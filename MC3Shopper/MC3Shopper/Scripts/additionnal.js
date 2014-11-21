@@ -20,3 +20,14 @@ function getUrlParameter(sParam) {
         }
     }
 }
+$(".full-product").click(function () {
+    $(this).effect("highlight", 100);
+})
+
+
+$(".full-product").mouseover(function () {
+    $(this).css({ "border-left": "5px orange solid" });
+})
+$(".full-product").mouseout(function () {
+    $(this).css({ "border-left": "5px whitesmoke solid" });
+})
