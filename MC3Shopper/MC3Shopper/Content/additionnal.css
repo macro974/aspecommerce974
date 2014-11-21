@@ -174,12 +174,12 @@ li {
     -webkit-animation-duration: 0.8s;
 }
 .btn-primary{
-    border-color:#ca5400;
+    border-color:#ff8128;
     background-color:#ff7d00;
 }
 .btn-primary:hover{
-    border-color:#ca5400;
-    background-color:#ff8128;
+    border-color:#ff8128;
+    background-color:#ff6a00;
     -webkit-transition: background-color 300ms ease-out;
     -moz-transition: background-color 300ms ease-out;
     -o-transition: background-color 300ms ease-out;
@@ -214,4 +214,7 @@ li {
     padding-left:10px;
     background-color:lightgray;
     border-radius:5px;
+}
+#textarea{
+    resize:vertical;
 }
