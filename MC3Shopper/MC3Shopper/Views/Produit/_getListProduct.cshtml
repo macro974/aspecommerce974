@@ -39,10 +39,10 @@ temps :@ViewBag.time
                     if (item.QteEnCommande > 0 && item.Disponibilite != "")
                     {
                         DateTime dt = Convert.ToDateTime(item.Disponibilite);
-                        arrive = "Dont "+item.QteEnCommande.ToString() + "supplémentaire  le " + dt.Day + "/" + dt.Month + "/" + dt.Year;
+                        arrive = "Dont "+item.QteEnCommande.ToString() + " supplémentaire(s)  le " + dt.Day + "/" + dt.Month + "/" + dt.Year;
                     }
 
-                    <tr>
+                    <tr class="full-product">
                         <td>
                             <img src="@Url.Content("~/Content/img/no-image.png")" alt="@item.Reference" width="150" />
                         </td>
