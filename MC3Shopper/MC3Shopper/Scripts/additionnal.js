@@ -10,3 +10,10 @@ $('.paginator').slick({
     slidesToScroll: 1,
     autoplay: false,
 });
+$(".full-product").mouseover(function()
+{
+    $(this).css({ "border-left": "5px orange solid" });
+})
+$(".full-product").mouseout(function () {
+    $(this).css({ "border-left": "0px" });
+})
