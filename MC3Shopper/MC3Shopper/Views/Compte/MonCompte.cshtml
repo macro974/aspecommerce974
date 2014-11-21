@@ -5,12 +5,48 @@
 @Styles.Render("~/Content/css")
 
 <ul class="nav nav-tabs">
-    <li class="active"><a href="#accueil" data-toggle="tab">Accueil</a></li>
-    <li><a href="#livres" data-toggle="tab">Livres</a></li>
-    <li><a href="#temoignages" data-toggle="tab">Témoignages</a></li>
+    <li class="active"><a href="#monCompte" data-toggle="tab">Mon Compte</a></li>
+    <li><a href="#avoirs" data-toggle="tab">Avoirs</a></li>
+    <li><a href="#historique" data-toggle="tab">Historique</a></li>
 </ul>
 <div class="tab-content">
-    <div class="tab-pane active" id="accueil">Texte d'accueil</div>
-    <div class="tab-pane" id="livres">Tous les livres</div>
-    <div class="tab-pane" id="témoignages">Tous les temoignages</div>
+    <div class="tab-pane active" id="monCompte">
+        <form class="form-horizontal">
+            <fieldset>
+
+                <!-- Form Name -->
+                <legend>Mon Compte</legend>
+
+                <!-- Password input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="passwordinput">Nouveau mot de passe</label>
+                    <div class="col-md-4">
+                        <input id="passwordinput" name="passwordinput" type="password" placeholder="Mot de passe" class="form-control input-md" required="">
+
+                    </div>
+                </div>
+
+                <!-- Password input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="passwordinput">Confirmer mot de passe</label>
+                    <div class="col-md-4">
+                        <input id="passwordinput" name="passwordinput" type="password" placeholder="Mot de passe" class="form-control input-md" required="">
+
+                    </div>
+                </div>
+
+                <!-- Button -->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="singlebutton"></label>
+                    <div class="col-md-4">
+                        <button id="singlebutton" name="singlebutton" class="btn btn-success">Valider</button>
+                    </div>
+                </div>
+
+            </fieldset>
+        </form>
+
+    </div>
+    <div class="tab-pane" id="avoirs">Tous les livres</div>
+    <div class="tab-pane" id="historique">Tous les temoignages</div>
 </div>
