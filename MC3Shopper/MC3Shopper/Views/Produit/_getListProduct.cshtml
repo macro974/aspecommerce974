@@ -1,5 +1,6 @@
 ﻿@using MC3Shopper.Models;
-
+@using PagedList.Mvc; 
+@using PagedList;
 <div id="getList">
    
     
@@ -76,86 +77,6 @@
         </table>
     </div>
     <nav>
-        <div class="paginatior">
-
-            <ul class="pagination pagination-sm">
-                @if (@ViewBag.current > 3 && @ViewBag.current + 5 < @ViewBag.count)
-                {
-                    for (int i = @ViewBag.current - 3; i < @ViewBag.current + 5; i++)
-                    {
-                        if (i == @ViewBag.current)
-                        {
-                            <li class="active">
-                                <a href="#">
-                                    @i <span class="sr-only">
-                                        (current)
-                                    </span>
-                                </a>
-                            </li>
-                        }
-
-                        else
-                        {
-
-                            <li>@Html.ActionLink(@i.ToString(), "Category", new { Stat02 = @ViewBag.category, Famille = @ViewBag.Famille, page = @i })</li>
-
-                        }
-                    }
-                }
-                else
-                {
-                    if (@ViewBag.current + 5 < @ViewBag.count)
-                    {
-                        for (int i = @ViewBag.current; i < @ViewBag.current + 5; i++)
-                        {
-                            if (i == @ViewBag.current)
-                            {
-                                <li class="active">
-                                    <a href="#">
-                                        @i <span class="sr-only">
-                                            (current)
-                                        </span>
-                                    </a>
-                                </li>
-                            }
-
-                            else
-                            {
-
-                                <li>@Html.ActionLink(@i.ToString(), "Category", new { Stat02 = @ViewBag.category, Famille = @ViewBag.Famille, page = @i })</li>
-
-                            }
-                        }
-                    }
-                    else
-                    {
-                        for (int i = @ViewBag.current; i < @ViewBag.count; i++)
-                        {
-
-                            if (i == @ViewBag.current)
-                            {
-                                <li class="active">
-                                    <a href="#">
-                                        @i <span class="sr-only">
-                                            (current)
-                                        </span>
-                                    </a>
-                                </li>
-                            }
-
-                            else
-                            {
-
-                                <li>@Html.ActionLink(@i.ToString(), "Category", new { Stat02 = @ViewBag.category, Famille = @ViewBag.Famille, page = @i })</li>
-
-                            }
-
-                        }
-
-                    }
-                }
-            </ul>
-        </div>
-    </nav>
-</div>
+  @Html.PagedListPager((IPagedList)ViewBag.liste, page => Url.Action("Category", new { Stat02=@ViewBag.Category,Famille=@ViewBag.famille,page=page }))
+        
 <!--<script src="http://code.jquery.com/ui/1.11.2/jquery-ui.min.js"></script>-->

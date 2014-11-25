@@ -849,5 +849,49 @@ namespace MC3Shopper.Models
             return maListe;
         }
 
+        public List<Produit> TousAllProductByCAT(string codestat="", string famille="", int NumberPage = 1)
+        {
+            maDB.open();
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+            // execution time
+
+            SqlCommand blah = new SqlCommand("SET ARITHABORT ON", maDB.myConnection);
+            blah.ExecuteNonQuery();
+            List<Produit> maListe = new List<Produit>();
+            string statement = "select DISTINCT ROW_NUMBER() OVER(ORDER BY F_Article.AR_Ref) AS NUMBER ,F_Article.AR_Ref,AR_Design,AR_PrixVen,AS_QteSto-AS_QteRes AS QTE,AS_MontSto " +
+                                "from F_Article INNER JOIN F_ARTSTOCK ON F_ARTICLE.AR_Ref = F_ARTSTOCK.AR_Ref " +
+                                "WHERE F_ARTSTOCK.DE_No = 1 AND AR_Sommeil = 0 AND AR_Publie = 1 AND AR_Stat02=@state AND AR_Stat01 LIKE @famille";
+            SqlCommand myCommand = new SqlCommand(statement, maDB.myConnection);
+            myCommand.Parameters.Add("@state", System.Data.SqlDbType.NVarChar, 50);
+            myCommand.Parameters["@state"].Value = codestat;
+            //myCommand.Parameters.Add("@PageNumber", System.Data.SqlDbType.Int).Value = NumberPage;
+           myCommand.Parameters.Add("@famille", System.Data.SqlDbType.NVarChar).Value = "%" + famille + "%";
+            SqlDataReader myReader = null;
+            myReader = myCommand.ExecuteReader();
+            while (myReader.Read())
+            {
+                Produit monProduit = new Produit(myReader["AR_Ref"].ToString(), myReader["AR_Ref"].ToString(), myReader["AR_Design"].ToString(), decimal.Parse(myReader["AR_PrixVen"].ToString()));
+                monProduit.StockDispo_denis = float.Parse(myReader["QTE"].ToString()) < 0 ? 0 : float.Parse(myReader["QTE"].ToString());
+
+                // get stock st pierre
+                maListe.Add(monProduit);
+            }
+            maDB.close();
+            sw.Stop();
+            Debug.WriteLine(" temps fonction recup produit est de :{0}", sw.Elapsed);
+
+            sw.Restart();
+            listArticleStock(maListe);
+
+            sw.Stop();
+            Debug.WriteLine(" temps fonction recup stock est de :{0}", sw.Elapsed);
+            sw.Restart();
+            GEtqteCommandeProduit(maListe);
+            sw.Stop();
+            Debug.WriteLine(" temps fonction doc_ligne est de :{0}", sw.Elapsed);
+
+            return maListe;
+        }
     }
 }

@@ -8,6 +8,7 @@ using MC3Shopper.Models;
 using MC3Shopper.ViewModel;
 using System.Diagnostics;
 using LINQtoCSV;
+using PagedList;
 namespace MC3Shopper.Controllers
 {
     public class ProduitController : Controller
@@ -70,22 +71,22 @@ namespace MC3Shopper.Controllers
             return PartialView();
         }
         [Authorize]
-        //[OutputCache(Duration = 60)]
+        [OutputCache(Duration = 60)]
         [HttpGet]
         public ActionResult _getListProduct(string Stat02="",string Famille="" ,int page=1)
         {
             GestionSys sys = new GestionSys(mb);
-            
-            List<Produit> liste_perso = sys.GetAllProductByCAT(Stat02, Famille, page).Where(x => x.QteEnCommande + x.StockDisponible > 0).ToList();
+
+            var liste_perso = sys.TousAllProductByCAT(Stat02, Famille, page).Where(x => x.QteEnCommande + x.StockDisponible > 0 && x.Prix > 0).ToPagedList(page, 25);
             Utilisateur user  = Security.DeSerialize<Utilisateur>(Session["user"].ToString());
-            sys.RemiseToListProduit(liste_perso,user);
+            sys.RemiseToListProduit(liste_perso.ToList(),user);
             ViewBag.Category = Stat02;
             
             ViewBag.famille = Famille;
             ViewBag.liste = liste_perso;
           
-            ViewBag.count = sys.CountGetAllProductByCat(Stat02, Famille);
-            ViewBag.current = page > 0 ? page : 1;
+            //ViewBag.count = sys.CountGetAllProductByCat(Stat02, Famille);
+            //ViewBag.current = page > 0 ? page : 1;
             return PartialView();
         }
 
