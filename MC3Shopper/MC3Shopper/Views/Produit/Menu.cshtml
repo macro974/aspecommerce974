@@ -25,7 +25,7 @@
 @{
     int i = 0;
 }
-@foreach (var item in @Model)
+@foreach (string item in @Model)
 {
     switch (i)
     {
@@ -35,14 +35,13 @@
 
             goto default;
         default:
-        <li>@Html.ActionLink(@item, "Category", new { Stat02 = @item })</li>
+            <li>@Html.ActionLink(@item, "Category", new {Stat02 = @item})</li>
             i++;
             break;
         case 20:
-        @Html.Raw("</ul>")
-        @Html.Raw("</div>")
+            @Html.Raw("</ul>")
+            @Html.Raw("</div>")
             i = 0;
             break;
     }
-
 }

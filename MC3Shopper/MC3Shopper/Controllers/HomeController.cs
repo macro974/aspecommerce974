@@ -1,6 +1,6 @@
-﻿using MC3Shopper.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
+using MC3Shopper.Models;
 
 namespace MC3Shopper.Controllers
 {
@@ -13,7 +13,7 @@ namespace MC3Shopper.Controllers
         {
             db = new Database();
             Session.Add("maDB", db);
-            GestionSys masys = new GestionSys(db);
+            var masys = new GestionSys(db);
             List<Produit> liste_arrivage = masys.ProductByEvent(1);
             List<Produit> liste_promotions = masys.ProductByEvent(2);
             List<Produit> liste_destockage = masys.ProductByEvent(3);
@@ -23,7 +23,7 @@ namespace MC3Shopper.Controllers
             ViewBag.destock = liste_destockage;
             return View();
         }
-        
+
         [Authorize]
         public ActionResult Contact()
         {

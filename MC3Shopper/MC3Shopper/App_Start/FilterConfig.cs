@@ -8,7 +8,6 @@ namespace MC3Shopper
         {
             filters.Add(new HandleErrorAttribute());
             filters.Add(new AuthorizeAttribute());
-
         }
     }
 }

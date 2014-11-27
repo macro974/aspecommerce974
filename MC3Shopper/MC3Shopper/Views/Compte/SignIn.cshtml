@@ -7,32 +7,32 @@
 @Styles.Render("~/Content/css")
 @Styles.Render("~/Content/signIn.css")
 
-    <div class="wrapper">
-@using (Html.BeginForm(null, null, new { returnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new {@class="form-signin"}))
+<div class="wrapper">
+    @using (Html.BeginForm(null, null, new {returnUrl = ViewBag.ReturnUrl}, FormMethod.Post, new {@class = "form-signin"}))
     {
-            @Html.AntiForgeryToken()
+        @Html.AntiForgeryToken()
         //Html.ValidationSummary(true)<br />
         if (ViewData.ModelState.Keys.Any(k => ViewData.ModelState[k].Errors.Count() > 0))
         {
             <div class="alert alert-danger">
                 <button class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                @Html.ValidationSummary(false,"Erreur")
+                @Html.ValidationSummary(false, "Erreur")
             </div>
         }
-            <img class="login-logo" src="~/Content/img/logoMC3.png" />
-            <h2 class="form-signin-heading">Connectez-vous</h2>
-    
-          
-            @Html.TextBoxFor(m => m.CodeClient, new { placeholder = Html.DisplayNameFor(m => m.CodeClient), @class="form-control" })<br />
-  
-             @Html.PasswordFor(m => m.Password, new { placeholder = Html.DisplayNameFor(m => m.Password),@class="form-control" })<br />
-            
+        <img class="login-logo" src="~/Content/img/logoMC3.png" />
+        <h2 class="form-signin-heading">Connectez-vous</h2>
 
-            <label class="checkbox">
+
+        @Html.TextBoxFor(m => m.CodeClient, new {placeholder = Html.DisplayNameFor(m => m.CodeClient), @class = "form-control"})<br />
+
+        @Html.PasswordFor(m => m.Password, new {placeholder = Html.DisplayNameFor(m => m.Password), @class = "form-control"})<br />
+
+
+        <label class="checkbox">
                
-                @Html.CheckBoxFor(m => m.RememberMe, new {id="rememberMe" })
-                @Html.DisplayNameFor(m => m.RememberMe)
-            </label>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Connexion</button>
+            @Html.CheckBoxFor(m => m.RememberMe, new {id = "rememberMe"})
+            @Html.DisplayNameFor(m => m.RememberMe)
+        </label>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Connexion</button>
     }
-    </div>
+</div>

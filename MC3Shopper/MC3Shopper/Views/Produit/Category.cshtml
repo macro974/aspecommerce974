@@ -1,16 +1,16 @@
-﻿@{
+﻿@using System.Globalization
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    IFormatProvider culture = new System.Globalization.CultureInfo("fr-FR", true);
-
+    IFormatProvider culture = new CultureInfo("fr-FR", true);
 }
 
 <div class="page-header">
     <h2>@ViewBag.category</h2>
 </div>
 <div class="row">
-    <div class="pull-left">@Html.Action("_fam", new { Stat02 = @ViewBag.category })</div>
+    <div class="pull-left">@Html.Action("_fam", new {Stat02 = @ViewBag.category})</div>
     <div class="pull-right"><a href="#" class="btn btn-xs btn-warning " id="export_csv">Exporter au format CSV</a></div>
 </div>
 <div class="row">
-@Html.Action("_getListProduct", new { Stat02 = @ViewBag.Category })
+    @Html.Action("_getListProduct", new {Stat02 = @ViewBag.Category})
 </div>

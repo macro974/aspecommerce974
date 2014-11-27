@@ -1,7 +1,8 @@
-﻿using Microsoft.Owin;
+﻿using MC3Shopper;
+using Microsoft.Owin;
 using Owin;
 
-[assembly: OwinStartupAttribute(typeof(MC3Shopper.Startup))]
+[assembly: OwinStartup(typeof (Startup))]
 
 namespace MC3Shopper
 {

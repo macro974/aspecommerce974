@@ -3,19 +3,27 @@ using System.Collections.Generic;
 
 namespace MC3Shopper.Models
 {
-    [Serializable()]
+    [Serializable]
     public class Panier
     {
         public List<Produit> monPanier;
 
         private decimal totalPanier;
 
+        public Panier()
+        {
+            monPanier = new List<Produit>();
+            TotalPanier = 0;
+        }
+
+        public Panier(List<Produit> panier)
+        {
+            monPanier = panier;
+        }
+
         public decimal TotalPanier
         {
-            get
-            {
-                return totalPanier;
-            }
+            get { return totalPanier; }
             set
             {
                 totalPanier = value;
@@ -27,21 +35,7 @@ namespace MC3Shopper.Models
 
         public decimal TVAPanier
         {
-            get
-            {
-                return decimal.Round(GetTVADuPanier(), 2);
-            }
-        }
-
-        public Panier()
-        {
-            this.monPanier = new List<Produit>();
-            this.TotalPanier = 0;
-        }
-
-        public Panier(List<Produit> panier)
-        {
-            this.monPanier = panier;
+            get { return decimal.Round(GetTVADuPanier(), 2); }
         }
 
         public void Add(string Reference)
@@ -51,13 +45,14 @@ namespace MC3Shopper.Models
         public decimal GetEcoTaxePanier()
         {
             decimal totalEcoTax = 0;
-            foreach (Produit item in this.monPanier)
+            foreach (Produit item in monPanier)
             {
-                foreach (KeyValuePair<string, float> taxx in item.Taxes)
+                foreach (var taxx in item.Taxes)
                 {
                     if (taxx.Key.ToLower().Contains("ecoparticipation"))
                     {
-                        totalEcoTax += decimal.Parse(taxx.Value.ToString()) * item.Prix / 100 * int.Parse(item.QteDemande.ToString());
+                        totalEcoTax += decimal.Parse(taxx.Value.ToString())*item.Prix/100*
+                                       int.Parse(item.QteDemande.ToString());
                         item.Taxe2 = taxx.Value;
                     }
                 }
@@ -69,14 +64,15 @@ namespace MC3Shopper.Models
         {
             decimal totalTVA = 0;
             decimal totalHT = 0;
-            foreach (Produit item in this.monPanier)
+            foreach (Produit item in monPanier)
             {
-                foreach (KeyValuePair<string, float> taxx in item.Taxes)
+                foreach (var taxx in item.Taxes)
                 {
                     if (taxx.Key.ToLower().Contains("tva"))
                     {
-                        totalTVA += decimal.Parse(taxx.Value.ToString()) * item.Prix / 100 * int.Parse(item.QteDemande.ToString());
-                        totalHT += item.Prix * int.Parse(item.QteDemande.ToString());
+                        totalTVA += decimal.Parse(taxx.Value.ToString())*item.Prix/100*
+                                    int.Parse(item.QteDemande.ToString());
+                        totalHT += item.Prix*int.Parse(item.QteDemande.ToString());
                         item.TVA = taxx.Value;
                     }
                 }
@@ -87,7 +83,7 @@ namespace MC3Shopper.Models
 
         public void Plus(string Reference)
         {
-            Produit monProduit = new Produit();
+            var monProduit = new Produit();
             foreach (Produit item in monPanier)
             {
                 if (item.Reference.Equals(Reference))
@@ -106,7 +102,7 @@ namespace MC3Shopper.Models
 
         public void Moins(string Reference)
         {
-            Produit monProduit = new Produit();
+            var monProduit = new Produit();
             foreach (Produit item in monPanier)
             {
                 if (item.Reference.Equals(Reference))
@@ -120,7 +116,7 @@ namespace MC3Shopper.Models
 
         public void Suprrimer(string Reference)
         {
-            Produit monProduit = new Produit();
+            var monProduit = new Produit();
             foreach (Produit item in monPanier)
             {
                 if (item.Reference.Equals(Reference))
@@ -137,7 +133,7 @@ namespace MC3Shopper.Models
             bool isExist = false;
             int cont = 0;
             int IndexToRemove = 0;
-            this.TotalPanier = 0;
+            TotalPanier = 0;
             foreach (Produit item in monPanier)
             {
                 if (item.Reference.Equals(Product.Reference))
@@ -145,7 +141,7 @@ namespace MC3Shopper.Models
                     if (Product.QteDemande > 0)
                     {
                         item.QteDemande = Product.QteDemande;
-                        item.PrixTotal = item.Prix * int.Parse(item.QteDemande.ToString());
+                        item.PrixTotal = item.Prix*int.Parse(item.QteDemande.ToString());
                     }
                     else
                     {
@@ -154,24 +150,24 @@ namespace MC3Shopper.Models
                     }
                     isExist = true;
                 }
-                this.TotalPanier += item.Prix * int.Parse(item.QteDemande.ToString());
+                TotalPanier += item.Prix*int.Parse(item.QteDemande.ToString());
                 cont++;
             }
 
             if (!isExist & Product.QteDemande > 0)
             {
-                Product.PrixTotal = Product.Prix * int.Parse(Product.QteDemande.ToString());
+                Product.PrixTotal = Product.Prix*int.Parse(Product.QteDemande.ToString());
                 monPanier.Add(Product);
 
-                this.TotalPanier += Product.Prix * int.Parse(Product.QteDemande.ToString());
+                TotalPanier += Product.Prix*int.Parse(Product.QteDemande.ToString());
                 if (Product.ProduitAssocies.Count > 0)
                 {
                     foreach (Produit ssItem in Product.ProduitAssocies)
                     {
                         ssItem.QteDemande = Product.QteDemande;
                         ssItem.StockDisponible = Product.QteDemande;
-                        ssItem.PrixTotal = ssItem.Prix * int.Parse(Product.QteDemande.ToString());
-                        this.TotalPanier += ssItem.Prix * int.Parse(ssItem.QteDemande.ToString());
+                        ssItem.PrixTotal = ssItem.Prix*int.Parse(Product.QteDemande.ToString());
+                        TotalPanier += ssItem.Prix*int.Parse(ssItem.QteDemande.ToString());
                         monPanier.Add(ssItem);
                     }
                 }

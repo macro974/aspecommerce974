@@ -1,6 +1,6 @@
-﻿@using MC3Shopper.Models;
-@using PagedList.Mvc; 
-@using PagedList;
+﻿@using MC3Shopper.Models
+@using PagedList
+@using PagedList.Mvc
 <div id="getList">
    
     
@@ -31,7 +31,6 @@
             <tbody>
                 @foreach (Produit item in @ViewBag.liste)
                 {
-
                     if (item.StockDisponible + item.QteEnCommande <= 0)
                     {
                         continue;
@@ -42,7 +41,7 @@
                     if (item.QteEnCommande > 0 && item.Disponibilite != "")
                     {
                         DateTime dt = Convert.ToDateTime(item.Disponibilite);
-                        arrive = "Dont "+item.QteEnCommande.ToString() + " supplémentaire(s)  le " + dt.Day + "/" + dt.Month + "/" + dt.Year;
+                        arrive = "Dont " + item.QteEnCommande + " supplémentaire(s)  le " + dt.Day + "/" + dt.Month + "/" + dt.Year;
                     }
 
                     <tr class="full-product">
@@ -50,20 +49,20 @@
                             <img src="@Url.Content("~/Content/img/no-image.png")" alt="@item.Reference" width="150" />
                         </td>
                         <td>
-                            @Html.ActionLink(item.Reference, "Details", new { id = HttpUtility.UrlEncode(item.Reference).Replace('%','!') }, new { @class = " modal-link Reference" })
+                            @Html.ActionLink(item.Reference, "Details", new {id = HttpUtility.UrlEncode(item.Reference).Replace('%', '!')}, new {@class = " modal-link Reference"})
                             
                         </td>
                         <td>
-                         @Html.ActionLink(item.Designation, "Details", new { id = HttpUtility.UrlEncode(item.Reference).Replace('%', '!') }, new { @class = " modal-link Reference" })<br />
+                            @Html.ActionLink(item.Designation, "Details", new {id = HttpUtility.UrlEncode(item.Reference).Replace('%', '!')}, new {@class = " modal-link Reference"})<br />
                             <p><em class="alert-success">@arrive</em></p>
                         </td>
                         <td>
-                            <input type="text" class="qte" value="0" id="Qte" />   <span class="">@item.StockDisponible </span>
-                            <p>Saint-Denis: <span class="badge">@dispo_denis</span></p>
-                            <p>Saint-Denis: <span class="badge">@dispo_pierre</span></p>
+                        <input type="text" class="qte" value="0" id="Qte" />   <span class="">@item.StockDisponible </span>
+                        <p>Saint-Denis: <span class="badge">@dispo_denis</span></p>
+                        <p>Saint-Denis: <span class="badge">@dispo_pierre</span></p>
                             
                         <td>
-                            <!--@Math.Round((double)item.Prix, 2)<span class="glyphicon-euro"></span>-->
+                            <!--@Math.Round((double) item.Prix, 2)<span class="glyphicon-euro"></span>-->
                             @item.PrixFormate
                         </td>
 
@@ -71,12 +70,11 @@
                             <a href="#data" class="add_panier">Ajouter au panier</a>
                         </td>
                     </tr>
-
                 }
             </tbody>
         </table>
     </div>
-    <nav>
-  @Html.PagedListPager((IPagedList)ViewBag.liste, page => Url.Action("Category", new { Stat02=@ViewBag.Category,Famille=@ViewBag.famille,page=page }))
-        
+  
+    @Html.PagedListPager((IPagedList) ViewBag.liste, page => Url.Action("Category", new {Stat02 = @ViewBag.Category, Famille = @ViewBag.famille, page}))
+</div>      
 <!--<script src="http://code.jquery.com/ui/1.11.2/jquery-ui.min.js"></script>-->

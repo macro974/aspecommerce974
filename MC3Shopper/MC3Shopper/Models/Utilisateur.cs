@@ -1,18 +1,31 @@
-﻿using System.Collections.Generic;
-using System;
+﻿using System;
+using System.Collections.Generic;
+
 namespace MC3Shopper.Models
 {
-
-   [Serializable()]	
-    public class Utilisateur 
+    [Serializable]
+    public class Utilisateur
     {
+        public string Password;
+        private string _Echus1mois = "";
+        private string _Echus2mois = "";
+        private string _Echus3mois = "";
+        private string _EncoursAss = "";
+        private string _EncoursMax = "";
+        private string _NonEchus = "";
+        private string _Solde = "";
+
+        public Utilisateur(string codeClient)
+        {
+            CodeClient = codeClient;
+            Remises = new Dictionary<string, float>();
+        }
+
         public string CodeClient { get; set; }
 
         public string NomPre { get; set; }
 
         public string Email { get; set; }
-
-        public string Password;
 
         public bool AncienUser { get; set; }
 
@@ -36,8 +49,6 @@ namespace MC3Shopper.Models
 
         public string Telecopie { get; set; }
 
-        private string _EncoursMax = "";
-
         public string EncoursMax
         {
             get
@@ -53,13 +64,8 @@ namespace MC3Shopper.Models
                 }
                 return _EncoursMax + "€";
             }
-            set
-            {
-                _EncoursMax = value;
-            }
+            set { _EncoursMax = value; }
         }
-
-        private string _EncoursAss = "";
 
         public string EncoursAss
         {
@@ -76,25 +82,20 @@ namespace MC3Shopper.Models
                 }
                 return _EncoursAss + "€";
             }
-            set
-            {
-                _EncoursAss = value;
-            }
+            set { _EncoursAss = value; }
         }
-
-        private string _Solde = "";
 
         public string Solde
         {
             get
             {
                 // _Solde = Statisitques["TotauxDebits"].ToString();
-                if (this.Statisitques.ContainsKey("TotauxDebits"))
+                if (Statisitques.ContainsKey("TotauxDebits"))
                 {
-                    _Solde = this.Statisitques["TotauxDebits"].ToString("#,#0.00");
-                    if (this.Statisitques.ContainsKey("TotauxCredits"))
+                    _Solde = Statisitques["TotauxDebits"].ToString("#,#0.00");
+                    if (Statisitques.ContainsKey("TotauxCredits"))
                     {
-                        decimal toRet = this.Statisitques["TotauxDebits"] - this.Statisitques["TotauxCredits"];
+                        decimal toRet = Statisitques["TotauxDebits"] - Statisitques["TotauxCredits"];
                         _Solde = toRet.ToString("#,#0.00");
                     }
                 }
@@ -104,30 +105,25 @@ namespace MC3Shopper.Models
                 }
                 return _Solde + "€";
             }
-            set
-            {
-                _Solde = value;
-            }
+            set { _Solde = value; }
         }
-
-        private string _Echus1mois = "";
 
         public string Echus1mois
         {
             get
             {
-                if (this.Statisitques.ContainsKey("Debit1mois"))
+                if (Statisitques.ContainsKey("Debit1mois"))
                 {
-                    _Echus1mois = this.Statisitques["Debit1mois"].ToString("#,#0.00");
+                    _Echus1mois = Statisitques["Debit1mois"].ToString("#,#0.00");
                     //if (this.Statisitques.ContainsKey("Credit1mois"))
                     //{
                     //    decimal toReturn = this.Statisitques["Debit1mois"] + this.Statisitques["Credit1mois"];
                     //    _Echus1mois = toReturn.ToString("0.00");
                     //}
                 }
-                else if (this.Statisitques.ContainsKey("Credit1mois"))
+                else if (Statisitques.ContainsKey("Credit1mois"))
                 {
-                    _Echus1mois = this.Statisitques["Credit1mois"].ToString("#,#0.00");
+                    _Echus1mois = Statisitques["Credit1mois"].ToString("#,#0.00");
                 }
                 if (_Echus1mois == "")
                 {
@@ -135,30 +131,25 @@ namespace MC3Shopper.Models
                 }
                 return _Echus1mois + "€";
             }
-            set
-            {
-                _Echus1mois = value;
-            }
+            set { _Echus1mois = value; }
         }
-
-        private string _Echus2mois = "";
 
         public string Echus2mois
         {
             get
             {
-                if (this.Statisitques.ContainsKey("Debit2mois"))
+                if (Statisitques.ContainsKey("Debit2mois"))
                 {
-                    _Echus2mois = this.Statisitques["Debit2mois"].ToString("#,#0.00");
+                    _Echus2mois = Statisitques["Debit2mois"].ToString("#,#0.00");
                     //if (this.Statisitques.ContainsKey("Credit2mois"))
                     //{
                     //    decimal toReturn = this.Statisitques["Debit2mois"] + this.Statisitques["Credit2mois"];
                     //    _Echus2mois = toReturn.ToString("0.00");
                     //}
                 }
-                else if (this.Statisitques.ContainsKey("Credit2mois"))
+                else if (Statisitques.ContainsKey("Credit2mois"))
                 {
-                    _Echus2mois = this.Statisitques["Credit2mois"].ToString("#,#0.00");
+                    _Echus2mois = Statisitques["Credit2mois"].ToString("#,#0.00");
                 }
                 if (_Echus2mois == "")
                 {
@@ -166,44 +157,39 @@ namespace MC3Shopper.Models
                 }
                 return _Echus2mois + "€";
             }
-            set
-            {
-                _Echus2mois = value;
-            }
+            set { _Echus2mois = value; }
         }
-
-        private string _Echus3mois = "";
 
         public string Echus3mois
         {
             get
             {
-                if (this.Statisitques.ContainsKey("Debit3mois"))
+                if (Statisitques.ContainsKey("Debit3mois"))
                 {
-                    decimal toReturn = this.Statisitques["Debit3mois"];
-                    _Echus3mois = this.Statisitques["Debit3mois"].ToString("#,#0.00");
-                    if (this.Statisitques.ContainsKey("Credit3mois"))
+                    decimal toReturn = Statisitques["Debit3mois"];
+                    _Echus3mois = Statisitques["Debit3mois"].ToString("#,#0.00");
+                    if (Statisitques.ContainsKey("Credit3mois"))
                     {
                         //decimal toReturn = this.Statisitques["Debit3mois"] + this.Statisitques["Credit3mois"];
-                        toReturn -= this.Statisitques["Credit3mois"];
+                        toReturn -= Statisitques["Credit3mois"];
                         _Echus3mois = toReturn.ToString("#,#0.00");
                     }
-                    if (this.Statisitques.ContainsKey("Credit2mois"))
+                    if (Statisitques.ContainsKey("Credit2mois"))
                     {
                         //decimal toReturn = this.Statisitques["Debit3mois"] + this.Statisitques["Credit3mois"];
-                        toReturn -= this.Statisitques["Credit2mois"];
+                        toReturn -= Statisitques["Credit2mois"];
                         _Echus3mois = toReturn.ToString("#,#0.00");
                     }
-                    if (this.Statisitques.ContainsKey("Credit1mois"))
+                    if (Statisitques.ContainsKey("Credit1mois"))
                     {
                         //decimal toReturn = this.Statisitques["Debit3mois"] + this.Statisitques["Credit3mois"];
-                        toReturn -= this.Statisitques["Credit1mois"];
+                        toReturn -= Statisitques["Credit1mois"];
                         _Echus3mois = toReturn.ToString("#,#0.00");
                     }
                 }
-                else if (this.Statisitques.ContainsKey("Credit3mois"))
+                else if (Statisitques.ContainsKey("Credit3mois"))
                 {
-                    _Echus3mois = this.Statisitques["Credit3mois"].ToString("#,#0.00");
+                    _Echus3mois = Statisitques["Credit3mois"].ToString("#,#0.00");
                 }
 
                 if (_Echus3mois == "")
@@ -212,32 +198,27 @@ namespace MC3Shopper.Models
                 }
                 return _Echus3mois + "€";
             }
-            set
-            {
-                _Echus3mois = value;
-            }
+            set { _Echus3mois = value; }
         }
-
-        private string _NonEchus = "";
 
         public string NonEchus
         {
             get
             {
-                if (this.Statisitques.ContainsKey("DebitNonEchus"))
+                if (Statisitques.ContainsKey("DebitNonEchus"))
                 {
-                    decimal toReturn = this.Statisitques["DebitNonEchus"];
-                    _NonEchus = this.Statisitques["DebitNonEchus"].ToString("#,#0.00");
-                    if (this.Statisitques.ContainsKey("CreditNonEchus"))
+                    decimal toReturn = Statisitques["DebitNonEchus"];
+                    _NonEchus = Statisitques["DebitNonEchus"].ToString("#,#0.00");
+                    if (Statisitques.ContainsKey("CreditNonEchus"))
                     {
                         //decimal toReturn = this.Statisitques["Debit3mois"] + this.Statisitques["Credit3mois"];
-                        toReturn -= this.Statisitques["CreditEchus"];
+                        toReturn -= Statisitques["CreditEchus"];
                         _NonEchus = toReturn.ToString("#,#0.00");
                     }
                 }
-                else if (this.Statisitques.ContainsKey("CreditNonEchus"))
+                else if (Statisitques.ContainsKey("CreditNonEchus"))
                 {
-                    _NonEchus = this.Statisitques["CreditNonEchus"].ToString("#,#0.00");
+                    _NonEchus = Statisitques["CreditNonEchus"].ToString("#,#0.00");
                 }
                 if (_NonEchus == "")
                 {
@@ -245,26 +226,17 @@ namespace MC3Shopper.Models
                 }
                 return _NonEchus + "€";
             }
-            set
-            {
-                _NonEchus = value;
-            }
+            set { _NonEchus = value; }
         }
 
         public List<Utilisateur> Contact { get; set; }
 
-        public List<entetedocument> Factures { get; set; }//DO_TYpe=6
+        public List<entetedocument> Factures { get; set; } //DO_TYpe=6
 
         public List<Panier> FacturesAvoirs { get; set; }
 
         public Dictionary<string, float> Remises { get; set; }
 
         public Dictionary<string, decimal> Statisitques { get; set; }
-
-        public Utilisateur(string codeClient)
-        {
-            this.CodeClient = codeClient;
-            Remises = new Dictionary<string, float>();
-        }
     }
 }

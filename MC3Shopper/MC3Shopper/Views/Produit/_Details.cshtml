@@ -1,7 +1,8 @@
-﻿@model MC3Shopper.Models.Produit
+﻿@using MC3Shopper.Models
+@model MC3Shopper.Models.Produit
 @if (@Model != null && !String.IsNullOrEmpty(Model.Reference))
 {
-    <div id="st" style="width:70%;height:70%;margin:auto;background-color:white;">
+    <div id="st" style="background-color: white; height: 70%; margin: auto; width: 70%;">
         <div class="modal-header">
             <h2>Details de l'article :@Model.Reference  </h2>
 
@@ -19,7 +20,7 @@
 
         </div>
         <div>
-            @foreach (var item in @Model.ProduitAssocies)
+            @foreach (Produit item in @Model.ProduitAssocies)
             {
                 <div>
                     <p>@Model.Reference</p>
@@ -37,13 +38,13 @@
 }
 else
 {
-        <span class="has-error"> Erreur  article introuvable</span>
-        }
+    <span class="has-error"> Erreur  article introuvable</span>
+}
    
 
 <script type="text/javascript">
-    $(function () {
-        $('#approve-btn').click(function () {
+    $(function() {
+        $('#approve-btn').click(function() {
             $('#modal-container').modal('hide');
         });
     });

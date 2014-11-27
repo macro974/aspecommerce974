@@ -1,24 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using MC3Shopper.Models;
+﻿using System.Data;
 using System.Data.SqlClient;
+using System.Web.Mvc;
 using System.Web.Security;
+using MC3Shopper.Models;
+
 namespace MC3Shopper.Controllers
 {
     public class CompteController : Controller
     {
         // GET: Compte
-        
+
         public ActionResult Index()
         {
             return View();
         }
 
         [AllowAnonymous]
-        
         public ActionResult SignIn()
         {
             return View();
@@ -31,48 +28,46 @@ namespace MC3Shopper.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public ActionResult SignIn (UserViewModel user , string returnUrl)
+        public ActionResult SignIn(UserViewModel user, string returnUrl)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                Utilisateur monUser=null;;
-                Database maDB = new Database();
-                GestionSys sys = new GestionSys(maDB);
+                Utilisateur monUser = null;
+                ;
+                var maDB = new Database();
+                var sys = new GestionSys(maDB);
                 string username = user.CodeClient;
                 string password = user.Password;
-                string statement = "SELECT * FROM F_CONTACTT WHERE CT_Num = @user AND CT_Prenom = @password AND (CT_Fonction = 'ACCES WEB2' OR CT_Fonction = 'ACCES WEB RESTREINT2')";
-                SqlCommand myCommand = new SqlCommand(statement, maDB.myConnection);
-                myCommand.Parameters.Add("@user", System.Data.SqlDbType.NVarChar).Value = username;
-                myCommand.Parameters.Add("@password", System.Data.SqlDbType.NVarChar).Value = password;
+                const string statement = "SELECT * FROM F_CONTACTT WHERE CT_Num = @user AND CT_Prenom = @password AND (CT_Fonction = 'ACCES WEB2' OR CT_Fonction = 'ACCES WEB RESTREINT2')";
+                var myCommand = new SqlCommand(statement, maDB.myConnection);
+                myCommand.Parameters.Add("@user", SqlDbType.NVarChar).Value = username;
+                myCommand.Parameters.Add("@password", SqlDbType.NVarChar).Value = password;
                 maDB.open();
                 SqlDataReader myReader = null;
                 myReader = myCommand.ExecuteReader();
-                if(myReader.HasRows)
+                if (myReader.HasRows)
                 {
-                    FormsAuthentication.SetAuthCookie(username,user.RememberMe);
-                    while(myReader.Read())
+                    FormsAuthentication.SetAuthCookie(username, user.RememberMe);
+                    while (myReader.Read())
                     {
-                        monUser= new Utilisateur(username);
-                        monUser.Email= myReader["CT_Email"].ToString();
-                        monUser.Password=password;
-                        monUser.NomPre=myReader["CT_Nom"].ToString();
+                        monUser = new Utilisateur(username);
+                        monUser.Email = myReader["CT_Email"].ToString();
+                        monUser.Password = password;
+                        monUser.NomPre = myReader["CT_Nom"].ToString();
                     }
                     myReader.Close();
                     sys.RecupererListeFamilleRemise(monUser);
-                    Session.Add("user",Security.Serialize(monUser));
+                    Session.Add("user", Security.Serialize(monUser));
                     //Session["user"] = monUser;
                     return RedirectToAction("Index", "Home");
-                      
                 }
-                else {
-                    ModelState.AddModelError("", "Le nom d'utilisateur et/ou le mot de passe ne correspond pas");
-                }
+                ModelState.AddModelError("", "Le nom d'utilisateur et/ou le mot de passe ne correspond pas");
 
                 maDB.close();
             }
             return View(user);
-
         }
+
         // POST: /Account/LogOff
         [HttpPost]
         public ActionResult LogOff()

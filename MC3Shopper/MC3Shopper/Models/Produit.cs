@@ -4,9 +4,64 @@ using System.IO;
 
 namespace MC3Shopper.Models
 {
-    [Serializable()]
+    [Serializable]
     public class Produit
     {
+        public decimal PrixOriginal;
+        private float _Taxe2;
+        private float _Taxe3;
+        private string _designation;
+        private string _designationOriginal;
+        private decimal _prix;
+        private float _remise;
+        private Dictionary<string, float> _taxes;
+        private decimal prixTotal;
+        private float tva;
+
+        public Produit()
+        {
+        }
+
+        public Produit(string Img, string Ref, string Design, decimal Price)
+        {
+            //this.ImgPath = Img;
+            Reference = Ref;
+            Designation = Design;
+            Prix = Price;
+            QteDemande = 0;
+
+            if (File.Exists("~/img/articles/" + Img))
+            {
+                ImgPath = "~/img/articles/" + Img;
+            }
+            else
+            {
+                ImgPath = "~/Content/img/no-image.png";
+            }
+            ProduitAssocies = new List<Produit>();
+            Taxes = new Dictionary<string, float>();
+        }
+
+        public Produit(bool livraisonFree)
+        {
+            Reference = "FRAIS_DE_TRANSPORT";
+            Designation = "FRAIS DE TRANSPORT SUR VENTE";
+            if (livraisonFree)
+            {
+                Prix = 0;
+            }
+            else
+            {
+                Prix = 35;
+            }
+            QteDemande = 1;
+            PrixTotal = Prix*int.Parse(QteDemande.ToString());
+            ProduitAssocies = new List<Produit>();
+            Taxes = new Dictionary<string, float>();
+            Taxes["tva"] = 8.5f;
+            isOK = true;
+        }
+
         public lignedocument LigneAssociee { get; set; }
 
         public string ImgPath { get; set; }
@@ -17,15 +72,9 @@ namespace MC3Shopper.Models
 
         public string Informations { get; set; }
 
-        private string _designationOriginal;
-        private string _designation;
-
         public string Designation
         {
-            get
-            {
-                return _designation;
-            }
+            get { return _designation; }
             set
             {
                 _designation = value;
@@ -37,11 +86,11 @@ namespace MC3Shopper.Models
         {
             get
             {
-                foreach (KeyValuePair<string, float> item in this.Taxes)
+                foreach (var item in Taxes)
                 {
                     if (item.Key.ToLower().Contains("eco") || item.Key.ToLower().Contains("ecoparticipation"))
                     {
-                        _designation = _designationOriginal + "\r Eco taxe : " + item.Value.ToString();
+                        _designation = _designationOriginal + "\r Eco taxe : " + item.Value;
                     }
                 }
                 return _designation;
@@ -50,37 +99,27 @@ namespace MC3Shopper.Models
 
         public string PrixFormate { get; set; }
 
-        private float _remise = 0;
-
         public float Remise
         {
-            get
-            {
-                return _remise;
-            }
-            set
-            {
-                _remise = value;
-            }
+            get { return _remise; }
+            set { _remise = value; }
         }
 
         public string CodeFamille { get; set; }
 
         public float StockRes { get; set; }
 
-        private float tva = 0;
-
         public float TVA
         {
             get
             {
                 //return GestionSys.GetTVAOfProduit(Reference);
-                foreach (KeyValuePair<string, float> item in this.Taxes)
+                foreach (var item in Taxes)
                 {
                     if (item.Key.ToLower().Contains("tva"))
                     {
                         tva = item.Value;
-                        PUTTC = Prix * decimal.Parse(tva.ToString());
+                        PUTTC = Prix*decimal.Parse(tva.ToString());
                     }
                 }
                 return tva;
@@ -88,47 +127,28 @@ namespace MC3Shopper.Models
             set
             {
                 tva = value;
-                PUTTC = Prix * decimal.Parse(value.ToString());
+                PUTTC = Prix*decimal.Parse(value.ToString());
             }
         }
-
-        private float _Taxe2 = 0;
 
         public float Taxe2
         {
-            get
-            {
-                return _Taxe2;
-            }
-            set
-            {
-                _Taxe2 = value;
-            }
+            get { return _Taxe2; }
+            set { _Taxe2 = value; }
         }
-
-        private float _Taxe3 = 0;
 
         public float Taxe3
         {
-            get
-            {
-                return _Taxe3;
-            }
-            set
-            {
-                _Taxe3 = value;
-            }
+            get { return _Taxe3; }
+            set { _Taxe3 = value; }
         }
-
-        public decimal PrixOriginal;
-        private decimal _prix;
 
         public decimal Prix
         {
             get
             {
                 decimal lol = decimal.Round(_prix, 2);
-                decimal ok = lol - ((lol / 100) * decimal.Parse(_remise.ToString()));
+                decimal ok = lol - ((lol/100)*decimal.Parse(_remise.ToString()));
                 decimal okk = decimal.Round(ok, 6);
                 return okk;
                 //return _prix - ((_prix / 100) * decimal.Parse(_remise.ToString()));
@@ -144,25 +164,15 @@ namespace MC3Shopper.Models
 
         public List<Produit> ProduitAssocies { get; set; }
 
-        private Dictionary<string, float> _taxes;
-
         public Dictionary<string, float> Taxes
         {
-            get
-            {
-                return _taxes;
-            }
-            set
-            {
-                _taxes = value;
-            }
+            get { return _taxes; }
+            set { _taxes = value; }
         }
 
         public decimal PUTTC { get; set; }
 
         public decimal CMUP { get; set; }
-
-        private decimal prixTotal;
 
         public decimal PrixTotal
         {
@@ -184,22 +194,17 @@ namespace MC3Shopper.Models
             get
             {
                 decimal lol = decimal.Round(_prix, 2);
-                decimal ok = lol - ((lol / 100) * decimal.Parse(_remise.ToString()));
+                decimal ok = lol - ((lol/100)*decimal.Parse(_remise.ToString()));
                 decimal okk = decimal.Round(ok, 6);
-                decimal test = PrixTotal * decimal.Parse(TVA.ToString()) / 100 + PrixTotal;
+                decimal test = PrixTotal*decimal.Parse(TVA.ToString())/100 + PrixTotal;
                 return decimal.Round(test, 2);
             }
         }
 
         public float StockDisponible
         {
-            get
-            {
-                return this.StockDispo_denis + StockDispo_pierre;
-            }
-            set
-            {
-            }
+            get { return StockDispo_denis + StockDispo_pierre; }
+            set { }
         }
 
         public float StockDispo_pierre { get; set; }
@@ -213,48 +218,5 @@ namespace MC3Shopper.Models
         public DateTime? QteLivraison { get; set; }
 
         public float QteDemande { get; set; }
-
-        public Produit()
-        { }
-
-        public Produit(string Img, string Ref, string Design, decimal Price)
-        {
-            //this.ImgPath = Img;
-            this.Reference = Ref;
-            this.Designation = Design;
-            this.Prix = Price;
-            this.QteDemande = 0;
-
-            if (File.Exists("~/img/articles/" + Img))
-            {
-                this.ImgPath = "~/img/articles/" + Img;
-            }
-            else
-            {
-                this.ImgPath = "~/Content/img/no-image.png";
-            }
-            ProduitAssocies = new List<Produit>();
-            Taxes = new Dictionary<string, float>();
-        }
-
-        public Produit(bool livraisonFree)
-        {
-            this.Reference = "FRAIS_DE_TRANSPORT";
-            this.Designation = "FRAIS DE TRANSPORT SUR VENTE";
-            if (livraisonFree)
-            {
-                this.Prix = 0;
-            }
-            else
-            {
-                this.Prix = 35;
-            }
-            this.QteDemande = 1;
-            this.PrixTotal = this.Prix * int.Parse(this.QteDemande.ToString());
-            ProduitAssocies = new List<Produit>();
-            Taxes = new Dictionary<string, float>();
-            Taxes["tva"] = 8.5f;
-            this.isOK = true;
-        }
     }
 }
