@@ -182,6 +182,30 @@
 
                 });
             });
+           // changer de mot de passe
+            $("#singlebutton").click(function() {
+                $.ajax({
+                    url:"@Url.Action("NewPassword","Compte")",
+                    type: "POST",
+                data: {
+                    Password: $("#passwordinput").val(),
+                    NewPassword: $("#passwordRepeat").val()
+                },
+                success: function (data) {
+                    $("#result").removeClass("alert alert-success alert-danger")
+                    if (data == 'true') {
+                        
+                        $("#result").addClass("alert alert-success");
+                        $("result").append('<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">fermer</span></button>');
+                        $("#result").text("Changement de mot de passe effectué");
+                    } else {
+                        $("#result").addClass("alert alert-danger");
+                        $("result").append('<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">fermer</span></button>');
+                        $("#result").text("Erreur lors du changement de mot de passe");
+                    }
+                }
+            })
+            })
         </script>
     </body>
 </html>

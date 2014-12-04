@@ -45,17 +45,17 @@ namespace MC3Shopper.Controllers
 
         [Authorize()]
         [HttpPost]
-        public String MonCompte(String Password,String NewPassword)
+        public String NewPassword(String Password,String NewPassword)
         {
-            String result = "Erreur";
+            String result = "false";
             if(Password.Equals(NewPassword))
             {
                 var monUser = Security.DeSerialize<Utilisateur>(Session["user"].ToString());
                 Database maDB = Session["maDB"] as Database;
                 string statement = "UPDATE F_CONTACTT SET CT_PRENOM = @newpass WHERE (CT_FONCTION='ACCES WEB' OR  CT_FONCTION='ACCES WEB2' OR CT_FONCTION='ACCES WEB RESTREINT') AND CT_NUM=@codeClient";
                 SqlCommand myCommand = new SqlCommand(statement, maDB.myConnection);
-                myCommand.Parameters.AddWithValue("newpass",Password );
-                myCommand.Parameters.AddWithValue("codeClient", monUser.CodeClient);
+                myCommand.Parameters.AddWithValue("@newpass",Password );
+                myCommand.Parameters.AddWithValue("@codeClient", monUser.CodeClient);
                 try
                 {
                     maDB.open();
@@ -64,7 +64,7 @@ namespace MC3Shopper.Controllers
                     myCommand.ExecuteScalar();
 
                     maDB.close();
-                    result = "Modification du mot de passe effectués";
+                    result = "true";
                    
                 }
                 catch (Exception e)
