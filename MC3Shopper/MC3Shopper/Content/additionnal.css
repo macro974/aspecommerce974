@@ -161,6 +161,10 @@ li { list-style-type: none; }
     background-color: #ff7d00;
     border-color: #ff8128;
 }
+.btn-primary:enabled{
+    background-color: #ff7d00;
+    border-color: #ff8128;
+}
 
 .btn-primary:hover {
     -moz-transition: background-color 300ms ease-out;
@@ -197,11 +201,31 @@ li { list-style-type: none; }
 .marginer { margin-bottom: 10px; }
 
 .texte-compte {
-    background-color: lightgray;
+    background-color: transparent;
     border-radius: 5px;
     min-height: 29px;
     padding: 5px;
     padding-left: 10px;
+    border: 1px #f1f1f1 solid;
 }
-
+.texte-compte:empty{
+    background-color: #f1f1f1;
+}
 #textarea { resize: vertical; }
+
+#st{
+    background-color: white; 
+    margin: auto; 
+}
+#ref-modal{
+    font-size:1.5em;
+}
+#desi-modal{
+    font-size:1.5em;
+}
+#img-modal{
+    max-height:130px;
+    max-width:130px;
+    min-height:90px;
+    min-width:90px;
+}

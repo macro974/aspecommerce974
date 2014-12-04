@@ -2,22 +2,31 @@
 @model MC3Shopper.Models.Produit
 @if (@Model != null && !String.IsNullOrEmpty(Model.Reference))
 {
-    <div id="st" style="background-color: white; height: 70%; margin: auto; width: 70%;">
+    <div id="st" class="container" style="margin-top:10%;">
         <div class="modal-header">
-            <h2>Details de l'article :@Model.Reference  </h2>
+            <h2><small>Details de l'article :</small> @Model.Reference  </h2>
 
             <!-- -->
-            <img src="@Model.Reference" alt="@Model.Designation" />
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            
         </div>
         <div class="modal-body">
-            <!-- appliquer css et html pour les informations-->
-            <p>@Model.Reference</p>
-            <p><strong>@Model.Designation</strong></p>
-            <p>Quantité total :<em><span class="badge">@Model.StockDisponible</span></em></p>
-            <p>Stock Saint-Denis :<em><span class="badge">@Model.StockDispo_denis</span></em></p>
-            <p>Stock Saint-Denis :<em><span class="badge">@Model.StockDispo_pierre</span></em></p>
+            <div class="row">
+                <div class="col-lg-2">
+                    <img id="img-modal" src="@Model.Reference" alt="@Model.Designation" />
+                </div>
 
+                <!-- appliquer css et html pour les informations-->
+                <div class="col-lg-10">
+                    <p id="ref-modal">@Model.Reference</p>
+                    <p id="desi-modal"><strong>@Model.Designation</strong></p>
+                    <p>
+                        Quantité totale <em><span class="badge">@Model.StockDisponible</span></em>
+                        | Stock Saint-Denis <em><span class="badge">@Model.StockDispo_denis</span></em>
+                        | Stock Saint-Denis <em><span class="badge">@Model.StockDispo_pierre</span></em>
+                    </p>
+                </div>
+            </div>          
+            
         </div>
         <div>
             @foreach (Produit item in @Model.ProduitAssocies)
@@ -25,20 +34,20 @@
                 <div>
                     <p>@Model.Reference</p>
                     <p><strong>@Model.Designation</strong></p>
-                    <p>Quantité total :<em><span class="badge">@Model.StockDisponible</span></em></p>
-                    <p>Stock Saint-Denis :<em><span class="badge">@Model.StockDispo_denis</span></em></p>
-                    <p>Stock Saint-Denis :<em><span class="badge">@Model.StockDispo_pierre</span></em></p>
+                    <p>Quantité totale <em><span class="badge">@Model.StockDisponible</span></em></p>
+                    <p>Stock Saint-Denis <em><span class="badge">@Model.StockDispo_denis</span></em></p>
+                    <p>Stock Saint-Denis <em><span class="badge">@Model.StockDispo_pierre</span></em></p>
                 </div>
             }
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Fermer</button>
         </div>
     </div>
 }
 else
 {
-    <span class="has-error"> Erreur  article introuvable</span>
+    <span class="has-error"> Erreur : article introuvable</span>
 }
    
 
