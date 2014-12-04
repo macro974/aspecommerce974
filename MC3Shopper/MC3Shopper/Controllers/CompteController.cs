@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -20,9 +21,23 @@ namespace MC3Shopper.Controllers
         {
             return View();
         }
-
+        [Authorize()]
         public ActionResult MonCompte()
         {
+            var monUser = Security.DeSerialize<Utilisateur>(Session["user"].ToString()); ;
+            Database maDB = Session["maDB"] as Database;
+            GestionSys maSys = new GestionSys(maDB, monUser);
+            if (monUser != null && monUser.Factures == null)
+            {
+                
+                monUser = maSys.GetMyAccountInfos(monUser);
+                monUser.Statisitques = maSys.GetStatAtToday(monUser);
+            }
+            List<lignedocument> dernier_commande=maSys.RecupererLignedocumentsByTypeAndNum(1,monUser.CodeClient);
+            List<lignedocument> factures=maSys.RecupererLignedocumentsByTypeAndNum(7,monUser.CodeClient);
+            ViewBag.monUser = monUser;
+            ViewBag.historique = dernier_commande;
+            ViewBag.factures = factures;
             return View();
         }
 
@@ -38,7 +53,7 @@ namespace MC3Shopper.Controllers
                 var sys = new GestionSys(maDB);
                 string username = user.CodeClient;
                 string password = user.Password;
-                const string statement = "SELECT * FROM F_CONTACTT WHERE CT_Num = @user AND CT_Prenom = @password AND (CT_Fonction = 'ACCES WEB2' OR CT_Fonction = 'ACCES WEB RESTREINT2')";
+                const string statement = "SELECT * FROM F_CONTACTT WHERE CT_Num = @user AND CT_Prenom = @password AND (CT_Fonction = 'ACCES WEB2' OR CT_Fonction = 'ACCES WEB RESTREINT2' OR CT_Fonction='ACCES WEB')";
                 var myCommand = new SqlCommand(statement, maDB.myConnection);
                 myCommand.Parameters.Add("@user", SqlDbType.NVarChar).Value = username;
                 myCommand.Parameters.Add("@password", SqlDbType.NVarChar).Value = password;

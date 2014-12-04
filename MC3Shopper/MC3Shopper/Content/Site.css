@@ -103,3 +103,8 @@ li { list-style-type: none; }
 }
 
 .navbar { min-height: 32px !important }
+
+.scroll {
+    overflow: scroll;
+    height: 500px;
+}

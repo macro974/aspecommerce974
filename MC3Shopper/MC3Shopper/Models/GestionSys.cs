@@ -97,7 +97,7 @@ namespace MC3Shopper.Models
             return i;
         }
 
-        public void listArticleStock(List<Produit> P)
+        public void ListArticleStock(List<Produit> P)
         {
             var p_copie = new List<Produit>();
             string statement2 =
@@ -311,7 +311,7 @@ namespace MC3Shopper.Models
             Debug.WriteLine(" temps fonction recup produit est de :{0}", sw.Elapsed);
 
             sw.Restart();
-            listArticleStock(maListe);
+            ListArticleStock(maListe);
 
             sw.Stop();
             Debug.WriteLine(" temps fonction recup stock est de :{0}", sw.Elapsed);
@@ -588,6 +588,67 @@ namespace MC3Shopper.Models
             return maliste;
         }
 
+        public List<lignedocument> RecupererLignedocumentsByTypeAndNum(int DO_Type, string CT_NUM)
+        {
+            List<lignedocument> maList = new List<lignedocument>();
+            maDB.open();
+            var myCommand =
+                new SqlCommand("select * from F_DOCENTETE WHERE (DO_Type = '" + DO_Type + "' AND DO_Domaine=0 AND DO_Tiers='"+CT_NUM+"') ORDER BY DO_Date DESC",
+                    maDB.myConnection);
+            var liste = new List<entetedocument>();
+            SqlDataReader myReader = null;
+            myReader = myCommand.ExecuteReader();
+            if (myReader.HasRows)
+            {
+                while (myReader.Read())
+                {
+                    var fiche = new entetedocument();
+                    fiche = remplirEntete(myReader);
+                    liste.Add(fiche);
+                }
+            }
+            myReader.Close();
+                maDB.myConnection.Close();
+                if (liste.Count > 0)
+                {
+                    string statement = "select * from F_DOCLIGNE WHERE DO_Piece IN (";
+                    for (int i = 0; i < liste.Count; i++)
+                    {
+                        if (i + 1 == liste.Count)
+                        {
+                            statement += "'" + liste[i].DO_Piece + "') ORDER BY DO_DATE DESC";
+                        }
+                        else
+                        {
+                            statement += "'" + liste[i].DO_Piece + "',";
+                        }
+                    }
+                    maDB.open();
+                    myCommand = new SqlCommand(statement, maDB.myConnection);
+
+                    myReader = myCommand.ExecuteReader();
+                    if (myReader.HasRows)
+                    {
+                        while (myReader.Read())
+                        {
+                            var doc = new lignedocument();
+                            doc = remplirLigne(myReader);
+                            maList.Add(doc);
+                        }
+                       myReader.Close();
+                    }
+                    else
+                    {
+                        maList = null;
+                    }
+                    maDB.close();
+                }
+            
+            
+           
+            return maList;
+
+        }
         public lignedocument remplirLigne(SqlDataReader myReader)
         {
             var fiche = new lignedocument();
@@ -866,7 +927,7 @@ namespace MC3Shopper.Models
             maDB.close();
 
 
-            listArticleStock(maListe);
+            ListArticleStock(maListe);
 
             GEtqteCommandeProduit(maListe);
             sw.Stop();
@@ -886,7 +947,7 @@ namespace MC3Shopper.Models
             blah.ExecuteNonQuery();
             var maListe = new List<Produit>();
             const string statement =
-                "select DISTINCT ROW_NUMBER() OVER(ORDER BY F_Article.AR_Ref) AS NUMBER ,F_Article.AR_Ref,AR_Design,AR_PrixVen,AS_QteSto-AS_QteRes AS QTE,AS_MontSto from F_Article INNER JOIN F_ARTSTOCK ON F_ARTICLE.AR_Ref = F_ARTSTOCK.AR_Ref WHERE F_ARTSTOCK.DE_No = 1 AND AR_Sommeil = 0 AND AR_Publie = 1 AND AR_Stat02=@state AND AR_Stat01 LIKE @famille";
+                "select DISTINCT F_Article.AR_Ref,AR_Design,AR_PrixVen,AS_QteSto-AS_QteRes AS QTE,AS_MontSto from F_Article INNER JOIN F_ARTSTOCK ON F_ARTICLE.AR_Ref = F_ARTSTOCK.AR_Ref WHERE F_ARTSTOCK.DE_No = 1 AND AR_Sommeil = 0 AND AR_Publie = 1 AND AR_Stat02=@state AND AR_Stat01 LIKE @famille";
             var myCommand = new SqlCommand(statement, maDB.myConnection);
             myCommand.Parameters.Add("@state", SqlDbType.NVarChar, 50);
             myCommand.Parameters["@state"].Value = codestat;
@@ -912,7 +973,7 @@ namespace MC3Shopper.Models
             Debug.WriteLine(" temps fonction recup produit est de :{0}", sw.Elapsed);
 
             sw.Restart();
-            listArticleStock(maListe);
+            ListArticleStock(maListe);
 
             sw.Stop();
             Debug.WriteLine(" temps fonction recup stock est de :{0}", sw.Elapsed);
@@ -923,5 +984,240 @@ namespace MC3Shopper.Models
 
             return maListe;
         }
+
+        public Dictionary<string, decimal> GetStatAtToday(Utilisateur monUser)
+        {
+
+            TimeSpan time60 = new TimeSpan(60, 0, 0, 0, 0);
+            TimeSpan time30 = new TimeSpan(31, 0, 0, 0, 0);
+            TimeSpan time90 = new TimeSpan(90, 0, 0, 0, 0);
+
+            DateTime today = DateTime.Now;
+            TimeSpan Ttoday = new TimeSpan(today.Day, today.Hour, today.Second);
+            DateTime echus1mois = today.Subtract(time30);
+            DateTime echus2mois = echus1mois.Subtract(time30);
+            DateTime echus3mois = echus2mois.Subtract(time30);
+
+
+            int echus1Month = today.Month - 1;
+            int echus2Month = today.Month - 2;
+            int echus3Month = today.Month - 4;
+
+            int echus1Year = today.Year;
+            int echus2Year = today.Year;
+            int echus3Year = today.Year;
+
+            if (echus1Month <= 0)
+            {
+                echus1Year = today.Year - 1;
+                echus1Month = echus1Month + 12;
+            }
+            if (echus2Month <= 0)
+            {
+                echus2Year = today.Year - 1;
+                echus2Month = echus2Month + 12;
+            }
+            if (echus3Month <= 0)
+            {
+                echus3Year = today.Year - 1;
+                echus3Month = echus3Month + 12;
+            }
+
+
+            echus1mois = new DateTime(echus1Year, echus1Month, today.Day);
+            echus2mois = new DateTime(echus2Year, echus2Month, today.Day);
+            echus3mois = new DateTime(echus3Year, echus3Month, echus3mois.Day);
+
+
+            Dictionary<string, decimal> monDic = new Dictionary<string, decimal>();
+            string statement = "SELECT SUM(EC_Montant) AS Expr1 FROM F_ECRITUREC WHERE (CT_Num = '" + monUser.CodeClient + "')  AND (EC_Lettrage = '') AND (EC_Sens = 0) AND (EC_Echeance < CONVERT(DATETIME, '" + today.Year + "-12-12 00:00:00', 102))  AND (EC_Date > CONVERT(DATETIME, '" + today.Year + "-01-01 00:00:00', 102))";
+
+            SqlCommand myCommand = new SqlCommand(statement, maDB.myConnection);
+            maDB.open();
+            SqlDataReader myReader = null;
+            myReader = myCommand.ExecuteReader();
+
+            while (myReader.Read())
+            {
+                string test = myReader["Expr1"].ToString();
+                if (test != "")
+                {
+                    monDic["TotauxDebits"] = decimal.Parse(test);
+                }
+            }
+            maDB.close();
+            //AND (EC_Date > CONVERT(DATETIME, '" + today.Year + "-01-01 00:00:00', 102))
+            statement = "SELECT SUM(EC_Montant) AS Expr1 FROM F_ECRITUREC WHERE (CT_Num = '" + monUser.CodeClient + "')  AND (EC_Lettrage = '') AND (EC_Sens = 1) AND (EC_Echeance < CONVERT(DATETIME, '" + today.Year + "-12-12 00:00:00', 102)) AND (EC_Date > CONVERT(DATETIME, '" + today.Year + "-01-01 00:00:00', 102))";
+
+            myCommand = new SqlCommand(statement, maDB.myConnection);
+            maDB.open();
+            myReader = null;
+            myReader = myCommand.ExecuteReader();
+
+            while (myReader.Read())
+            {
+                string test = myReader["Expr1"].ToString();
+                if (test != "")
+                {
+                    monDic["TotauxCredits"] = decimal.Parse(test);
+                }
+            }
+            myReader.Close();
+            maDB.close();
+
+            statement = "SELECT SUM(EC_Montant) AS Expr1 FROM F_ECRITUREC WHERE (CT_Num = '" + monUser.CodeClient + "') AND (EC_Echeance > CONVERT(DATETIME, '" + echus1mois.Year + "-" + echus1mois.Month + "-" + echus1mois.Day + " 00:00:00', 102)) AND (EC_Lettrage = '') AND (EC_Sens = 0) AND (EC_Echeance < CONVERT(DATETIME, '" + today.Year + "-" + today.Month + "-" + today.Day + " 00:00:00', 102)) AND (EC_Date > CONVERT(DATETIME, '" + today.Year + "-01-01 00:00:00', 102))";
+
+            myCommand = new SqlCommand(statement, maDB.myConnection);
+            maDB.open();
+            myReader = null;
+            myReader = myCommand.ExecuteReader();
+
+            while (myReader.Read())
+            {
+                string test = myReader["Expr1"].ToString();
+                if (test != "")
+                {
+                    monDic["Debit1mois"] = decimal.Parse(test);
+                }
+            }
+            myReader.Close();
+            maDB.close();
+
+            statement = "SELECT SUM(EC_Montant) AS Expr1 FROM F_ECRITUREC WHERE (CT_Num = '" + monUser.CodeClient + "') AND (EC_Echeance > CONVERT(DATETIME, '" + echus2mois.Year + "-" + echus2mois.Month + "-" + echus2mois.Day + " 00:00:00', 102)) AND (EC_Lettrage = '') AND (EC_Sens = 0) AND (EC_Echeance < CONVERT(DATETIME, '" + echus1mois.Year + "-" + echus1mois.Month + "-" + echus1mois.Day + " 00:00:00', 102)) AND (EC_Date > CONVERT(DATETIME, '" + today.Year + "-01-01 00:00:00', 102))";
+
+            myCommand = new SqlCommand(statement, maDB.myConnection);
+            maDB.open();
+            myReader = null;
+            myReader = myCommand.ExecuteReader();
+
+            while (myReader.Read())
+            {
+                string test = myReader["Expr1"].ToString();
+                if (test != "")
+                {
+                    monDic["Debit2mois"] = decimal.Parse(test);
+                }
+            }
+            myReader.Close();
+            maDB.close();
+
+            statement = "SELECT SUM(EC_Montant) AS Expr1 FROM F_ECRITUREC WHERE (CT_Num = '" + monUser.CodeClient + "') AND (EC_Echeance > CONVERT(DATETIME, '" + echus3mois.Year + "-" + echus3mois.Month + "-" + echus3mois.Day + " 00:00:00', 102)) AND (EC_Lettrage = '') AND (EC_Sens = 0) AND (EC_Echeance < CONVERT(DATETIME, '" + echus2mois.Year + "-" + echus2mois.Month + "-" + echus2mois.Day + " 00:00:00', 102)) AND (EC_Date > CONVERT(DATETIME, '" + today.Year + "-01-01 00:00:00', 102))";
+
+            myCommand = new SqlCommand(statement, maDB.myConnection);
+            maDB.open();
+            myReader = null;
+            myReader = myCommand.ExecuteReader();
+
+            while (myReader.Read())
+            {
+                string test = myReader["Expr1"].ToString();
+                if (test != "")
+                {
+                    monDic["Debit3mois"] = decimal.Parse(test);
+                }
+            }
+            myReader.Close();
+            maDB.close();
+
+
+            statement = "SELECT SUM(EC_Montant) AS Expr1 FROM F_ECRITUREC WHERE (CT_Num = '" + monUser.CodeClient + "') AND (EC_Echeance > CONVERT(DATETIME, '" + echus1mois.Year + "-" + echus1mois.Month + "-" + echus1mois.Day + " 00:00:00', 102)) AND (EC_Lettrage = '') AND (EC_Sens = 1) AND (EC_Echeance < CONVERT(DATETIME, '" + today.Year + "-" + today.Month + "-" + today.Day + " 00:00:00', 102)) AND (EC_Date > CONVERT(DATETIME, '" + today.Year + "-01-01 00:00:00', 102))";
+
+            myCommand = new SqlCommand(statement, maDB.myConnection);
+            maDB.open();
+            myReader = null;
+            myReader = myCommand.ExecuteReader();
+
+            while (myReader.Read())
+            {
+                string test = myReader["Expr1"].ToString();
+                if (test != "")
+                {
+                    monDic["Credit1mois"] = decimal.Parse(test);
+                }
+            }
+            myReader.Close();
+            maDB.close();
+
+            statement = "SELECT SUM(EC_Montant) AS Expr1 FROM F_ECRITUREC WHERE (CT_Num = '" + monUser.CodeClient + "') AND (EC_Echeance > CONVERT(DATETIME, '" + echus2mois.Year + "-" + echus2mois.Month + "-" + echus2mois.Day + " 00:00:00', 102)) AND (EC_Lettrage = '') AND (EC_Sens = 1) AND (EC_Echeance < CONVERT(DATETIME, '" + echus1mois.Year + "-" + echus1mois.Month + "-" + echus1mois.Day + " 00:00:00', 102)) AND (EC_Date > CONVERT(DATETIME, '" + today.Year + "-01-01 00:00:00', 102))";
+
+            myCommand = new SqlCommand(statement, maDB.myConnection);
+            maDB.open();
+            myReader = null;
+            myReader = myCommand.ExecuteReader();
+
+            while (myReader.Read())
+            {
+                string test = myReader["Expr1"].ToString();
+                if (test != "")
+                {
+                    monDic["Credit2mois"] = decimal.Parse(test);
+                }
+            }
+            myReader.Close();
+            maDB.close();
+
+            statement = "SELECT SUM(EC_Montant) AS Expr1 FROM F_ECRITUREC WHERE (CT_Num = '" + monUser.CodeClient + "') AND (EC_Echeance > CONVERT(DATETIME, '" + echus3mois.Year + "-" + echus3mois.Month + "-" + echus3mois.Day + " 00:00:00', 102)) AND (EC_Lettrage = '') AND (EC_Sens = 1) AND (EC_Echeance < CONVERT(DATETIME, '" + echus2mois.Year + "-" + echus2mois.Month + "-" + echus2mois.Day + " 00:00:00', 102)) AND (EC_Date > CONVERT(DATETIME, '" + today.Year + "-01-01 00:00:00', 102))";
+
+            myCommand = new SqlCommand(statement, maDB.myConnection);
+            maDB.open();
+            myReader = null;
+            myReader = myCommand.ExecuteReader();
+
+            while (myReader.Read())
+            {
+                string test = myReader["Expr1"].ToString();
+                if (test != "")
+                {
+
+                    monDic["Credit3mois"] = decimal.Parse(test);
+                }
+            }
+            myReader.Close();
+            maDB.close();
+
+
+            statement = "SELECT SUM(EC_Montant) AS Expr1 FROM F_ECRITUREC WHERE (CT_Num = '" + monUser.CodeClient + "') AND (EC_Echeance > CONVERT(DATETIME, '" + today.Year + "-" + today.Month + "-" + today.Day + " 00:00:00', 102)) AND (EC_Lettrage = '') AND (EC_Sens = 0) AND (EC_Date > CONVERT(DATETIME, '" + today.Year + "-01-01 00:00:00', 102))";
+
+            myCommand = new SqlCommand(statement, maDB.myConnection);
+            maDB.open();
+            myReader = null;
+            myReader = myCommand.ExecuteReader();
+
+            while (myReader.Read())
+            {
+                string test = myReader["Expr1"].ToString();
+                if (test != "")
+                {
+
+                    monDic["DebitNonEchus"] = decimal.Parse(test);
+                }
+            }
+            myReader.Close();
+            maDB.close();
+
+            statement = "SELECT SUM(EC_Montant) AS Expr1 FROM F_ECRITUREC WHERE (CT_Num = '" + monUser.CodeClient + "') AND (EC_Echeance > CONVERT(DATETIME, '" + today.Year + "-" + today.Month + "-" + today.Day + " 00:00:00', 102)) AND (EC_Lettrage = '') AND (EC_Sens = 1) AND (EC_Date > CONVERT(DATETIME, '" + today.Year + "-01-01 00:00:00', 102))";
+
+            myCommand = new SqlCommand(statement, maDB.myConnection);
+            maDB.open();
+            myReader = null;
+            myReader = myCommand.ExecuteReader();
+
+            while (myReader.Read())
+            {
+                string test = myReader["Expr1"].ToString();
+                if (test != "")
+                {
+
+                    monDic["CreditNonEchus"] = decimal.Parse(test);
+                }
+            }
+            myReader.Close();
+            maDB.close();
+
+
+            return monDic;
+        }
+
+
     }
 }
