@@ -185,6 +185,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AjaxPassword.cs" />
     <Compile Include="Models\BackgroundWorker.cs" />
     <Compile Include="Models\Database.cs" />
     <Compile Include="Models\entetedocument.cs" />

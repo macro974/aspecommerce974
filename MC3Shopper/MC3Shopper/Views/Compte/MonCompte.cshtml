@@ -22,6 +22,7 @@
         <!---------MON COMPTE--------->
         <br />
         <div class="tab-pane active" id="monCompte">
+            
             <form class="form-horizontal">
                 <fieldset>
 
@@ -108,12 +109,13 @@
                     <!-- Password input-->
                     <div class="col-md-6">
                         <!-- Form Name -->
+                        
                         <legend>Changer le mot de passe</legend>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="passwordinput">Nouveau mot de passe</label>
                             <div class="col-md-6">
-                                <input id="passwordinput" name="passwordinput" type="password" placeholder="Mot de passe" class="form-control input-md" required="">
+                                <input id="passwordinput" name="password" type="password" placeholder="Mot de passe" class="form-control input-md" required="">
                             </div>
                         </div>
 
@@ -121,7 +123,7 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="passwordinput">Confirmer mot de passe</label>
                             <div class="col-md-6">
-                                <input id="passwordinput" name="passwordinput" type="password" placeholder="Mot de passe" class="form-control input-md" required="">
+                                <input id="passwordRepeat" name="passwordRepeat" type="password" placeholder="Mot de passe" class="form-control input-md" required="">
                             </div>
                         </div>
 
@@ -129,9 +131,11 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="singlebutton"></label>
                             <div class="col-md-4">
-                                <button id="singlebutton" name="singlebutton" class="btn btn-primary">Valider</button>
+                                <button id="singlebutton" name="singlebutton" class="btn btn-primary" type="button">Valider</button>
                             </div>
+
                         </div>
+                        <div id="result"></div>
                     </div>
                 </fieldset>
             </form>
@@ -140,63 +144,64 @@
         <!---------ENCOURS--------->
         <div class="tab-pane" id="encours">
             <form class="form-horizontal">
-            <fieldset>
+                <fieldset>
 
-                <!--Infos Client-->
-                <!-- Form Name -->
-                <legend>Informations</legend>
+                    <!--Infos Client-->
+                    <!-- Form Name -->
+                    <legend>Informations</legend>
 
-                <div class="form-group">
-                    <div class="col-md-4">
-                        <label class="col-md-4 pull-text">Encours autorisé</label>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <label class="col-md-4 pull-text">Encours autorisé</label>
+                        </div>
+                        <div class="col-md-4">
+                            <p class="texte-compte">@user.EncoursMax</p>
+                        </div>
                     </div>
-                    <div class="col-md-4">
-                        <p class="texte-compte">@user.EncoursMax</p>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <label class="col-md-4 pull-text">Solde au @DateTime.Now.ToString("dd/MM/yyyy")</label>
+                        </div>
+                        <div class="col-md-4">
+                            <p class="texte-compte">@user.Solde</p>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-4">
-                        <label class="col-md-4 pull-text">Solde au @DateTime.Now.ToString("dd/MM/yyyy")</label>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <label class="col-md-4 pull-text">Echus à 1 mois</label>
+                        </div>
+                        <div class="col-md-4">
+                            <p class="texte-compte">@user.Echus1mois</p>
+                        </div>
                     </div>
-                    <div class="col-md-4">
-                        <p class="texte-compte">@user.Solde</p>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <label class="col-md-4 pull-text">Echus à 2 mois</label>
+                        </div>
+                        <div class="col-md-4">
+                            <p class="texte-compte">@user.Echus2mois</p>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-4">
-                        <label class="col-md-4 pull-text">Echus à 1 mois</label>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <label class="col-md-4 pull-text">Echus à 3 mois</label>
+                        </div>
+                        <div class="col-md-4">
+                            <p class="texte-compte">@user.Echus3mois</p>
+                        </div>
                     </div>
-                    <div class="col-md-4">
-                        <p class="texte-compte">@user.Echus1mois</p>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <label class="col-md-4 pull-text">Non echus</label>
+                        </div>
+                        <div class="col-md-4">
+                            <p class="texte-compte">@user.NonEchus</p>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-4">
-                        <label class="col-md-4 pull-text">Echus à 2 mois</label>
-                    </div>
-                    <div class="col-md-4">
-                        <p class="texte-compte">@user.Echus2mois</p>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-4">
-                        <label class="col-md-4 pull-text">Echus à 3 mois</label>
-                    </div>
-                    <div class="col-md-4">
-                        <p class="texte-compte">@user.Echus3mois</p>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-4">
-                        <label class="col-md-4 pull-text">Non echus</label>
-                    </div>
-                    <div class="col-md-4">
-                        <p class="texte-compte">@user.NonEchus</p>
-                    </div>
-                </div>
-            </fieldset>
-                </form>
+                </fieldset>
+            </form>
         </div>
+        <!---------FACTURES--------->
         <div class="tab-pane" id="Factures">
             <div class="table-responsive scroll" id="list_product">
                 <table class="table table-striped table-hover table-bordered table-body-center table-condensed">
@@ -251,61 +256,63 @@
                 </table>
                 
             </div>
-            </div>
-            <div class="tab-pane" id="historique">
-                <div class="table-responsive scroll" id="list_product">
-                    <table class="table table-striped table-hover table-bordered table-body-center table-condensed">
-                        <thead>
-                            <tr class="full-header">
-                                <th>
-                                    N° Commande
-                                </th>
-                                <th>
-                                    Commande Client
-                                </th>
-                                <th>
-                                    Date de la commande
-                                </th>
-                                <th>
-                                    Réference
-                                </th>
-                                <th>
-                                    Designation
-                                </th>
-                                <th>
-                                    Quantité
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in historique)
-                            {
-                                <tr class="full-product">
-                                    <td>
-                                        @item.DO_Piece
-                                    </td>
-                                    <td>
-                                        @item.DO_Ref
-                                    </td>
-                                    <td>
-                                        @item.DO_Date
-                                    </td>
-                                    <td>
-                                        @item.AR_Ref
-                                    </td>
-                                    <td>
-                                        @item.DL_Design
-                                    </td>
-                                    <td>
-                                        @item.DL_Qte
-                                    </td>
+        </div>
+        <!---------HISTORIQUE--------->
+        <div class="tab-pane" id="historique">
+            <div class="table-responsive scroll" id="list_product">
+                <table class="table table-striped table-hover table-bordered table-body-center table-condensed">
+                    <thead>
+                        <tr class="full-header">
+                            <th>
+                                N° Commande
+                            </th>
+                            <th>
+                                Commande Client
+                            </th>
+                            <th>
+                                Date de la commande
+                            </th>
+                            <th>
+                                Réference
+                            </th>
+                            <th>
+                                Designation
+                            </th>
+                            <th>
+                                Quantité
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in historique)
+                        {
+                            <tr class="full-product">
+                                <td>
+                                    @item.DO_Piece
+                                </td>
+                                <td>
+                                    @item.DO_Ref
+                                </td>
+                                <td>
+                                    @item.DO_Date
+                                </td>
+                                <td>
+                                    @item.AR_Ref
+                                </td>
+                                <td>
+                                    @item.DL_Design
+                                </td>
+                                <td>
+                                    @item.DL_Qte
+                                </td>
 
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </div>
+        </div>
+        <!---------FORMULAIRE COTATION--------->
         <div class="tab-pane" id="cotation">
             <form class="form-horizontal">
                 <fieldset>
