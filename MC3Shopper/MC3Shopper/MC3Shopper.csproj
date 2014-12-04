@@ -206,9 +206,11 @@
     <Content Include="Content\avgrund.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\img\caddie.png" />
     <Content Include="Content\img\hp.png" />
     <Content Include="Content\img\no-image.png" />
+    <Content Include="Content\img\slider\HP AiO.png" />
+    <Content Include="Content\img\slider\HP ProBook 470.png" />
+    <Content Include="Content\img\slider\HP Serveur DL380pG8.png" />
     <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />

@@ -209,3 +209,7 @@ li { list-style-type: none; }
 }
 
 #textarea { resize: vertical; }
+
+#img-slide{
+    width:38%;
+}
