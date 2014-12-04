@@ -161,6 +161,10 @@ li { list-style-type: none; }
     background-color: #ff7d00;
     border-color: #ff8128;
 }
+.btn-primary:enabled{
+    background-color: #ff7d00;
+    border-color: #ff8128;
+}
 
 .btn-primary:hover {
     -moz-transition: background-color 300ms ease-out;
@@ -197,7 +201,7 @@ li { list-style-type: none; }
 .marginer { margin-bottom: 10px; }
 
 .texte-compte {
-    background-color: lightgray;
+    background-color: #f1f1f1;
     border-radius: 5px;
     min-height: 29px;
     padding: 5px;
