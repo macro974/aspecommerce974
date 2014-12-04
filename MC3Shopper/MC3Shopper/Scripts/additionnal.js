@@ -31,3 +31,4 @@ $(".full-product").mouseover(function() {
 $(".full-product").mouseout(function() {
     $(this).css({ "border-left": "5px whitesmoke solid" });
 });
+
