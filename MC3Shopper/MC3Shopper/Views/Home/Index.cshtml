@@ -61,7 +61,8 @@
                     <div class="col-md-offset-1 col-md-9">
                         <p style="line-height: 10px">
                             <!-- le lien vers le produit-->
-                            <p><em>@item.Reference</em></p>
+                            @Html.ActionLink(item.Reference, "Details","Produit", new { id = HttpUtility.UrlEncode(item.Reference).Replace('%', '!') }, new { @class = " modal-link Reference" })
+                           
                             <p><strong>@item.Designation</strong></p>
                             <p>Prix : @item.Prix €</p>
                         </p>
@@ -84,7 +85,7 @@
                     <div class="col-md-offset-1 col-md-9">
                         <p style="line-height: 65px;">
                             <!-- le lien vers le produit-->
-                            <p><em>@item.Reference</em></p>
+                            @Html.ActionLink(item.Reference, "Details", "Produit", new { id = HttpUtility.UrlEncode(item.Reference).Replace('%', '!') }, new { @class = " modal-link Reference" })
                             <p><strong>@item.Designation</strong></p>
                             <p>Prix : @item.Prix €</p>
                         </p>
@@ -107,7 +108,7 @@
                     <div class="col-md-offset-1 col-md-9">
                         <p style="line-height: 65px;">
                             <!-- le lien vers le produit-->
-                            <p><em>@item.Reference</em></p>
+                            @Html.ActionLink(item.Reference, "Details", "Produit", new { id = HttpUtility.UrlEncode(item.Reference).Replace('%', '!') }, new { @class = " modal-link Reference" })
                             <p><strong>@item.Designation</strong></p>
                             <p>Prix : @item.Prix €</p>
                         </p>

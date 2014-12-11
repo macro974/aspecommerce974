@@ -1157,7 +1157,7 @@ namespace MC3Shopper.Models
             sw.Start();
             var maListe = new List<Produit>();
             const string statement =
-                "select DISTINCT F_Article.AR_Ref,AR_Design,AR_PrixVen,AS_QteSto-AS_QteRes AS QTE,AS_MontSto from F_Article INNER JOIN F_ARTSTOCK ON F_ARTICLE.AR_Ref = F_ARTSTOCK.AR_Ref WHERE (AR_ref LIKE @state or AR_Design LIKE @state or AR_Stat02 like @state or AR_Stat01 LIKE @state) AND F_ARTSTOCK.DE_No = 1 AND AR_Sommeil = 0 AND AR_Publie = 1";
+                "select DISTINCT F_Article.AR_Ref,AR_Design,AR_PrixVen,AS_QteSto-AS_QteRes AS QTE,AS_MontSto from F_Article INNER JOIN F_ARTSTOCK ON F_ARTICLE.AR_Ref = F_ARTSTOCK.AR_Ref WHERE (F_Article.AR_Ref LIKE @state or F_Article.AR_Design LIKE @state or AR_Stat02 like @state or AR_Stat01 LIKE @state) AND F_ARTSTOCK.DE_No = 1 AND AR_Sommeil = 0 AND AR_Publie = 1";
             var myCommand = new SqlCommand(statement, maDB.myConnection);
             myCommand.Parameters.Add("@state", SqlDbType.NVarChar, 50);
             myCommand.Parameters["@state"].Value = '%'+search+'%';

@@ -139,7 +139,7 @@ namespace MC3Shopper.Controllers
             IPagedList<Produit> list_search = sys.SearchProduitsByUser(search_propre).Where(x => x.QteEnCommande + x.StockDisponible > 0 && x.Prix > 0)
                     .ToPagedList(page, 25);
             var user = Security.DeSerialize<Utilisateur>(Session["user"].ToString());
-            sys.RemiseToListProduit(sys.SearchProduitsByUser(search_propre), user);
+            sys.RemiseToListProduit(list_search.ToList(), user);
             ViewBag.search = search_propre;
             ViewBag.liste = list_search;
 
