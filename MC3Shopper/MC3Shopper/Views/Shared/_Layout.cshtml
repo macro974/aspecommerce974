@@ -162,18 +162,18 @@
 
             $("#export_csv").click(function() {
                 var param1 = getUrlParameter('Stat02');
-                var param2 = getUrlParameter("Famille");
+                var param2 = $("#Famille").val();
 
                 $.ajax({
                     url: "@Url.Action("DownloadFicheArticle", "Produit")",
                     type: "POST",
                     data: {
                         "Stat02": getUrlParameter('Stat02'),
-                        "Famille": getUrlParameter("Famille")
+                        "Famille": param2
                     },
                     success: function(data) {
                         if (param2) {
-                            window.location = encodeURI("DownloadFicheArticle?Stat02=" + getUrlParameter('Stat02') + "&Famille=" + getUrlParameter("Famille"));
+                            window.location = encodeURI("DownloadFicheArticle?Stat02=" + getUrlParameter("Stat02") + "&Famille=" + param2);
                         } else {
                             window.location = encodeURI("DownloadFicheArticle?Stat02=" + getUrlParameter('Stat02'));
                         }

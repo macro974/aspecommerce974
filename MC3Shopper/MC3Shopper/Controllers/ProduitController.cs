@@ -132,7 +132,7 @@ namespace MC3Shopper.Controllers
         }
 
         [HttpGet]
-        public ActionResult Search_Article(string Search,int page=1)
+        public ActionResult Search(string Search,int page=1)
         {
             String search_propre = Sanitizer.GetSafeHtmlFragment(Search);
             var sys = new GestionSys(mb);

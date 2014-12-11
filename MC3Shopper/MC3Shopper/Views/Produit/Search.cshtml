@@ -82,5 +82,5 @@
     </table>
 </div>
 
-@Html.PagedListPager((IPagedList)ViewBag.liste, page => Url.Action("Search_Article", new { Search = @ViewBag.search, page }))
+@Html.PagedListPager((IPagedList)ViewBag.liste, page => Url.Action("Search", new { Search = @ViewBag.search, page }))
   
