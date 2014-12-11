@@ -1,0 +1,86 @@
+﻿@using MC3Shopper.Models
+@using PagedList
+@using PagedList.Mvc
+@{
+    ViewBag.Title = "Recherche";
+}
+
+<div class="page-header">
+    <h2>Recherche : @ViewBag.search</h2>
+</div>
+
+<div class="table-responsive" id="list_product">
+    <table class="table table-striped table-hover table-bordered table-body-center table-condensed">
+        <thead>
+            <tr class="full-header">
+                <th>
+                    Photos
+                </th>
+                <th>
+                    Référence
+                </th>
+                <th>
+                    Description
+                </th>
+                <th>
+                    Quantité
+                </th>
+                <th>
+                    Prix
+                </th>
+                <th>
+                    Ajouter au panier
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Produit item in @ViewBag.liste)
+            {
+                if (item.StockDisponible + item.QteEnCommande <= 0)
+                {
+                    continue;
+                }
+                string dispo_denis = item.StockDispo_denis > 0 ? item.StockDispo_denis.ToString() : "Stock Epuisé";
+                string dispo_pierre = item.StockDispo_pierre > 0 ? item.StockDispo_pierre.ToString() : "Stock Epuisé";
+                string arrive = "";
+                if (item.QteEnCommande > 0 && item.Disponibilite != "")
+                {
+                    DateTime dt = Convert.ToDateTime(item.Disponibilite);
+                    arrive = "Dont " + item.QteEnCommande + " supplémentaire(s)  le " + dt.Day + "/" + dt.Month + "/" + dt.Year;
+                }
+
+                <tr class="full-product">
+                    <td>
+                        <img src="@Url.Content("~/Content/img/no-image.png")" alt="@item.Reference" width="150" />
+                    </td>
+                    <td>
+                        @Html.ActionLink(item.Reference, "Details", new { id = HttpUtility.UrlEncode(item.Reference).Replace('%', '!') }, new { @class = " modal-link Reference" })
+
+                    </td>
+                    <td>
+                        @Html.ActionLink(item.Designation, "Details", new { id = HttpUtility.UrlEncode(item.Reference).Replace('%', '!') }, new { @class = " modal-link Reference" })<br />
+                        <p><em class="alert-success">@arrive</em></p>
+                    </td>
+                    <td>
+                        <input type="text" class="qte" value="0" id="Qte" />   <span class="">@item.StockDisponible </span>
+                        <p>Saint-Denis: <span class="badge">@dispo_denis</span></p>
+                        <p>Saint-Denis: <span class="badge">@dispo_pierre</span></p>
+
+<td>
+
+                    <td>
+                        <!--@Math.Round((double) item.Prix, 2)<span class="glyphicon-euro"></span>-->
+                        @item.PrixFormate
+                    </td>
+
+                    <td>
+                        <a href="#data" class="add_panier">Ajouter au panier</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@Html.PagedListPager((IPagedList)ViewBag.liste, page => Url.Action("Search_Article", new { Search = @ViewBag.search, page }))
+  
