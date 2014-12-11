@@ -32,3 +32,11 @@ $(".full-product").mouseout(function() {
     $(this).css({ "border-left": "5px whitesmoke solid" });
 });
 
+
+$(".search-form").mouseover(function () {
+    $("#search-icone").css({ "color": "#ff7d00" });
+});
+$(".search-form").mouseout(function () {
+    $("#search-icone").css({ "color": "#fff" });
+});
+
