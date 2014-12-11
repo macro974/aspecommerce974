@@ -76,26 +76,7 @@ namespace MC3Shopper.Models
             return maListe;
         }
 
-        public int CountGetAllProductByCat(string codestat, string famille)
-        {
-            maDB.open();
-            int i = 0;
-            string statement =
-                "SELECT DISTINCT count(F_ARTICLE.AR_Ref) AS NUMBER from F_Article INNER JOIN F_ARTSTOCK ON F_ARTICLE.AR_Ref = F_ARTSTOCK.AR_Ref " +
-                "WHERE F_ARTSTOCK.DE_No = 1 AND AR_Sommeil = 0 AND AR_Publie = 1 AND AR_Stat02=@state  AND AR_Stat01 LIKE @famille";
-            var myCommand = new SqlCommand(statement, maDB.myConnection);
-            myCommand.Parameters.Add("@state", SqlDbType.NVarChar, 50);
-            myCommand.Parameters["@state"].Value = codestat;
-            myCommand.Parameters.Add("@famille", SqlDbType.NVarChar).Value = "%" + famille + "%";
-            SqlDataReader myReader = null;
-            myReader = myCommand.ExecuteReader();
-            while (myReader.Read())
-            {
-                i = int.Parse(myReader[0].ToString())/30;
-            }
-            maDB.close();
-            return i;
-        }
+       
 
         public void ListArticleStock(List<Produit> P)
         {
@@ -273,55 +254,6 @@ namespace MC3Shopper.Models
             maDB.close();
         }
 
-        public List<Produit> GetAllProductByCAT(string codestat, string famille, int NumberPage = 1)
-        {
-            maDB.open();
-            var sw = new Stopwatch();
-            sw.Start();
-            // execution time
-
-            var blah = new SqlCommand("SET ARITHABORT ON", maDB.myConnection);
-            blah.ExecuteNonQuery();
-            var maListe = new List<Produit>();
-            string statement =
-                "SELECT * FROM (select DISTINCT ROW_NUMBER() OVER(ORDER BY F_Article.AR_Ref) AS NUMBER ,F_Article.AR_Ref,AR_Design,AR_PrixVen,AS_QteSto-AS_QteRes AS QTE,AS_MontSto " +
-                "from F_Article INNER JOIN F_ARTSTOCK ON F_ARTICLE.AR_Ref = F_ARTSTOCK.AR_Ref " +
-                "WHERE F_ARTSTOCK.DE_No = 1 AND AR_Sommeil = 0 AND AR_Publie = 1 AND AR_Stat02=@state AND AR_Stat01 LIKE @famille) AS TBL " +
-                "WHERE NUMBER BETWEEN ((@PageNumber - 1) * 30 + 1) AND (@PageNumber * 30)";
-            var myCommand = new SqlCommand(statement, maDB.myConnection);
-            myCommand.Parameters.Add("@state", SqlDbType.NVarChar, 50);
-            myCommand.Parameters["@state"].Value = codestat;
-            myCommand.Parameters.Add("@PageNumber", SqlDbType.Int).Value = NumberPage;
-            myCommand.Parameters.Add("@famille", SqlDbType.NVarChar).Value = "%" + famille + "%";
-            SqlDataReader myReader = null;
-            myReader = myCommand.ExecuteReader();
-            while (myReader.Read())
-            {
-                var monProduit = new Produit(myReader["AR_Ref"].ToString(), myReader["AR_Ref"].ToString(),
-                    myReader["AR_Design"].ToString(), decimal.Parse(myReader["AR_PrixVen"].ToString()));
-                monProduit.StockDispo_denis = float.Parse(myReader["QTE"].ToString()) < 0
-                    ? 0
-                    : float.Parse(myReader["QTE"].ToString());
-
-                // get stock st pierre
-                maListe.Add(monProduit);
-            }
-            maDB.close();
-            sw.Stop();
-            Debug.WriteLine(" temps fonction recup produit est de :{0}", sw.Elapsed);
-
-            sw.Restart();
-            ListArticleStock(maListe);
-
-            sw.Stop();
-            Debug.WriteLine(" temps fonction recup stock est de :{0}", sw.Elapsed);
-            sw.Restart();
-            GEtqteCommandeProduit(maListe);
-            sw.Stop();
-            Debug.WriteLine(" temps fonction doc_ligne est de :{0}", sw.Elapsed);
-
-            return maListe;
-        }
 
         public List<Produit> ProduitsParCodeStat(string codeStat)
         {
@@ -1218,6 +1150,47 @@ namespace MC3Shopper.Models
             return monDic;
         }
 
+        public List<Produit> SearchProduitsByUser(string search)
+        {
+            maDB.open();
+            var sw = new Stopwatch();
+            sw.Start();
+            var maListe = new List<Produit>();
+            const string statement =
+                "select DISTINCT F_Article.AR_Ref,AR_Design,AR_PrixVen,AS_QteSto-AS_QteRes AS QTE,AS_MontSto from F_Article INNER JOIN F_ARTSTOCK ON F_ARTICLE.AR_Ref = F_ARTSTOCK.AR_Ref WHERE (AR_ref LIKE @state or AR_Design LIKE @state or AR_Stat02 like @state or AR_Stat01 LIKE @state) AND F_ARTSTOCK.DE_No = 1 AND AR_Sommeil = 0 AND AR_Publie = 1";
+            var myCommand = new SqlCommand(statement, maDB.myConnection);
+            myCommand.Parameters.Add("@state", SqlDbType.NVarChar, 50);
+            myCommand.Parameters["@state"].Value = '%'+search+'%';
+            SqlDataReader myReader = null;
+            myReader = myCommand.ExecuteReader();
+            while (myReader.Read())
+            {
+                var monProduit = new Produit(myReader["AR_Ref"].ToString(), myReader["AR_Ref"].ToString(),
+                    myReader["AR_Design"].ToString(), decimal.Parse(myReader["AR_PrixVen"].ToString()))
+                {
+                    StockDispo_denis = float.Parse(myReader["QTE"].ToString()) < 0
+                        ? 0
+                        : float.Parse(myReader["QTE"].ToString())
+                };
 
+                // get stock st pierre
+                maListe.Add(monProduit);
+            }
+            maDB.close();
+            sw.Stop();
+            Debug.WriteLine(" temps fonction  search recup produit est de :{0}", sw.Elapsed);
+
+            sw.Restart();
+            ListArticleStock(maListe);
+
+            sw.Stop();
+            Debug.WriteLine(" temps fonction search recup stock est de :{0}", sw.Elapsed);
+            sw.Restart();
+            GEtqteCommandeProduit(maListe);
+            sw.Stop();
+            Debug.WriteLine(" temps fonction search doc_ligne est de :{0}", sw.Elapsed);
+
+            return maListe;
+        }
     }
 }

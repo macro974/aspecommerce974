@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using LINQtoCSV;
 using MC3Shopper.Models;
 using MC3Shopper.ViewModel;
+using Microsoft.Security.Application;
 using PagedList;
 
 namespace MC3Shopper.Controllers
@@ -128,6 +129,22 @@ namespace MC3Shopper.Controllers
                 chemin,
                 outputFileDescription);
             return File(chemin, "application/ms-excel", "MC3_Export_" + Stat02 + DateTime.Now + ".csv");
+        }
+
+        [HttpGet]
+        public ActionResult Search_Article(string Search,int page=1)
+        {
+            String search_propre = Sanitizer.GetSafeHtmlFragment(Search);
+            var sys = new GestionSys(mb);
+            IPagedList<Produit> list_search = sys.SearchProduitsByUser(search_propre).Where(x => x.QteEnCommande + x.StockDisponible > 0 && x.Prix > 0)
+                    .ToPagedList(page, 25);
+            var user = Security.DeSerialize<Utilisateur>(Session["user"].ToString());
+            sys.RemiseToListProduit(sys.SearchProduitsByUser(search_propre), user);
+            ViewBag.search = search_propre;
+            ViewBag.liste = list_search;
+
+            return View();
+
         }
     }
 }
