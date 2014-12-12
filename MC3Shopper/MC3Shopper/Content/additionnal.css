@@ -414,3 +414,13 @@ li {
             content: attr(data-title);
         }
 }
+
+/*-----PANIER-----*/
+.num-cart{
+    font-size:14px;
+    color: #ff6a00;
+    font-weight: 800;
+    position:absolute;
+    left: 905px;
+    top: 14px;
+}
