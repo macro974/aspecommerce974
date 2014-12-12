@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@{
+    if (Session["user"]==null)
+    {
+       FormsAuthentication.SignOut();
+    }
+}
+<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -39,23 +45,8 @@
 
 
 
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-shopping-cart" style="margin-top: -4px;"></span></a>
-
-                        <ul class="dropdown-menu" style="min-height: 250px;">
-                            <li>
-                                <div style="padding: 15px; padding-bottom: 0px;">
-
-                                    <label style="text-align: center;">Panier:</label><br />
-                                    MSI DOMINATOR x1 2099€<br />
-                                    SENNHEISER x1 259€<br />
-                                    MANETTE XBOX ONE x1 60€<br /><br />
-                                    <input class="btn btn-primary btn-block" type="button" value="Voir mon panier">
-                                    <input class="btn btn-primary btn-block" type="button" value="Commander">
-                                </div>
-                            </li>
-                        </ul>
-                    </li>
+                    <!-- Panier a mettre ici-->
+                    @{ Html.RenderAction("GetPanier", "Panier"); }
                     <li class="deco" title="Déconnexion"><a href="javascript:$('#logOffForm').submit()"><span class="glyphicon glyphicon-off" style="margin-top: -4px;"></span></a></li>
                 </ul>
                     <!-- Search Bar-->
@@ -80,61 +71,63 @@
         </div>
     </div>
 
-    <div class="container body-content">
+<div class="container body-content" id="bobody">
 
-        <!--FOOTER-->
-        <footer class="row-fluid">
-            @RenderBody()
-            <hr />
-            <div class="col-lg-12">
-                <div class="col-lg-3">
-                    <h4 class="line3 center standart-h4title"><span>Navigation</span></h4>
-                    <ul class="footer-links">
-                        <li><a href="#">Accueil</a></li>
-                        <li><a href="#">Catégories</a></li>
-                        <li><a href="#">Mon Compte</a></li>
-                        <li><a href="#">Contact</a></li>
-                    </ul>
-                </div>
+    
+    @RenderBody()
+    <!--FOOTER-->
+    <footer class="row">
 
-                <div class="col-lg-3">
-                    <h4 class="line3 center standart-h4title"><span>Useful Links</span></h4>
-                    <ul class="footer-links">
-                        <li><a href="#">Mentions légales</a></li>
-                        <li><a href="#">Conditions générales de ventes</a></li>
-                        <li><a href="#">Paiement</a></li>
-                        <li><a href="#">Livraison</a></li>
-                        <li><a href="#">Qui-sommes nous?</a></li>
-                    </ul>
-                </div>
-
-                <div class="col-lg-3">
-                    <h4 class="line3 center standart-h4title"><span>Nos Partenaires</span></h4>
-                    <ul class="footer-links">
-                        <li><a href="#">HP</a></li>
-                        <li><a href="#">EPSON</a></li>
-                        <li><a href="#">LENOVO</a></li>
-                        <li><a href="#">MICROSOFT</a></li>
-                        <li><a href="#">IBM</a></li>
-                    </ul>
-                </div>
-
-                <div class="col-lg-3">
-                    <h4 class="line3 center standart-h4title"><span>Contact</span></h4>
-                    <address class="footer-links">
-                        <a href="#" target="_blank">
-                            <strong>MC3 OI</strong><br>
-                            36, rue Coco Robert<br>
-                            Sainte-Marie, 97438<br>
-                            Tél: +262 (0) 262 53 01 00<br>
-                            Fax: +262 (0) 262 53 04 53<br>
-                        </a>
-                        Mail:<a href="mailto:mc3reunion@mc3.fr"> mc3reunion@mc3.fr</a>
-                    </address>
-                </div>
+        <!--<hr/>-->
+        <div class="col-lg-12 ">
+            <div class="col-lg-3">
+                <h4 class="line3 center standart-h4title"><span>Navigation</span></h4>
+                <ul class="footer-links">
+                    <li><a href="#">Accueil</a></li>
+                    <li><a href="#">Catégories</a></li>
+                    <li><a href="#">Mon Compte</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
             </div>
-        </footer>
-    </div>
+
+            <div class="col-lg-3">
+                <h4 class="line3 center standart-h4title"><span>Useful Links</span></h4>
+                <ul class="footer-links">
+                    <li><a href="#">Mentions légales</a></li>
+                    <li><a href="#">Conditions générales de ventes</a></li>
+                    <li><a href="#">Paiement</a></li>
+                    <li><a href="#">Livraison</a></li>
+                    <li><a href="#">Qui-sommes nous?</a></li>
+                </ul>
+            </div>
+
+            <div class="col-lg-3">
+                <h4 class="line3 center standart-h4title"><span>Nos Partenaires</span></h4>
+                <ul class="footer-links">
+                    <li><a href="#">HP</a></li>
+                    <li><a href="#">EPSON</a></li>
+                    <li><a href="#">LENOVO</a></li>
+                    <li><a href="#">MICROSOFT</a></li>
+                    <li><a href="#">IBM</a></li>
+                </ul>
+            </div>
+
+            <div class="col-lg-3">
+                <h4 class="line3 center standart-h4title"><span>Contact</span></h4>
+                <address class="footer-links">
+                    <a href="#" target="_blank">
+                        <strong>MC3 OI</strong><br>
+                        36, rue Coco Robert<br>
+                        Sainte-Marie, 97438<br>
+                        Tél: +262 (0) 262 53 01 00<br>
+                        Fax: +262 (0) 262 53 04 53<br>
+                    </a>
+                    Mail:<a href="mailto:mc3reunion@mc3.fr"> mc3reunion@mc3.fr</a>
+                </address>
+            </div>
+        </div>
+    </footer>
+</div>
 
     @Scripts.Render("~/bundles/jquery")
     <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.slick/1.3.13/slick.min.js"></script>
@@ -148,78 +141,110 @@
     {
         @Html.AntiForgeryToken()
     }
-    <script>
-            $(function() {
-                // Initialize numeric spinner input boxes
-                //$(".numeric-spinner").spinedit();
-                // Initialize modal dialog
-                // attach modal-container bootstrap attributes to links with .modal-link class.
-                // when a link is clicked with these attributes, bootstrap will display the href content in a modal dialog.
-                $('body').on('click', '.modal-link', function(e) {
-                    e.preventDefault();
-                    $(this).attr('data-target', '#modal-container');
-                    $(this).attr('data-toggle', 'modal');
-                });
-                // Attach listener to .modal-close-btn's so that when the button is pressed the modal dialog disappears
-                $('body').on('click', '.modal-close-btn', function() {
-                    $('#modal-container').modal('hide');
-                });
-                //clear modal cache, so that new content can be loaded
-                $('#modal-container').on('hidden.bs.modal', function() {
-                    $(this).removeData('bs.modal');
-                });
-                $('#CancelModal').on('click', function() {
-                    return false;
-                });
-            });
-            // action ajax
+<script>
 
-            $("#export_csv").click(function() {
-                var param1 = getUrlParameter('Stat02');
-                var param2 = $("#Famille").val();
+    $(function () {
+        // Initialize numeric spinner input boxes
+        //$(".numeric-spinner").spinedit();
+        // Initialize modal dialog
+        // attach modal-container bootstrap attributes to links with .modal-link class.
+        // when a link is clicked with these attributes, bootstrap will display the href content in a modal dialog.
+        $('body').on('click', '.modal-link', function (e) {
+            e.preventDefault();
+            $(this).attr('data-target', '#modal-container');
+            $(this).attr('data-toggle', 'modal');
+        });
+        // Attach listener to .modal-close-btn's so that when the button is pressed the modal dialog disappears
+        $('body').on('click', '.modal-close-btn', function () {
+            $('#modal-container').modal('hide');
+        });
+        //clear modal cache, so that new content can be loaded
+        $('#modal-container').on('hidden.bs.modal', function () {
+            $(this).removeData('bs.modal');
+        });
+        $('#CancelModal').on('click', function () {
+            return false;
+        });
+    });
+    // action ajax
 
-                $.ajax({
-                    url: "@Url.Action("DownloadFicheArticle", "Produit")",
-                    type: "POST",
-                    data: {
-                        "Stat02": getUrlParameter('Stat02'),
-                        "Famille": param2
-                    },
-                    success: function(data) {
-                        if (param2) {
-                            window.location = encodeURI("DownloadFicheArticle?Stat02=" + getUrlParameter("Stat02") + "&Famille=" + param2);
-                        } else {
-                            window.location = encodeURI("DownloadFicheArticle?Stat02=" + getUrlParameter('Stat02'));
-                        }
+    $("#export_csv").click(function () {
+        var param1 = getUrlParameter('Stat02');
+        var param2 = $("#Famille").val();
 
-                    }
-
-                });
-            });
-           // changer de mot de passe
-            $("#singlebutton").click(function() {
-                $.ajax({
-                    url:"@Url.Action("NewPassword","Compte")",
-                    type: "POST",
-                data: {
-                    Password: $("#passwordinput").val(),
-                    NewPassword: $("#passwordRepeat").val()
-                },
-                success: function (data) {
-                    $("#result").removeClass("alert alert-success alert-danger")
-                    if (data == 'true') {
-
-                        $("#result").addClass("alert alert-success");
-                        $("result").append('<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">fermer</span></button>');
-                        $("#result").text("Changement de mot de passe effectué");
-                    } else {
-                        $("#result").addClass("alert alert-danger");
-                        $("result").append('<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">fermer</span></button>');
-                        $("#result").text("Erreur lors du changement de mot de passe");
-                    }
+        $.ajax({
+            url: "@Url.Action("DownloadFicheArticle", "Produit")",
+            type: "POST",
+            data: {
+                "Stat02": getUrlParameter('Stat02'),
+                "Famille": param2
+            },
+            success: function (data) {
+                if (param2) {
+                    window.location = encodeURI("DownloadFicheArticle?Stat02=" + getUrlParameter("Stat02") + "&Famille=" + param2);
+                } else {
+                    window.location = encodeURI("DownloadFicheArticle?Stat02=" + getUrlParameter('Stat02'));
                 }
-            })
-            })
-    </script>
+
+            }
+
+        });
+    });
+    // changer de mot de passe
+    $("#singlebutton").click(function() {
+        $.ajax({
+            url: "@Url.Action("NewPassword","Compte")",
+            type: "POST",
+            data: {
+                Password: $("#passwordinput").val(),
+                NewPassword: $("#passwordRepeat").val()
+            },
+            success: function(data) {
+                $("#result").removeClass("alert alert-success alert-danger")
+                if (data == 'true') {
+
+                    $("#result").addClass("alert alert-success");
+                    $("result").append('<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">fermer</span></button>');
+                    $("#result").text("Changement de mot de passe effectué");
+                } else {
+                    $("#result").addClass("alert alert-danger");
+                    $("result").append('<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">fermer</span></button>');
+                    $("#result").text("Erreur lors du changement de mot de passe");
+                }
+            }
+        });
+    });
+    // ajout au panier
+    $(".add_panier").click(function () {
+        var qte_value = $('input[id*="' + $(this).data("ref") + '"]').val();
+        $.ajax({
+            url: "@Url.Action("AddPanier","Produit")",
+            type: "POST",
+            data : {
+                AR_Ref: $(this).data("ref"),
+                Qte: qte_value
+            },
+            success:function(data) {
+                if (data == "Success") {
+                    console.log(data);
+                    update_panier();
+                    // ajout de la div 
+                } else {
+                    console.log(data);
+                }
+            }
+        });
+    });
+
+    function update_panier(){
+        $.ajax({
+            url: "@Url.Action("GetPanier","Panier")",
+            cache: false
+
+             }).done(function (data) {
+            $('.panier').html(data);
+             });
+    };
+</script>
 </body>
 </html>

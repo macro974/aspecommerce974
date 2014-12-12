@@ -100,6 +100,7 @@ namespace MC3Shopper.Controllers
                 if (myReader.HasRows)
                 {
                     FormsAuthentication.SetAuthCookie(username, user.RememberMe);
+                   
                     while (myReader.Read())
                     {
                         monUser = new Utilisateur(username);
@@ -109,6 +110,8 @@ namespace MC3Shopper.Controllers
                     }
                     myReader.Close();
                     sys.RecupererListeFamilleRemise(monUser);
+                    Panier panier = new Panier();
+                    Session.Add("Panier",Security.Serialize(panier));
                     Session.Add("user", Security.Serialize(monUser));
                     //Session["user"] = monUser;
                     return RedirectToAction("Index", "Home");

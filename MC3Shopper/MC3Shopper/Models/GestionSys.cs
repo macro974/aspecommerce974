@@ -1192,5 +1192,25 @@ namespace MC3Shopper.Models
 
             return maListe;
         }
+
+        public Produit FindAndCheckProduitByRef(string AR_Ref, int qte)
+        {   
+            Produit p = ProductParRef(AR_Ref);
+            if (p != null)
+            {
+                
+                if (p.QteDemande <= (p.StockDisponible + p.QteEnCommande))
+                {
+                    p.QteDemande = qte;
+                    return p;
+                }
+                else
+                {
+                    return null;
+                }
+                
+            }
+            return null;
+        }
     }
 }

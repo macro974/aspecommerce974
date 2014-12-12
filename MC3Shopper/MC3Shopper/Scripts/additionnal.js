@@ -3,7 +3,9 @@
     slidesToScroll: 2,
     autoplay: true,
     autoplaySpeed: 2500,
-    adaptiveHeight: true
+    adaptiveHeight: true,
+    accessibility: false,
+    arrows:false
 });
 $('.paginator').slick({
     slidesToShow: 15,
