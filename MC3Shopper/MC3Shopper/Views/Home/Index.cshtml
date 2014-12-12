@@ -3,51 +3,51 @@
     ViewBag.Title = "Accueil";
 }
 @Styles.Render("~/Content/css")
-
-<div id="my_carousel" class="carousel slide" data-ride="carousel">
-    <!-- Bulles -->
-    <ol class="carousel-indicators">
-        <li data-target="#my_carousel" data-slide-to="0" class="active"></li>
-        <li data-target="#my_carousel" data-slide-to="1"></li>
-        <li data-target="#my_carousel" data-slide-to="2"></li>
-    </ol>
-    <!-- Slides -->
-    <div class="carousel-inner">
-        <!-- Page 1 -->
-        <div class="item active">
-            <div class="carousel-page">
-                <img id="img-slide" src="~/Content/img/slider/HP AiO.png" class="img-responsive" style="margin: 0px auto;" />
-            </div>
-            <div class="carousel-caption">HP Slate All in One 21 </br><strong>319,00€</strong></div>
-        </div>
-        <!-- Page 2 -->
-        <div class="item">
-            <div class="carousel-page">
-                <img id="img-slide" src="~/Content/img/slider/HP ProBook 470.png" class="img-responsive img-rounded"
-                     style="margin: 0px auto;" />
-            </div>
-            <div class="carousel-caption">HP ProBook 470 </br><strong>790,00€</strong></div>
-        </div>
-        <!-- Page 3 -->
-        <div class="item">
-            <div class="carousel-page">
-                <img id="img-slide" src="~/Content/img/slider/HP Serveur DL380pG8.png" class="img-responsive img-rounded"
-                     style="margin: 0px auto; max-height: 100%;" />
-            </div>
-            <div class="carousel-caption">HP Serveur DL380pG8 </br><strong>2349,00€</strong></div>
-        </div>
-    </div>
-    <!-- Contrôles -->
-    <a class="left carousel-control" href="#my_carousel" data-slide="prev">
-        <span class="glyphicon glyphicon-chevron-left"></span>
-    </a>
-    <a class="right carousel-control" href="#my_carousel" data-slide="next">
-        <span class="glyphicon glyphicon-chevron-right"></span>
-    </a>
-</div>
-
 <div class="row">
-    <div class="col-md-12">
+    <div id="my_carousel" class="carousel slide" data-ride="carousel">
+        <!-- Bulles -->
+        <ol class="carousel-indicators">
+            <li data-target="#my_carousel" data-slide-to="0" class="active"></li>
+            <li data-target="#my_carousel" data-slide-to="1"></li>
+            <li data-target="#my_carousel" data-slide-to="2"></li>
+        </ol>
+        <!-- Slides -->
+        <div class="carousel-inner">
+            <!-- Page 1 -->
+            <div class="item active">
+                <div class="carousel-page">
+                    <img id="img-slide" src="~/Content/img/slider/HP AiO.png" class="img-responsive" style="margin: 0px auto;" />
+                </div>
+                <div class="carousel-caption">HP Slate All in One 21 </br><strong>319,00€</strong></div>
+            </div>
+            <!-- Page 2 -->
+            <div class="item">
+                <div class="carousel-page">
+                    <img id="img-slide" src="~/Content/img/slider/HP ProBook 470.png" class="img-responsive img-rounded"
+                         style="margin: 0px auto;" />
+                </div>
+                <div class="carousel-caption">HP ProBook 470 </br><strong>790,00€</strong></div>
+            </div>
+            <!-- Page 3 -->
+            <div class="item">
+                <div class="carousel-page">
+                    <img id="img-slide" src="~/Content/img/slider/HP Serveur DL380pG8.png" class="img-responsive img-rounded"
+                         style="margin: 0px auto; max-height: 100%;" />
+                </div>
+                <div class="carousel-caption">HP Serveur DL380pG8 </br><strong>2349,00€</strong></div>
+            </div>
+        </div>
+        <!-- Contrôles -->
+        <a class="left carousel-control" href="#my_carousel" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+        </a>
+        <a class="right carousel-control" href="#my_carousel" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+        </a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 add-padding" >
         <div class="page-header">
             <h2>Nouveautés</h2>
         </div>
@@ -71,7 +71,7 @@
             }
         </div>
     </div>
-    <div class="col-md-12">
+    <div class="col-md-12  add-padding">
         <div class="page-header">
             <h2>Promotions</h2>
         </div>
@@ -86,15 +86,15 @@
                         <p style="line-height: 65px;">
                             <!-- le lien vers le produit-->
                             @Html.ActionLink(item.Reference, "Details", "Produit", new { id = HttpUtility.UrlEncode(item.Reference).Replace('%', '!') }, new { @class = " modal-link Reference" })
-                            <p><strong>@item.Designation</strong></p>
-                            <p>Prix : @item.Prix €</p>
+                        <p><strong>@item.Designation</strong></p>
+                        <p>Prix : @item.Prix €</p>
                         </p>
                     </div>
                 </div>
             }
         </div>
     </div>
-    <div class="col-md-12">
+    <div class="col-md-12  add-padding">
         <div class="page-header">
             <h2>Destockage</h2>
         </div>
@@ -109,8 +109,8 @@
                         <p style="line-height: 65px;">
                             <!-- le lien vers le produit-->
                             @Html.ActionLink(item.Reference, "Details", "Produit", new { id = HttpUtility.UrlEncode(item.Reference).Replace('%', '!') }, new { @class = " modal-link Reference" })
-                            <p><strong>@item.Designation</strong></p>
-                            <p>Prix : @item.Prix €</p>
+                        <p><strong>@item.Designation</strong></p>
+                        <p>Prix : @item.Prix €</p>
                         </p>
                     </div>
                 </div>

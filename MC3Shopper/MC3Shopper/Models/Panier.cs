@@ -184,5 +184,13 @@ namespace MC3Shopper.Models
                 }
             }
         }
+
+        public void AddToPanier(Produit Produit, int qte)
+        {
+            for (int i = 0; i < qte; i++)
+            {
+                Add(Produit);
+            }
+        }
     }
 }

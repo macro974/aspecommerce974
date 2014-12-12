@@ -57,9 +57,9 @@
                             <p><em class="alert-success">@arrive</em></p>
                         </td>
                         <td>
-                            <input type="text" class="qte" value="0" id="Qte" />   <span class="">@item.StockDisponible </span>
+                            <input type="text" class="qte" value="0" id="@item.Reference" />   <span class="">@item.StockDisponible </span>
                             <p>Saint-Denis: <span class="badge">@dispo_denis</span></p>
-                            <p>Saint-Denis: <span class="badge">@dispo_pierre</span></p>
+                            <p>Saint-Pierre: <span class="badge">@dispo_pierre</span></p>
 
                         <td>
                             <!--@Math.Round((double) item.Prix, 2)<span class="glyphicon-euro"></span>-->
@@ -67,14 +67,16 @@
                         </td>
 
                         <td>
-                            <a href="#data" class="add_panier">Ajouter au panier</a>
+                            <a href="#data" class="add_panier" data-ref="@item.Reference">Ajouter au panier</a>
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
     </div>
-  <input type="hidden" id="Famille" value="@ViewBag.Famille"/>
-    @Html.PagedListPager((IPagedList) ViewBag.liste, page => Url.Action("Category", new {Stat02 = @ViewBag.Category, Famille = @ViewBag.famille, page}))
+    <input type="hidden" id="Famille" value="@ViewBag.Famille"/>
+    <div class="col-md-12">
+        @Html.PagedListPager((IPagedList)ViewBag.liste, page => Url.Action("Category", new { Stat02 = @ViewBag.Category, Famille = @ViewBag.famille, page }))
+    </div>
 </div>      
 <!--<script src="http://code.jquery.com/ui/1.11.2/jquery-ui.min.js"></script>-->

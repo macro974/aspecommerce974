@@ -186,6 +186,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\CompteController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PanierController.cs" />
     <Compile Include="Controllers\ProduitController.cs" />
     <Compile Include="GlimpseSecurityPolicy.cs" />
     <Compile Include="Global.asax.cs">
@@ -270,6 +271,7 @@
     <Content Include="Views\Compte\SignIn.cshtml" />
     <Content Include="Views\Compte\MonCompte.cshtml" />
     <Content Include="Views\Produit\Search.cshtml" />
+    <Content Include="Views\Panier\GetPanier.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

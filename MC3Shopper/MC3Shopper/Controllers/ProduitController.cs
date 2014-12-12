@@ -146,5 +146,31 @@ namespace MC3Shopper.Controllers
             return View();
 
         }
+
+        public ActionResult AddPanier(string AR_Ref, int Qte)
+        {
+            //string reference=Sanitizer.GetSafeHtml(AR_Ref);
+            var sys = new GestionSys(mb);
+            Produit p = sys.FindAndCheckProduitByRef(AR_Ref, Qte);
+            var panier = Security.DeSerialize<Panier>(Session["Panier"].ToString());
+            if (p != null)
+            {
+                try
+                {
+                    panier.Add(p);
+                    Session["Panier"] = Security.Serialize(panier);
+                    
+                    return Json("Success", JsonRequestBehavior.AllowGet);
+
+                }
+                catch (Exception e)
+                {
+                    return Json("Fail", JsonRequestBehavior.AllowGet);
+                }
+            }
+
+            return Json("Fail", JsonRequestBehavior.AllowGet);
+
+        }
     }
 }
