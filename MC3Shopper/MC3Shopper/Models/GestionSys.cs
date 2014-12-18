@@ -45,17 +45,17 @@ namespace MC3Shopper.Models
             {
                 case 1: // nouveaux produits
                     statement =
-                        "select top 10 AR_Ref,AR_Design,AR_PrixVen,AR_Stat01 from F_ARTICLE  where ar_publie=1 and ar_sommeil=0 and AR_PrixVen>0 order by AR_DateCreation DESC ";
+                        "select top 10 F_Article.AR_Ref,AR_Design,AR_PrixVen,AR_Stat01,AS_QteSto-AS_QteRes AS QTE from F_ARTICLE INNER JOIN F_ARTSTOCK ON F_ARTICLE.AR_Ref = F_ARTSTOCK.AR_Ref WHERE F_ARTSTOCK.DE_No = 1  and ar_publie=1 and ar_sommeil=0 and AR_PrixVen>0 order by AR_DateCreation DESC ";
                     break;
 
                 case 2: // Promotions
                     statement =
-                        "select top 10 AR_Ref,AR_Design,AR_PrixVen,AR_Stat01 from F_ARTICLE where Lower(AR_Design) LIKE '%promo%' and ar_publie=1 and ar_sommeil=0 and AR_PrixVen>0 order by AR_DateModif DESC";
+                        "select top 10 F_Article.AR_Ref,AR_Design,AR_PrixVen,AR_Stat01,AS_QteSto-AS_QteRes AS QTE from F_ARTICLE INNER JOIN F_ARTSTOCK ON F_ARTICLE.AR_Ref = F_ARTSTOCK.AR_Ref WHERE F_ARTSTOCK.DE_No = 1 and Lower(AR_Design) LIKE '%promo%' and ar_publie=1 and ar_sommeil=0 and AR_PrixVen>0 order by AR_DateModif DESC";
                     break;
 
                 case 3: // destockage
                     statement =
-                        "select top 10 AR_Ref,AR_Design,AR_PrixVen,AR_Stat01 from F_ARTICLE where Lower(AR_Design) LIKE '%destockage%' AND Lower(AR_Design) NOT LIKE '%promo%'  and ar_publie=1 and ar_sommeil=0 and AR_PrixVen>0 order by AR_DateModif DESC";
+                        "select top 10 F_Article.AR_Ref,AR_Design,AR_PrixVen,AR_Stat01,AS_QteSto-AS_QteRes AS QTE from F_ARTICLE INNER JOIN F_ARTSTOCK ON F_ARTICLE.AR_Ref = F_ARTSTOCK.AR_Ref WHERE F_ARTSTOCK.DE_No = 1 and Lower(AR_Design) LIKE '%destockage%' AND Lower(AR_Design) NOT LIKE '%promo%'  and ar_publie=1 and ar_sommeil=0 and AR_PrixVen>0 order by AR_DateModif DESC";
                     break;
 
                 default:
@@ -68,9 +68,17 @@ namespace MC3Shopper.Models
             while (myReader.Read())
             {
                 var monProduit = new Produit(myReader["AR_Ref"].ToString(), myReader["AR_Ref"].ToString(),
-                    myReader["AR_Design"].ToString(), decimal.Parse(myReader["AR_PrixVen"].ToString()));
+                    myReader["AR_Design"].ToString(), decimal.Parse(myReader["AR_PrixVen"].ToString()))
+                 {
+                    StockDispo_denis = float.Parse(myReader["QTE"].ToString()) < 0
+                        ? 0
+                        : float.Parse(myReader["QTE"].ToString())
+                };
                 maListe.Add(monProduit);
-            }
+            
+           }
+            maDB.close();
+            ListArticleStock(maListe);
             myReader.Close();
             dbObject.close();
             return maListe;

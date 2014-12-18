@@ -66,7 +66,7 @@ namespace MC3Shopper.Controllers
         }
 
         [Authorize]
-        [OutputCache(Duration = 60)]
+        //[OutputCache(Duration = 60)]
         [HttpGet]
         public ActionResult _getListProduct(string Stat02 = "", string Famille = "", int page = 1)
         {

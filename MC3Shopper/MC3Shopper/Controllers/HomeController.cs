@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using MC3Shopper.Models;
 
@@ -14,9 +15,9 @@ namespace MC3Shopper.Controllers
             db = new Database();
             Session.Add("maDB", db);
             var masys = new GestionSys(db);
-            List<Produit> liste_arrivage = masys.ProductByEvent(1);
-            List<Produit> liste_promotions = masys.ProductByEvent(2);
-            List<Produit> liste_destockage = masys.ProductByEvent(3);
+            List<Produit> liste_arrivage = masys.ProductByEvent(1).Where(x=>x.QteEnCommande+x.StockDisponible>0 && x.Prix>0).ToList();
+            List<Produit> liste_promotions = masys.ProductByEvent(2).Where(x => x.QteEnCommande + x.StockDisponible > 0 && x.Prix > 0).ToList();
+            List<Produit> liste_destockage = masys.ProductByEvent(3).Where(x => x.QteEnCommande + x.StockDisponible > 0 && x.Prix > 0).ToList();
 
             ViewBag.arrivage = liste_arrivage;
             ViewBag.promo = liste_promotions;
