@@ -46,13 +46,13 @@
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                     <li>@Html.ActionLink("Mon Compte", "MonCompte", "Compte")</li>
 
-                    <span class="num-cart">@ViewBag.count</span>
+                    
                     <li class="dropdown panier ">
                         @{
                             Html.RenderAction("GetPanier", "Panier");
                         }
-                    <!--/PANIER-->
-                        </li>
+                        
+                     </li>
 
 <li class="deco" title="Déconnexion"><a href="javascript:$('#logOffForm').submit()"><span class="glyphicon glyphicon-off" style="margin-top: -4px;"></span></a></li>
                 </ul>
