@@ -3,7 +3,7 @@
     ViewBag.Title = "Accueil";
 }
 @Styles.Render("~/Content/css")
-<div class="row">
+<div class="">
     <div id="my_carousel" class="carousel slide" data-ride="carousel">
         <!-- Bulles -->
         <ol class="carousel-indicators">
@@ -46,8 +46,8 @@
         </a>
     </div>
 </div>
-<div class="row">
-    <div class="col-md-12 add-padding" >
+<div class="">
+    <div class="col-md-12 add-padding">
         <div class="page-header">
             <h2>Nouveautés</h2>
         </div>
@@ -61,10 +61,10 @@
                     <div class="col-md-offset-1 col-md-9">
                         <p style="line-height: 10px">
                             <!-- le lien vers le produit-->
-                            @Html.ActionLink(item.Reference, "Details","Produit", new { id = HttpUtility.UrlEncode(item.Reference).Replace('%', '!') }, new { @class = " modal-link Reference" })
-                           
-                            <p><strong>@item.Designation</strong></p>
-                            <p>Prix : @item.Prix €</p>
+                            @Html.ActionLink(item.Reference, "Details", "Produit", new { id = HttpUtility.UrlEncode(item.Reference).Replace('%', '!') }, new { @class = " modal-link Reference" })
+
+                        <p><strong>@item.Designation</strong></p>
+                        <p>Prix : @item.Prix €</p>
                         </p>
                     </div>
                 </div>

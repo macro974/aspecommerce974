@@ -15,6 +15,7 @@ namespace MC3Shopper.Controllers
             if (Session["Panier"] != null)
             {
                 Panier panier = Security.DeSerialize<Panier>(Session["panier"].ToString());
+                ViewBag.count = panier.monPanier.Count;
                 ViewBag.panier = panier;
             }
             else
@@ -24,5 +25,20 @@ namespace MC3Shopper.Controllers
             return PartialView();
         }
 
+        public JsonResult CountPanier()
+        {
+            int count = 0;
+            if (Session["Panier"] != null)
+            {
+                Panier panier = Security.DeSerialize<Panier>(Session["panier"].ToString());
+                count = panier.monPanier.Count == null ? 0 : panier.monPanier.Count;
+                
+                return Json(count, JsonRequestBehavior.AllowGet);
+            }
+           
+            return Json(count, JsonRequestBehavior.AllowGet);
+            
+            
+        }
     }
 }

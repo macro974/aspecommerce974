@@ -147,8 +147,9 @@ namespace MC3Shopper.Controllers
 
         }
 
-        public ActionResult AddPanier(string AR_Ref, int Qte)
+        public JsonResult AddPanier(string AR_Ref, int Qte)
         {
+           
             //string reference=Sanitizer.GetSafeHtml(AR_Ref);
             var sys = new GestionSys(mb);
             Produit p = sys.FindAndCheckProduitByRef(AR_Ref, Qte);
@@ -165,6 +166,7 @@ namespace MC3Shopper.Controllers
                 }
                 catch (Exception e)
                 {
+                    
                     return Json("Fail", JsonRequestBehavior.AllowGet);
                 }
             }

@@ -1,4 +1,12 @@
-﻿<!DOCTYPE html>
+﻿
+@{
+    if (@Session["user"] == null)
+    {
+        @Url.Action("LogOff","Compte");
+    }
+}
+<!DOCTYPE html>
+
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -37,32 +45,17 @@
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                     <li>@Html.ActionLink("Mon Compte", "MonCompte", "Compte")</li>
 
-
-                    <!--PANIER-->
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-shopping-cart" style="margin-top: -4px;"></span></a>
-                        
-                        <ul class="dropdown-menu" style="min-height: 250px;">
-                            <li>
-                                <div style="padding: 15px; padding-bottom: 0px;">
-
-                                    <label style="text-align: center;">Panier:</label><br />
-                                    MSI DOMINATOR x1 2099€<br />
-                                    SENNHEISER x1 259€<br />
-                                    MANETTE XBOX ONE x1 60€<br /><br />
-                                    <input class="btn btn-primary btn-block" type="button" value="Voir mon panier">
-                                    <input class="btn btn-primary btn-block" type="button" value="Commander">
-                                </div>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <p class="num-cart">3</p>
+                    <span class="num-cart">@ViewBag.count</span>
+                    <li class="dropdown panier ">
+                        @{
+                            Html.RenderAction("GetPanier", "Panier");
+                        }
                     <!--/PANIER-->
+                        </li>
 
-                    <li class="deco" title="Déconnexion"><a href="javascript:$('#logOffForm').submit()"><span class="glyphicon glyphicon-off" style="margin-top: -4px;"></span></a></li>
+<li class="deco" title="Déconnexion"><a href="javascript:$('#logOffForm').submit()"><span class="glyphicon glyphicon-off" style="margin-top: -4px;"></span></a></li>
                 </ul>
-                    <!-- Search Bar-->
+                <!-- Search Bar-->
                 <ul class="nav navbar-nav pull-right">
                     <li>
                         <div class="row">
@@ -83,13 +76,17 @@
             </div>
         </div>
     </div>
-
+    
     <div class="container body-content">
-
-        <!--FOOTER-->
-        <footer class="row-fluid">
+        <div class="row bobody">
             @RenderBody()
-            <hr />
+
+        </div>
+        <!--FOOTER-->
+        <footer class="row">
+            
+            
+            <hr/>
             <div class="col-lg-12">
 
                 <div class="col-lg-4">
@@ -142,63 +139,63 @@
         @Html.AntiForgeryToken()
     }
     <script>
-            $(function() {
-                // Initialize numeric spinner input boxes
-                //$(".numeric-spinner").spinedit();
-                // Initialize modal dialog
-                // attach modal-container bootstrap attributes to links with .modal-link class.
-                // when a link is clicked with these attributes, bootstrap will display the href content in a modal dialog.
-                $('body').on('click', '.modal-link', function(e) {
-                    e.preventDefault();
-                    $(this).attr('data-target', '#modal-container');
-                    $(this).attr('data-toggle', 'modal');
-                });
-                // Attach listener to .modal-close-btn's so that when the button is pressed the modal dialog disappears
-                $('body').on('click', '.modal-close-btn', function() {
-                    $('#modal-container').modal('hide');
-                });
-                //clear modal cache, so that new content can be loaded
-                $('#modal-container').on('hidden.bs.modal', function() {
-                    $(this).removeData('bs.modal');
-                });
-                $('#CancelModal').on('click', function() {
-                    return false;
-                });
-            });
-            // action ajax
+    $(function () {
+        // Initialize numeric spinner input boxes
+        //$(".numeric-spinner").spinedit();
+        // Initialize modal dialog
+        // attach modal-container bootstrap attributes to links with .modal-link class.
+        // when a link is clicked with these attributes, bootstrap will display the href content in a modal dialog.
+        $('body').on('click', '.modal-link', function (e) {
+            e.preventDefault();
+            $(this).attr('data-target', '#modal-container');
+            $(this).attr('data-toggle', 'modal');
+        });
+        // Attach listener to .modal-close-btn's so that when the button is pressed the modal dialog disappears
+        $('body').on('click', '.modal-close-btn', function () {
+            $('#modal-container').modal('hide');
+        });
+        //clear modal cache, so that new content can be loaded
+        $('#modal-container').on('hidden.bs.modal', function () {
+            $(this).removeData('bs.modal');
+        });
+        $('#CancelModal').on('click', function () {
+            return false;
+        });
+    });
+    // action ajax
 
-            $("#export_csv").click(function() {
-                var param1 = getUrlParameter('Stat02');
-                var param2 = $("#Famille").val();
+    $("#export_csv").click(function () {
+        var param1 = getUrlParameter('Stat02');
+        var param2 = $("#Famille").val();
 
-                $.ajax({
-                    url: "@Url.Action("DownloadFicheArticle", "Produit")",
-                    type: "POST",
-                    data: {
-                        "Stat02": getUrlParameter('Stat02'),
-                        "Famille": param2
-                    },
-                    success: function(data) {
-                        if (param2) {
-                            window.location = encodeURI("DownloadFicheArticle?Stat02=" + getUrlParameter("Stat02") + "&Famille=" + param2);
-                        } else {
-                            window.location = encodeURI("DownloadFicheArticle?Stat02=" + getUrlParameter('Stat02'));
-                        }
+        $.ajax({
+            url: "@Url.Action("DownloadFicheArticle", "Produit")",
+            type: "POST",
+            data: {
+                "Stat02": getUrlParameter('Stat02'),
+                "Famille": param2
+            },
+            success: function (data) {
+                if (param2) {
+                    window.location = encodeURI("DownloadFicheArticle?Stat02=" + getUrlParameter("Stat02") + "&Famille=" + param2);
+                } else {
+                    window.location = encodeURI("DownloadFicheArticle?Stat02=" + getUrlParameter('Stat02'));
+                }
 
-                    }
+            }
 
-                });
-            });
-           // changer de mot de passe
-            $("#singlebutton").click(function() {
-                $.ajax({
-                    url:"@Url.Action("NewPassword","Compte")",
-                    type: "POST",
+        });
+    });
+    // changer de mot de passe
+    $("#singlebutton").click(function() {
+        $.ajax({
+            url: "@Url.Action("NewPassword","Compte")",
+                type: "POST",
                 data: {
                     Password: $("#passwordinput").val(),
                     NewPassword: $("#passwordRepeat").val()
                 },
-                success: function (data) {
+                success: function(data) {
                     $("#result").removeClass("alert alert-success alert-danger")
                     if (data == 'true') {
 
@@ -211,8 +208,50 @@
                         $("#result").text("Erreur lors du changement de mot de passe");
                     }
                 }
-            })
-            })
+            });
+        });
+        // ajout au panier
+        $(".add_panier").click(function () {
+            var qte_value = $('input[id*="' + $(this).data("ref") + '"]').val();
+            $.ajax({
+                url: "@Url.Action("AddPanier","Produit")",
+                type: "POST",
+            data : {
+                AR_Ref: $(this).data("ref"),
+                Qte: qte_value
+            },
+            success:function(data) {
+                if (data == "Success") {
+                    console.log(data);
+                    update_panier();
+                    count_panier();
+                    // ajout de la div
+                } else {
+                    console.log(data);
+                }
+            }
+        });
+        });
+
+        function update_panier(){
+            $.ajax({
+                url: "@Url.Action("GetPanier","Panier")"
+                
+
+        }).done(function (data) {
+            $('.panier').html(data);
+            
+        });
+        };
+        function count_panier() {
+            $.ajax({
+                url: "@Url.Action("CountPanier","Panier")"
+                
+
+            }).done(function (data) {
+                $('.num-cart').text(data);
+            });
+        }
     </script>
 </body>
 </html>
