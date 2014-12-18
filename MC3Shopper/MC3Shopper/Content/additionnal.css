@@ -502,3 +502,7 @@ footer {
 ::-webkit-scrollbar-thumb { height: 10px; background-color:#ff8128 ; border-radius: 0px;}
 ::-webkit-scrollbar-corner { background-color: #999;}
 ::-webkit-resizer { background-color: #666;}
+
+.cat{
+    background-color:white;
+}
