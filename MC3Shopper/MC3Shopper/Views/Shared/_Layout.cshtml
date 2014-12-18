@@ -2,7 +2,8 @@
 @{
     if (@Session["user"] == null)
     {
-        @Url.Action("LogOff","Compte");
+        FormsAuthentication.SignOut();
+        Response.Redirect(Url.Action("SignIn","Compte"));
     }
 }
 <!DOCTYPE html>
