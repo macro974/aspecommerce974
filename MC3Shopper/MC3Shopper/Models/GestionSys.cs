@@ -784,11 +784,12 @@ namespace MC3Shopper.Models
                     myReader["AR_Design"].ToString(), decimal.Parse(myReader["AR_PrixVen"].ToString()));
                 float stock = float.Parse(myReader["AS_QteSto"].ToString());
                 float stockRes = float.Parse(myReader["AS_QteRes"].ToString());
-                monProduit.StockDispo_denis = stock - stockRes;
+                monProduit.StockDispo_denis = stock - stockRes <= 0 ? 0 : stock - stockRes;
             }
             myReader.Close();
             maDB.close();
             monProduit.StockDispo_pierre = ArticleParStock(monProduit.Reference, 2);
+            monProduit.StockDisponible = monProduit.StockDispo_denis + monProduit.StockDispo_pierre;
             getProduitAssocie(monProduit);
             getQteCommandeProduitByRef(monProduit);
             return monProduit;
@@ -814,6 +815,7 @@ namespace MC3Shopper.Models
                 {
                     qte = f;
                 }
+                
             }
             myReader.Close();
             maDB.close();
@@ -1207,7 +1209,7 @@ namespace MC3Shopper.Models
             if (p != null)
             {
                 
-                if (p.QteDemande <= (p.StockDisponible + p.QteEnCommande))
+                if (qte <= (p.StockDisponible + p.QteEnCommande))
                 {
                     p.QteDemande = qte;
                     return p;

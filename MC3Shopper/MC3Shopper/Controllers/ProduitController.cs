@@ -93,10 +93,10 @@ namespace MC3Shopper.Controllers
         {
             var sys = new GestionSys(mb);
             var fiche_article = new List<ArticleSto>();
-            List<Produit> produit = sys.getAllProduitByRefAndFamille(Stat02, Famille);
+            List<Produit> produit = sys.getAllProduitByRefAndFamille(Uri.UnescapeDataString(Stat02), Famille);
             foreach (Produit item in produit)
             {
-                if (item.StockDisponible + item.QteEnCommande > 0)
+                if (item.StockDisponible + item.QteEnCommande > 0 && item.Prix>0 )
                 {
                     var At = new ArticleSto();
                     At.Reference = item.Reference;
@@ -158,7 +158,7 @@ namespace MC3Shopper.Controllers
             {
                 try
                 {
-                    panier.Add(p);
+                    panier.AddToPanier(p);
                     Session["Panier"] = Security.Serialize(panier);
                     
                     return Json("Success", JsonRequestBehavior.AllowGet);

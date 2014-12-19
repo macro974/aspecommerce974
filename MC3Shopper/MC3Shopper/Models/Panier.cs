@@ -185,11 +185,27 @@ namespace MC3Shopper.Models
             }
         }
 
-        public void AddToPanier(Produit Produit, int qte)
+        public void AddToPanier(Produit Produit)
         {
-            for (int i = 0; i < qte; i++)
+            Produit item = this.monPanier.Find(x => x.Reference == Produit.Reference);
+            if (item != null)
             {
-                Add(Produit);
+                // check si les 2 quantités ajouté ne dépasse pas le stock prévu 
+                if ((item.QteDemande + Produit.QteDemande) <= item.QteEnCommande + item.StockDisponible)
+                {
+                    this.monPanier.Remove(item);
+                    item.QteDemande += Produit.QteDemande;
+                    item.PrixTotal = item.Prix*int.Parse(item.QteDemande.ToString());
+                    TotalPanier += item.Prix*int.Parse(Produit.QteDemande.ToString());
+                    this.monPanier.Add(item);
+                }
+            }
+            else
+            {
+                Produit.PrixTotal = Produit.Prix*int.Parse(Produit.QteDemande.ToString());
+                TotalPanier += Produit.PrixTotal;
+                this.monPanier.Add(Produit);
+
             }
         }
     }
