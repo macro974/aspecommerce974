@@ -1,11 +1,17 @@
 ﻿$('.slider').slick({
     slidesToShow: 2,
-    slidesToScroll: 2,
+    slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 2500,
+    autoplaySpeed: 5500,
     adaptiveHeight: true,
-    accessibility: false,
-    arrows:false
+    accessibility: true,
+    arrows: true,
+    dots: true,
+   
+    slide: 'div',
+    cssEase: 'linear'
+  
+
 });
 $('.paginator').slick({
     slidesToShow: 15,

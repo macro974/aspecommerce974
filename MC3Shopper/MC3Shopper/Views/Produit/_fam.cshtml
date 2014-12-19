@@ -9,7 +9,7 @@
         @foreach (string item in @ViewBag.fam)
         {
             <li role="presentation">
-                @Ajax.ActionLink(@item, "_getListProduct", "Produit", new {Stat02 = @ViewBag.Category, Famille = item}, new AjaxOptions
+                @Ajax.ActionLink(@item, "_getListProduct", "Produit", new { Stat02 = @ViewBag.Category, Famille = item }, new AjaxOptions
                 {
                     HttpMethod = "GET",
                     InsertionMode = InsertionMode.Replace,
