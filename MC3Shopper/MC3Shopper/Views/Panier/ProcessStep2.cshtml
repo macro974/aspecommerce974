@@ -1,0 +1,11 @@
+﻿<div id="step" class="container">
+    <span>tere la nora bne méthode de livraison</span>
+    @Ajax.ActionLink("Suivant", "ProcessStep3", "Panier",
+    new AjaxOptions
+    {
+        UpdateTargetId = "step",
+        InsertionMode = InsertionMode.Replace,
+        HttpMethod = "Get"
+    }, new { @class = "btn btn-primary btn-block" }
+    )
+</div>

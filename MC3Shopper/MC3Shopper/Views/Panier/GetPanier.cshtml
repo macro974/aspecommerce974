@@ -1,10 +1,5 @@
 ﻿@using System.Diagnostics.Eventing.Reader
 @using MC3Shopper.Models;
-@{
-
-
-}
-
     
         
         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-shopping-cart" style="margin-top: -4px;"></span><span class="num-cart">@ViewBag.count</span></a>
@@ -27,8 +22,9 @@
                         }
                     </div>
                    
-                    <input class="btn btn-primary btn-block" type="button" value="Voir mon panier">
-                    <input class="btn btn-primary btn-block" type="button" value="Commander">
+                    <input class="btn btn-primary btn-block" type="button" value="Voir mon panier" >
+                    @Html.ActionLink("Commander","ProcessStep","Panier", new {@class="btn btn-primary btn-block"})
+
                 </div>
             </li>
         </ul>

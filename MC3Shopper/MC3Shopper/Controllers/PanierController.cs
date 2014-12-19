@@ -40,5 +40,28 @@ namespace MC3Shopper.Controllers
             
             
         }
+
+        public ActionResult ProcessStep()
+        {
+            return View();
+        }
+
+        public ActionResult ProcessStep1()
+        {
+            return PartialView();
+        }
+
+        public ActionResult ProcessStep2()
+        {
+            return PartialView();
+        }
+        public ActionResult ProcessStep3()
+        {
+            return PartialView();
+        }
+        public ActionResult ProcessStep4()
+        {
+            return PartialView();
+        }
     }
 }

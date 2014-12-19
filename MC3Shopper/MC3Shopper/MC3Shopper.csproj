@@ -276,6 +276,11 @@
     <Content Include="Views\Compte\MonCompte.cshtml" />
     <Content Include="Views\Produit\Search.cshtml" />
     <Content Include="Views\Panier\GetPanier.cshtml" />
+    <Content Include="Views\Panier\ProcessStep.cshtml" />
+    <Content Include="Views\Panier\ProcessStep1.cshtml" />
+    <Content Include="Views\Panier\ProcessStep2.cshtml" />
+    <Content Include="Views\Panier\ProcessStep3.cshtml" />
+    <Content Include="Views\Panier\ProcessStep4.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
