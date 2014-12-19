@@ -29,10 +29,11 @@ namespace MC3Shopper.Models
             Designation = Design;
             Prix = Price;
             QteDemande = 0;
-
-            if (File.Exists("~/img/articles/" + Img))
+            string path = "S:\\Raccourci Gesco\\v16\\Multimedia\\";
+            
+            if (File.Exists("~/images/articles/" + Img))
             {
-                ImgPath = "~/img/articles/" + Img;
+                ImgPath = "~/images/articles/" + Img;
             }
             else
             {
