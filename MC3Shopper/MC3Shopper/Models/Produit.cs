@@ -149,7 +149,7 @@ namespace MC3Shopper.Models
             {
                 decimal lol = decimal.Round(_prix, 2);
                 decimal ok = lol - ((lol/100)*decimal.Parse(_remise.ToString()));
-                decimal okk = decimal.Round(ok, 6);
+                decimal okk = decimal.Round(ok, 2);
                 return okk;
                 //return _prix - ((_prix / 100) * decimal.Parse(_remise.ToString()));
             }
