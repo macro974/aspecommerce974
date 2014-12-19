@@ -29,10 +29,11 @@ namespace MC3Shopper.Models
             Designation = Design;
             Prix = Price;
             QteDemande = 0;
-
-            if (File.Exists("~/img/articles/" + Img))
+            string path = "S:\\Raccourci Gesco\\v16\\Multimedia\\";
+            
+            if (File.Exists("~/images/articles/" + Img))
             {
-                ImgPath = "~/img/articles/" + Img;
+                ImgPath = "~/images/articles/" + Img;
             }
             else
             {
@@ -149,7 +150,7 @@ namespace MC3Shopper.Models
             {
                 decimal lol = decimal.Round(_prix, 2);
                 decimal ok = lol - ((lol/100)*decimal.Parse(_remise.ToString()));
-                decimal okk = decimal.Round(ok, 6);
+                decimal okk = decimal.Round(ok, 2);
                 return okk;
                 //return _prix - ((_prix / 100) * decimal.Parse(_remise.ToString()));
             }

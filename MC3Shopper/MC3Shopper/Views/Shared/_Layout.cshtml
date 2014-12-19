@@ -212,8 +212,10 @@
             });
         });
         // ajout au panier
-        $(".add_panier").click(function () {
+        $(".add_panier").click(function (e) {
+            e.preventDefault();
             var qte_value = $('input[id*="' + $(this).data("ref") + '"]').val();
+            
             $.ajax({
                 url: "@Url.Action("AddPanier","Produit")",
                 type: "POST",

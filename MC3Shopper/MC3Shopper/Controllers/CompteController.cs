@@ -35,10 +35,10 @@ namespace MC3Shopper.Controllers
                 monUser.Statisitques = maSys.GetStatAtToday(monUser);
             }
             List<lignedocument> dernier_commande=maSys.RecupererLignedocumentsByTypeAndNum(1,monUser.CodeClient);
-            List<lignedocument> factures=maSys.RecupererLignedocumentsByTypeAndNum(7,monUser.CodeClient);
+           
             ViewBag.monUser = monUser;
             ViewBag.historique = dernier_commande;
-            ViewBag.factures = factures;
+          
             //AjaxPassword form_pass= new AjaxPassword();
             return View();
         }
