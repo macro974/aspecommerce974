@@ -166,59 +166,43 @@
     // action ajax
 
     $("#export_csv").click(function () {
-        var param1 = getUrlParameter('Stat02');
+        var param1 = getUrlParameter(1);
         var param2 = $("#Famille").val();
-
-        $.ajax({
-            url: "@Url.Action("DownloadFicheArticle", "Produit")",
-            type: "POST",
-            data: {
-                "Stat02": getUrlParameter('Stat02'),
-                "Famille": param2
-            },
-            success: function (data) {
-                if (param2) {
-                    window.location = encodeURI("DownloadFicheArticle?Stat02=" + getUrlParameter("Stat02") + "&Famille=" + param2);
-                } else {
-                    window.location = encodeURI("DownloadFicheArticle?Stat02=" + getUrlParameter('Stat02'));
-                }
-
-            }
-
-        });
+        window.location = "@Url.Action("DownloadFicheArticle", "Produit")" + param1;
+       
     });
     // changer de mot de passe
     $("#singlebutton").click(function() {
         $.ajax({
             url: "@Url.Action("NewPassword","Compte")",
-                type: "POST",
-                data: {
-                    Password: $("#passwordinput").val(),
-                    NewPassword: $("#passwordRepeat").val()
-                },
-                success: function(data) {
-                    $("#result").removeClass("alert alert-success alert-danger")
-                    if (data == 'true') {
+            type: "POST",
+            data: {
+                Password: $("#passwordinput").val(),
+                NewPassword: $("#passwordRepeat").val()
+            },
+            success: function(data) {
+                $("#result").removeClass("alert alert-success alert-danger")
+                if (data == 'true') {
 
-                        $("#result").addClass("alert alert-success");
-                        $("result").append('<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">fermer</span></button>');
-                        $("#result").text("Changement de mot de passe effectué");
-                    } else {
-                        $("#result").addClass("alert alert-danger");
-                        $("result").append('<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">fermer</span></button>');
-                        $("#result").text("Erreur lors du changement de mot de passe");
-                    }
+                    $("#result").addClass("alert alert-success");
+                    $("result").append('<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">fermer</span></button>');
+                    $("#result").text("Changement de mot de passe effectué");
+                } else {
+                    $("#result").addClass("alert alert-danger");
+                    $("result").append('<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">fermer</span></button>');
+                    $("#result").text("Erreur lors du changement de mot de passe");
                 }
-            });
+            }
         });
-        // ajout au panier
-        $(".add_panier").click(function (e) {
-            e.preventDefault();
-            var qte_value = $('input[id*="' + $(this).data("ref") + '"]').val();
-            
-            $.ajax({
-                url: "@Url.Action("AddPanier","Produit")",
-                type: "POST",
+    });
+    // ajout au panier
+    $(".add_panier").click(function (e) {
+        e.preventDefault();
+        var qte_value = $('input[id*="' + $(this).data("ref") + '"]').val();
+
+        $.ajax({
+            url: "@Url.Action("AddPanier","Produit")",
+            type: "POST",
             data : {
                 AR_Ref: $(this).data("ref"),
                 Qte: qte_value
@@ -234,27 +218,27 @@
                 }
             }
         });
-        });
+    });
 
-        function update_panier(){
-            $.ajax({
-                url: "@Url.Action("GetPanier","Panier")"
-                
+    function update_panier(){
+        $.ajax({
+            url: "@Url.Action("GetPanier","Panier")"
+
 
         }).done(function (data) {
             $('.panier').html(data);
-            
-        });
-        };
-        function count_panier() {
-            $.ajax({
-                url: "@Url.Action("CountPanier","Panier")"
-                
 
-            }).done(function (data) {
-                $('.num-cart').text(data);
-            });
-        }
+        });
+    };
+    function count_panier() {
+        $.ajax({
+            url: "@Url.Action("CountPanier","Panier")"
+
+
+        }).done(function (data) {
+            $('.num-cart').text(data);
+        });
+    }
     </script>
 </body>
 </html>

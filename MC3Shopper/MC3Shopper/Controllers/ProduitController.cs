@@ -11,6 +11,7 @@ using PagedList;
 
 namespace MC3Shopper.Controllers
 {
+    [RoutePrefix("Catalogue")]
     public class ProduitController : Controller
     {
         private readonly Database mb = new Database();
@@ -34,10 +35,11 @@ namespace MC3Shopper.Controllers
             return PartialView("_Details", p);
         }
 
+        [Route("Category/{Stat02?}")]
         [Authorize]
         [HttpGet]
         //[Route ("Category/{State02}/{page:int:min(1)}")]
-        public ActionResult Category(string Stat02 = "")
+        public ActionResult Category(string Stat02=null )
         {
             ViewBag.Category = Stat02;
             return View();
@@ -65,9 +67,11 @@ namespace MC3Shopper.Controllers
             return PartialView();
         }
 
+
         [Authorize]
         //[OutputCache(Duration = 60)]
         [HttpGet]
+        
         public ActionResult _getListProduct(string Stat02 = "", string Famille = "", int page = 1)
         {
             var sys = new GestionSys(mb);
@@ -89,6 +93,7 @@ namespace MC3Shopper.Controllers
         }
 
         [Authorize]
+        [Route("Download/{Stat02=''}/{Famille=''}")]
         public FileResult DownloadFicheArticle(string Stat02 = "", string Famille = "")
         {
             var sys = new GestionSys(mb);

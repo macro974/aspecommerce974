@@ -16,5 +16,5 @@
         </div>
     </div>
 </div>
-
-    @Html.Action("_getListProduct", new { Stat02 = @ViewBag.Category })
+    @{Html.RenderAction("_getListProduct", "Produit", new { Stat02 = @ViewBag.Category });}
+   
