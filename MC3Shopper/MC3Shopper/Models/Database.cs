@@ -16,8 +16,7 @@ namespace MC3Shopper.Models
 
         public void connection()
         {
-            //this.myConnection = new SqlConnection("Data Source=193.253.99.121,6123;Network Library=DBMSSOCN;Initial Catalog=MC3REUNION;User ID=saa;Password=sa;");
-            //this.myConnection = new SqlConnection("Data Source=MC3REUSRV001,6123;Network Library=DBMSSOCN;Initial Catalog=MC3REUNION;User ID=saa;Password=sa;"); // le bon celui la
+           
             myConnection =
                 new SqlConnection(
                     "Data Source=BRIAN-MSI;Initial Catalog=mc3_sage;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=False");
