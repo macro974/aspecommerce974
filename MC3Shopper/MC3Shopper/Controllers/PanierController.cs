@@ -70,9 +70,5 @@ namespace MC3Shopper.Controllers
         {
             return PartialView();
         }
-        public ActionResult ProcessStep4()
-        {
-            return PartialView();
-        }
     }
 }

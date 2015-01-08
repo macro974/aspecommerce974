@@ -62,19 +62,20 @@
                         <p><em class="alert-success">@arrive</em></p>
                     </td>
                     <td>
-                        <input type="text" class="qte" value="0" id="Qte" />   <span class="">@item.StockDisponible </span>
+                        <input type="text" class="qte" value="0" id="@item.Reference" />   <span class="">@item.StockDisponible </span>
                         <p>Saint-Denis: <span class="badge">@dispo_denis</span></p>
-                        <p>Saint-Denis: <span class="badge">@dispo_pierre</span></p>
-
-</td>
+                        <p>Saint-Pierre: <span class="badge">@dispo_pierre</span></p>
 
                     <td>
-                      
+                        <!--@Math.Round((double) item.Prix, 2)<span class="glyphicon-euro"></span>-->
                         @item.PrixFormate
                     </td>
 
                     <td>
-                        <a href="#data" class="add_panier">Ajouter au panier</a>
+                        <!-- <a href="#data" class="add_panier" data-ref="@item.Reference">Ajouter au panier</a>-->
+                        <button class="btn btn-primary add_panier" data-ref="@item.Reference">
+                            <span class=""> Ajouter au panier </span>
+                        </button>
                     </td>
                 </tr>
             }
@@ -83,4 +84,22 @@
 </div>
 
 @Html.PagedListPager((IPagedList)ViewBag.liste, page => Url.Action("Search", new { Search = @ViewBag.search, page }))
-  
+ <script>
+    $(".add_panier").click(function (e) {
+        e.preventDefault();
+        var qte_value = $('input[id*="' + $(this).data("ref") + '"]').val();
+        
+        
+        var posting = $.post("/Catalogue/Add", { AR_Ref: $(this).data("ref"), Qte: qte_value });
+        posting.done(function (data) {
+            if (data == "Success") {
+                console.log(data);
+                update_panier();
+                count_panier();
+            }
+            else {
+                console.log(data);
+            }
+        });
+    });
+</script> 
