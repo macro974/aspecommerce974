@@ -81,6 +81,7 @@
     <div class="container body-content">
         <div class="row bobody">
             @Scripts.Render("~/bundles/jquery")
+            <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.slick/1.3.15/slick.min.js"></script>
             @RenderBody()
 
         </div>
@@ -128,8 +129,8 @@
         </footer>
     </div>
 
-
-    <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.slick/1.3.13/slick.min.js"></script>
+ 
+  
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", false)
     <div id="modal-container" class="modal fade" tabindex="-1" role="dialog">
@@ -167,9 +168,16 @@
     // action ajax
 
     $("#export_csv").click(function () {
-        var param1 = getUrlParameter(1);
+        var param1 = $("#titre-cat").text();
         var param2 = $("#Famille").val();
-        window.location = "@Url.Action("DownloadFicheArticle", "Produit")" + param1;
+        if (param2)
+        {
+            window.location.href = "/Catalogue/Download/" + param1+"/"+param2;
+        }
+        else {
+            window.location.href = "/Catalogue/Download/" + param1;
+        }
+        
        
     });
     // changer de mot de passe
@@ -197,29 +205,7 @@
         });
     });
     // ajout au panier
-    $(".add_panier").click(function (e) {
-        e.preventDefault();
-        var qte_value = $('input[id*="' + $(this).data("ref") + '"]').val();
-
-        $.ajax({
-            url: "@Url.Action("AddPanier","Produit")",
-            type: "POST",
-            data : {
-                AR_Ref: $(this).data("ref"),
-                Qte: qte_value
-            },
-            success:function(data) {
-                if (data == "Success") {
-                    console.log(data);
-                    update_panier();
-                    count_panier();
-                    // ajout de la div
-                } else {
-                    console.log(data);
-                }
-            }
-        });
-    });
+   
 
     function update_panier(){
         $.ajax({
@@ -231,15 +217,28 @@
 
         });
     };
-    function count_panier() {
-        $.ajax({
-            url: "@Url.Action("CountPanier","Panier")"
+        function count_panier() {
+            $.ajax({
+                url: "@Url.Action("CountPanier","Panier")"
 
 
-        }).done(function (data) {
-            $('.num-cart').text(data);
+            }).done(function (data) {
+                $('.num-cart').text(data);
+            });
+        };
+
+        $(".famille").click(function (e) {
+            $("#loading").show();
+            var stat=$("#titre-cat").text();
+            var famille = $(this).text();
+            var url = "/Produit/_getListProduct";
+            $.get(url, { Stat02: stat, Famille: famille }).done(function (data) {
+
+                $("#getList").html(data);
+
+            });
+            $("#loading").hide();
         });
-    }
     </script>
 </body>
 </html>

@@ -8,6 +8,8 @@ using MC3Shopper.Models;
 
 namespace MC3Shopper.Controllers
 {
+    [RoutePrefix("Compte")]
+    [Route("{action=MonCompte}")]
     public class CompteController : Controller
     {
         // GET: Compte
@@ -22,6 +24,7 @@ namespace MC3Shopper.Controllers
         {
             return View();
         }
+        
         [Authorize()]
         public ActionResult MonCompte()
         {

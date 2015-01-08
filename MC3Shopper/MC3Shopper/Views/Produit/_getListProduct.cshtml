@@ -82,4 +82,21 @@
         @Html.PagedListPager((IPagedList)ViewBag.liste, page => Url.Action("Category", new { Stat02 = @ViewBag.Category, Famille = @ViewBag.famille, page }))
     </div>
 </div>      
+<script>
+    $(".add_panier").click(function (e) {
+        e.preventDefault();
+        var qte_value = $('input[id*="' + $(this).data("ref") + '"]').val();
+        var posting = $.post("/Catalogue/Add", { AR_Ref: $(this).data("ref"), Qte: qte_value });
+        posting.done(function (data) {
+            if (data == "Success") {
+                console.log(data);
+                update_panier();
+                count_panier();
+            }
+            else {
+                console.log(data);
+            }
+        });
+    });
+</script>
 <!--<script src="http://code.jquery.com/ui/1.11.2/jquery-ui.min.js"></script>-->

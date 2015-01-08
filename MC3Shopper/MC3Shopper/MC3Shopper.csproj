@@ -294,6 +294,8 @@
     <Content Include="Views\Panier\ProcessStep1.cshtml" />
     <Content Include="Views\Panier\ProcessStep2.cshtml" />
     <Content Include="Views\Panier\ProcessStep3.cshtml" />
+    <Content Include="Views\Panier\ProcessStep4.cshtml" />
+    <Content Include="Views\Panier\CreerCommande.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

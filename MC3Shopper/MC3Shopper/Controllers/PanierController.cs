@@ -9,6 +9,7 @@ namespace MC3Shopper.Controllers
 {
     public class PanierController : Controller
     {
+        private readonly Database mb = new Database();
         // GET: Panier
         public ActionResult GetPanier()
         {
@@ -39,6 +40,16 @@ namespace MC3Shopper.Controllers
             return Json(count, JsonRequestBehavior.AllowGet);
             
             
+        }
+
+        [Route("Commander")]
+        public ActionResult CreerCommande()
+        {
+            var user = Security.DeSerialize<Utilisateur>(Session["user"].ToString());
+            Panier panier = Security.DeSerialize<Panier>(Session["panier"].ToString());
+            string a = GestionSys.CreeCommande(panier, user,1);
+            ViewBag.a = a;
+            return View();
         }
 
         public ActionResult ProcessStep()

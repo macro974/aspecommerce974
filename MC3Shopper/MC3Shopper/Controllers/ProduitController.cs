@@ -35,7 +35,7 @@ namespace MC3Shopper.Controllers
             return PartialView("_Details", p);
         }
 
-        [Route("Category/{Stat02?}")]
+        [Route("{Stat02?}")]
         [Authorize]
         [HttpGet]
         //[Route ("Category/{State02}/{page:int:min(1)}")]
@@ -67,7 +67,7 @@ namespace MC3Shopper.Controllers
             return PartialView();
         }
 
-
+        
         [Authorize]
         //[OutputCache(Duration = 60)]
         [HttpGet]
@@ -94,8 +94,9 @@ namespace MC3Shopper.Controllers
 
         [Authorize]
         [Route("Download/{Stat02=''}/{Famille=''}")]
-        public FileResult DownloadFicheArticle(string Stat02 = "", string Famille = "")
+        public FileResult DownloadFicheArticle(string Stat02 = "",string Famille="")
         {
+            
             var sys = new GestionSys(mb);
             var fiche_article = new List<ArticleSto>();
             List<Produit> produit = sys.getAllProduitByRefAndFamille(Uri.UnescapeDataString(Stat02), Famille);
@@ -133,7 +134,8 @@ namespace MC3Shopper.Controllers
                 fiche_article,
                 chemin,
                 outputFileDescription);
-            return File(chemin, "application/ms-excel", "MC3_Export_" + Stat02 + DateTime.Now + ".csv");
+            return File(chemin, "text/csv", "MC3_Export_" + Stat02 + DateTime.Now + ".csv");
+
         }
 
         [HttpGet]
@@ -152,6 +154,8 @@ namespace MC3Shopper.Controllers
 
         }
 
+        [Route("Add")]
+        [HttpPost]
         public JsonResult AddPanier(string AR_Ref, int Qte)
         {
            
