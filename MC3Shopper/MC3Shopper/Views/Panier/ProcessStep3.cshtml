@@ -1,11 +1,11 @@
 ﻿<div id="step" class="container">
-    <span>tere la va di a ou komen fo payer </span>
-    @Ajax.ActionLink("Suivant", "ProcessStep4", "Panier",
-    new AjaxOptions
-    {
-        UpdateTargetId = "step",
-        InsertionMode = InsertionMode.Replace,
-        HttpMethod = "Get"
-    }, new { @class = "btn btn-primary btn-block" }
-    )
+    <span>tere la nora un récapitulatif des étapes</span>
+    @Html.ActionLink("Confirmer","Index","Home", new { @class = "btn btn-primary btn-block" })
 </div>
+
+<script>
+    $("#part2").removeClass("active");
+    $("#part2").addClass("complete");
+    $("#part3").removeClass("disabled");
+    $("#part3").addClass("active");
+</script>
