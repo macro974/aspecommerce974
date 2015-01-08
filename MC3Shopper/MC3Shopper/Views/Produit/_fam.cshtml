@@ -9,13 +9,8 @@
         @foreach (string item in @ViewBag.fam)
         {
             <li role="presentation">
-                @Ajax.ActionLink(@item, "_getListProduct", "Produit", new { Stat02 = @ViewBag.Category, Famille = item }, new AjaxOptions
-                {
-                    HttpMethod = "GET",
-                    InsertionMode = InsertionMode.Replace,
-                    UpdateTargetId = "getList",
-                    LoadingElementId = "loading"
-                })
+                
+                <a href="#" data-fam="@item" class="famille">@item</a>
             </li>
         }
     </ul>

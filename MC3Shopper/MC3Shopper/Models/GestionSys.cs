@@ -61,9 +61,9 @@ namespace MC3Shopper.Models
                 default:
                     break;
             }
-
-            var myCommand = new SqlCommand(statement, dbObject.myConnection);
             dbObject.open();
+            var myCommand = new SqlCommand(statement, dbObject.myConnection);
+            
             SqlDataReader myReader = myCommand.ExecuteReader();
             while (myReader.Read())
             {
@@ -725,7 +725,7 @@ namespace MC3Shopper.Models
             string numero = "";
             var dbObject = new Database();
             dbObject.open();
-            string statement = "SELECT TOP 1 DO_Piece, cbMarq FROM F_DOCENTETE WHERE (DO_Type = 1) ORDER BY cbMarq DESC";
+            string statement = "SELECT TOP 1 DO_Piece FROM F_DOCENTETE WHERE (DO_Type = 1) ORDER BY cbMarq DESC";
             var myCommand = new SqlCommand(statement, dbObject.myConnection);
 
             SqlDataReader myReader = null;
@@ -1221,6 +1221,118 @@ namespace MC3Shopper.Models
                 
             }
             return null;
+        }
+        public static string CreeCommande(Panier monPanier, Utilisateur monUser,int depot)
+        {
+            //ALTER DATABASE "nomDeLaBase" SET ARITHABORT ON
+
+            string numeroBC = GetNumeroBC();
+            Database dbObject = new Database();
+            int cbmarq=0;
+            
+            dbObject.open();
+            /**
+            string statement1 = @"ALTER DATABASE MC3REUNION SET ARITHABORT ON";**/
+            string statement1 = "select MAX(cbMarq)+1 from F_DOCENTETE";
+            SqlCommand myCommand1 = new SqlCommand(statement1, dbObject.myConnection);
+            /**
+            myCommand1.ExecuteScalar();**/
+            SqlDataReader reader= myCommand1.ExecuteReader();
+            while (reader.Read())
+            {
+                cbmarq=int.Parse(reader[0].ToString());
+            }
+            dbObject.close();
+
+            
+
+            dbObject.open();
+            string minute = "";
+            string heure = "";
+            string seconde = "";
+            if (DateTime.Now.Minute < 10)
+            {
+                minute = 0 + DateTime.Now.Minute.ToString();
+            }
+            else
+            {
+                minute = DateTime.Now.Minute.ToString();
+            }
+            if (DateTime.Now.Hour < 10)
+            {
+                heure = 0 + DateTime.Now.Hour.ToString();
+            }
+            else
+            {
+                heure = DateTime.Now.Hour.ToString();
+            }
+            if (DateTime.Now.Second < 10)
+            {
+                seconde = 0 + DateTime.Now.Second.ToString();
+            }
+            else
+            {
+                seconde = DateTime.Now.Second.ToString();
+            }
+
+            string Intt = "Web : Commande";
+
+            foreach (Produit item in monPanier.monPanier)
+            {
+                if (item.Reference.Equals("FRAIS_DE_TRANSPORT"))
+                {
+                    Intt = "Web : A livrer";
+                }
+            }
+
+
+            string statement = @"INSERT INTO F_DOCENTETE
+                      (DO_Piece,AB_No, CA_No, CA_Num, CG_Num, CT_NumPayeur, DE_No, DO_Attente, DO_BLFact, DO_Cloture, DO_Colisage, DO_Condition, DO_Coord01, 
+                      DO_Coord02, DO_Coord03, DO_Coord04, DO_Cours, DO_Date, DO_DateLivr, DO_DebutAbo, DO_DebutPeriod, DO_Devise, DO_Domaine, DO_Ecart, 
+                      DO_Expedit, DO_FinAbo, DO_FinPeriod, DO_Heure, DO_Imprim, DO_Langue, DO_NbFacture, DO_NoWeb, DO_Period, DO_Ref, DO_Regime, 
+                      DO_Reliquat, DO_Souche, DO_Statut, DO_Tarif, DO_Tiers, DO_Transaction, DO_Transfere, DO_TxEscompte, DO_Type, DO_TypeColis, DO_Ventile, 
+                      LI_No, N_CatCompta,cbMarq)
+    VALUES     ('" + numeroBC + @"',0, 0, '', '4111000000', '" + monUser.CodeClient + @"', "+depot+", 0, 0, 0, 1, 1, '', '', '', '', 0, '" + DateTime.Now.ToString("MM-dd-yyyy") + @"', '01/01/1900', '01/01/1900', '01/01/1900', 0, 0, 0, 1, '01/01/1900', '01/01/1900',
+                       '" + heure + minute + seconde + @"', 0, 0, 1, '', 1, '" + Intt + "', 21, 0, 0, 0, 1, '" + monUser.CodeClient + @"', 11, 0, 0, 1, 1, 0, 84, 1,"+cbmarq+")";
+            SqlCommand myCommand = new SqlCommand(statement, dbObject.myConnection);
+
+            myCommand.ExecuteScalar();
+            dbObject.close();
+
+
+            foreach (Produit item in monPanier.monPanier)
+            {
+                dbObject.open();
+                string kaboom = item.Designation.Replace("'", "''");
+                string statemnt = @"INSERT INTO F_DOCLIGNE
+                      (AF_RefFourniss, AG_No1, AG_No2, AR_Ref, AR_RefCompose, CA_Num, CT_Num, DE_No, DL_CMUP, DL_DateBC, DL_DateBL, DL_Design, DL_Frais, 
+                      DL_Ligne, DL_MvtStock, DL_NonLivre, DL_NoRef, DL_PieceBC, DL_PieceBL, DL_PoidsBrut, DL_PoidsNet, DL_PrixRU, DL_PrixUnitaire, 
+                      DL_PUBC, DL_PUDevise, DL_PUTTC, DL_Qte, DL_QteBC, DL_QteBL, DL_Remise01REM_Type, DL_Remise01REM_Valeur, DL_Remise02REM_Type, 
+                      DL_Remise02REM_Valeur, DL_Remise03REM_Type, DL_Remise03REM_Valeur, DL_Taxe1, DL_Taxe2, DL_Taxe3, DL_TNomencl, DL_TRemExep, 
+                      DL_TRemPied, DL_TTC, DL_TypePL, DL_TypeTaux1, DL_TypeTaux2, DL_TypeTaux3, DL_TypeTaxe1, DL_TypeTaxe2, DL_TypeTaxe3, DL_Valorise, 
+                      DO_Date, DO_DateLivr, DO_Domaine, DO_Piece, DO_Ref, DO_Type, EU_Enumere, EU_Qte, DL_MontantHT, DL_MontantTTC, 
+                      DL_FactPoids, DL_Escompte,cbMarq)
+VALUES     ('" + item.Reference + @"', 0, 0, '" + item.Reference + @"', '', '', '" + monUser.CodeClient + @"', "+depot+", '" + item.CMUP.ToString("0.00").Replace(',', '.') + @"', '" + DateTime.Now.ToString("MM-dd-yyyy") + @"', NULL, '" + item.Designation.Replace("'", "''") + @"', 0, 10000, 0, 0, 0, NULL, NULL, 1, 0, 0,'" + item.PrixOriginal.ToString("0.00").Replace(',', '.') + @"', 0, 0, " + item.PUTTC.ToString("0.00").Replace(',', '.') + @", '" + item.QteDemande.ToString("0.00").Replace(',', '.') + @"', 
+                      '" + item.QteDemande.ToString("0.00").Replace(',', '.') + "', '" + item.QteDemande.ToString("0.00").Replace(',', '.') + "',1, " + item.Remise.ToString("0.00").Replace(',', '.') + ", 0, 0, 0, 0, '" + item.TVA.ToString("0.00").Replace(',', '.') + @"', '" + item.Taxe2.ToString("0.00").Replace(',', '.') + @"', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '" + DateTime.Now.ToString("MM-dd-yyyy") + @"', '01/01/1900', 0, '" + numeroBC + "', NULL, 1, 0, '" + item.QteDemande.ToString("0.00").Replace(',', '.') + "','" + item.PrixTotal.ToString("0.00").Replace(',', '.') + @"', '" + item.PrixTTC.ToString("0.00").Replace(',', '.') + "', 0, 0,"+cbmarq+") ";
+                myCommand = new SqlCommand(statemnt, dbObject.myConnection);
+
+                myCommand.ExecuteScalar();
+                dbObject.close();
+
+                float stockRes = item.StockRes + item.QteDemande;
+                dbObject.open();
+                statemnt = @"UPDATE F_ARTSTOCK SET AS_QteRes='" + stockRes.ToString("0.00").Replace(',', '.') + "' WHERE AR_Ref='" + item.Reference + "' AND DE_No="+depot+"";
+                myCommand = new SqlCommand(statemnt, dbObject.myConnection);
+
+                myCommand.ExecuteScalar();
+                dbObject.close();
+
+
+
+            }
+            return numeroBC;
+
+
         }
     }
 }
