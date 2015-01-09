@@ -22,14 +22,12 @@
         <img class="login-logo" src="~/Content/img/logoMC3.png" />
         <h2 class="form-signin-heading">Connectez-vous</h2>
 
-
         @Html.TextBoxFor(m => m.CodeClient, new {placeholder = Html.DisplayNameFor(m => m.CodeClient), @class = "form-control"})<br />
 
         @Html.PasswordFor(m => m.Password, new {placeholder = Html.DisplayNameFor(m => m.Password), @class = "form-control"})<br />
 
-
         <label class="checkbox">
-               
+
             @Html.CheckBoxFor(m => m.RememberMe, new {id = "rememberMe"})
             @Html.DisplayNameFor(m => m.RememberMe)
         </label>

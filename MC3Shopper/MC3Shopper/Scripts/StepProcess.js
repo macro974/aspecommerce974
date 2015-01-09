@@ -1,6 +1,5 @@
 ﻿$(function () {
     $('.input-group-addon.beautiful').each(function () {
-
         var $widget = $(this),
             $input = $widget.find('input'),
             type = $input.attr('type');

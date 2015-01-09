@@ -11,9 +11,8 @@ namespace MC3Shopper
             routes.MapMvcAttributeRoutes(); // active les routes custom
 
             routes.MapRoute("Default", "{controller}/{action}/{id}",
-                new {controller = "Home", action = "Index", id = UrlParameter.Optional}
+                new { controller = "Home", action = "Index", id = UrlParameter.Optional }
                 );
-            
         }
     }
 }

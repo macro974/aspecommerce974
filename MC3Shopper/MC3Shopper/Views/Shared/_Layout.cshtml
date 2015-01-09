@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     if (@Session["user"] == null)
     {
         FormsAuthentication.SignOut();
@@ -46,12 +45,10 @@
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                     <li>@Html.ActionLink("Mon Compte", "MonCompte", "Compte")</li>
 
-                    
                     <li class="dropdown panier ">
                         @{
                             Html.RenderAction("GetPanier", "Panier");
                         }
-                        
                      </li>
 
 <li class="deco" title="Déconnexion"><a href="javascript:$('#logOffForm').submit()"><span class="glyphicon glyphicon-off" style="margin-top: -4px;"></span></a></li>
@@ -68,7 +65,6 @@
                                     <span id="search-icone" class="glyphicon glyphicon-search form-control-feedback"></span>
                                 </div>
                             </form>
-
                         </div>
                     </li>
                     <!--/ Search Bar-->
@@ -77,19 +73,17 @@
             </div>
         </div>
     </div>
-    
+
     <div class="container body-content">
         <div class="row bobody">
             @Scripts.Render("~/bundles/jquery")
             <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.slick/1.3.15/slick.min.js"></script>
             @RenderBody()
-
         </div>
         <!--FOOTER-->
         <footer class="row">
-            
-            
-            <hr/>
+
+            <hr />
             <div class="col-lg-12">
 
                 <div class="col-lg-4">
@@ -129,8 +123,6 @@
         </footer>
     </div>
 
- 
-  
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", false)
     <div id="modal-container" class="modal fade" tabindex="-1" role="dialog">
@@ -177,8 +169,7 @@
         else {
             window.location.href = "/Catalogue/Download/" + param1;
         }
-        
-       
+
     });
     // changer de mot de passe
     $("#singlebutton").click(function() {
@@ -205,12 +196,10 @@
         });
     });
     // ajout au panier
-   
 
     function update_panier(){
         $.ajax({
             url: "@Url.Action("GetPanier","Panier")"
-
 
         }).done(function (data) {
             $('.panier').html(data);
@@ -220,7 +209,6 @@
         function count_panier() {
             $.ajax({
                 url: "@Url.Action("CountPanier","Panier")"
-
 
             }).done(function (data) {
                 $('.num-cart').text(data);

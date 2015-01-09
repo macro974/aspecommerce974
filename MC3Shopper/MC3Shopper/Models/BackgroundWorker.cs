@@ -34,7 +34,7 @@ namespace MC3Shopper.Models
 
         public static void SerializeMe(BackgroundWorker bkgdW, string path)
         {
-            var serializer = new XmlSerializer(typeof (BackgroundWorker));
+            var serializer = new XmlSerializer(typeof(BackgroundWorker));
             TextWriter textWriter = new StreamWriter(path + "bkgdW.xml");
             serializer.Serialize(textWriter, bkgdW);
             textWriter.Close();
@@ -45,10 +45,10 @@ namespace MC3Shopper.Models
             var movies = new BackgroundWorker();
             if (File.Exists(path + "bkgdW.xml"))
             {
-                var deserializer = new XmlSerializer(typeof (BackgroundWorker));
+                var deserializer = new XmlSerializer(typeof(BackgroundWorker));
                 TextReader textReader = new StreamReader(path + "bkgdW.xml");
 
-                movies = (BackgroundWorker) deserializer.Deserialize(textReader);
+                movies = (BackgroundWorker)deserializer.Deserialize(textReader);
                 textReader.Close();
             }
             return movies;

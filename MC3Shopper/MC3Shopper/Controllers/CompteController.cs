@@ -1,10 +1,10 @@
-﻿using System;
+﻿using MC3Shopper.Models;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Web.Mvc;
 using System.Web.Security;
-using MC3Shopper.Models;
 
 namespace MC3Shopper.Controllers
 {
@@ -24,7 +24,7 @@ namespace MC3Shopper.Controllers
         {
             return View();
         }
-        
+
         [Authorize()]
         public ActionResult MonCompte()
         {
@@ -33,31 +33,30 @@ namespace MC3Shopper.Controllers
             GestionSys maSys = new GestionSys(maDB, monUser);
             if (monUser != null && monUser.Factures == null)
             {
-                
                 monUser = maSys.GetMyAccountInfos(monUser);
                 monUser.Statisitques = maSys.GetStatAtToday(monUser);
             }
-            List<lignedocument> dernier_commande=maSys.RecupererLignedocumentsByTypeAndNum(1,monUser.CodeClient);
-           
+            List<lignedocument> dernier_commande = maSys.RecupererLignedocumentsByTypeAndNum(1, monUser.CodeClient);
+
             ViewBag.monUser = monUser;
             ViewBag.historique = dernier_commande;
-          
+
             //AjaxPassword form_pass= new AjaxPassword();
             return View();
         }
 
         [Authorize()]
         [HttpPost]
-        public String NewPassword(String Password,String NewPassword)
+        public String NewPassword(String Password, String NewPassword)
         {
             String result = "false";
-            if(Password.Equals(NewPassword))
+            if (Password.Equals(NewPassword))
             {
                 var monUser = Security.DeSerialize<Utilisateur>(Session["user"].ToString());
                 Database maDB = Session["maDB"] as Database;
                 string statement = "UPDATE F_CONTACTT SET CT_PRENOM = @newpass WHERE (CT_FONCTION='ACCES WEB' OR  CT_FONCTION='ACCES WEB2' OR CT_FONCTION='ACCES WEB RESTREINT') AND CT_NUM=@codeClient";
                 SqlCommand myCommand = new SqlCommand(statement, maDB.myConnection);
-                myCommand.Parameters.AddWithValue("@newpass",Password );
+                myCommand.Parameters.AddWithValue("@newpass", Password);
                 myCommand.Parameters.AddWithValue("@codeClient", monUser.CodeClient);
                 try
                 {
@@ -68,18 +67,13 @@ namespace MC3Shopper.Controllers
 
                     maDB.close();
                     result = "true";
-                   
                 }
                 catch (Exception e)
                 {
-                   
                 }
-                
             }
             return result;
-            
         }
-
 
         [AllowAnonymous]
         [HttpPost]
@@ -103,7 +97,7 @@ namespace MC3Shopper.Controllers
                 if (myReader.HasRows)
                 {
                     FormsAuthentication.SetAuthCookie(username, user.RememberMe);
-                   
+
                     while (myReader.Read())
                     {
                         monUser = new Utilisateur(username);
@@ -114,7 +108,7 @@ namespace MC3Shopper.Controllers
                     myReader.Close();
                     sys.RecupererListeFamilleRemise(monUser);
                     Panier panier = new Panier();
-                    Session.Add("Panier",Security.Serialize(panier));
+                    Session.Add("Panier", Security.Serialize(panier));
                     Session.Add("user", Security.Serialize(monUser));
                     //Session["user"] = monUser;
                     return RedirectToAction("Index", "Home");

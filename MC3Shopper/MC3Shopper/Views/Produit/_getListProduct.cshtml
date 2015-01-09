@@ -2,8 +2,7 @@
 @using PagedList
 @using PagedList.Mvc
 <div id="getList" class="col-md-12">
-   
-    
+
     <div class="table-responsive no-more-tables row" id="list_product" style="margin-top: 30px;">
         <table class="table table-striped table-hover table-bordered table-body-center table-condensed ">
             <thead>
@@ -50,7 +49,6 @@
                         </td>
                         <td>
                             @Html.ActionLink(item.Reference, "Details", new { id = HttpUtility.UrlEncode(item.Reference).Replace('%', '!') }, new { @class = " modal-link Reference" })
-
                         </td>
                         <td>
                             @Html.ActionLink(item.Designation, "Details", new { id = HttpUtility.UrlEncode(item.Reference).Replace('%', '!') }, new { @class = " modal-link Reference" })<br />
@@ -77,11 +75,11 @@
             </tbody>
         </table>
     </div>
-    <input type="hidden" id="Famille" value="@ViewBag.Famille"/>
+    <input type="hidden" id="Famille" value="@ViewBag.Famille" />
     <div class="col-md-12">
         @Html.PagedListPager((IPagedList)ViewBag.liste, page => Url.Action("Category", new { Stat02 = @ViewBag.Category, Famille = @ViewBag.famille, page }))
     </div>
-</div>      
+</div>
 <script>
     $(".add_panier").click(function (e) {
         e.preventDefault();

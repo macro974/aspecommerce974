@@ -1,6 +1,5 @@
 ﻿<div id="step" class="container">
     <span>tere la nora un récapitulatif des étapes</span>
-
     @Ajax.ActionLink("Précédent", "ProcessStep2", "Panier",
     new AjaxOptions
     {
@@ -9,9 +8,8 @@
         HttpMethod = "Get"
     }, new { @class = "btn btn-primary btn-block" }
     )
-    @Html.ActionLink("Confirmer","Index","Home", new { @class = "btn btn-primary btn-block" })
+    @Html.ActionLink("Confirmer", "Index", "Home", new { @class = "btn btn-primary btn-block" })
 </div>
-
 <script>
     $("#part2").removeClass("active");
     $("#part2").addClass("complete");

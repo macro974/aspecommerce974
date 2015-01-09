@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using LINQtoCSV;
+﻿using LINQtoCSV;
 using MC3Shopper.Models;
 using MC3Shopper.ViewModel;
 using Microsoft.Security.Application;
 using PagedList;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
 
 namespace MC3Shopper.Controllers
 {
@@ -39,7 +39,7 @@ namespace MC3Shopper.Controllers
         [Authorize]
         [HttpGet]
         //[Route ("Category/{State02}/{page:int:min(1)}")]
-        public ActionResult Category(string Stat02=null )
+        public ActionResult Category(string Stat02 = null)
         {
             ViewBag.Category = Stat02;
             return View();
@@ -51,7 +51,6 @@ namespace MC3Shopper.Controllers
         {
             var sys = new GestionSys(mb);
             List<string> menu = sys.FamillePourMenu();
-
 
             return PartialView(menu);
         }
@@ -67,11 +66,9 @@ namespace MC3Shopper.Controllers
             return PartialView();
         }
 
-        
         [Authorize]
         //[OutputCache(Duration = 60)]
         [HttpGet]
-        
         public ActionResult _getListProduct(string Stat02 = "", string Famille = "", int page = 1)
         {
             var sys = new GestionSys(mb);
@@ -94,15 +91,14 @@ namespace MC3Shopper.Controllers
 
         [Authorize]
         [Route("Download/{Stat02=''}/{Famille=''}")]
-        public FileResult DownloadFicheArticle(string Stat02 = "",string Famille="")
+        public FileResult DownloadFicheArticle(string Stat02 = "", string Famille = "")
         {
-            
             var sys = new GestionSys(mb);
             var fiche_article = new List<ArticleSto>();
             List<Produit> produit = sys.getAllProduitByRefAndFamille(Uri.UnescapeDataString(Stat02), Famille);
             foreach (Produit item in produit)
             {
-                if (item.StockDisponible + item.QteEnCommande > 0 && item.Prix>0 )
+                if (item.StockDisponible + item.QteEnCommande > 0 && item.Prix > 0)
                 {
                     var At = new ArticleSto();
                     At.Reference = item.Reference;
@@ -135,12 +131,10 @@ namespace MC3Shopper.Controllers
                 chemin,
                 outputFileDescription);
             return File(chemin, "text/csv", "MC3_Export_" + Stat02 + DateTime.Now + ".csv");
-
         }
 
-        
         [HttpGet]
-        public ActionResult Search(string Search,int page=1)
+        public ActionResult Search(string Search, int page = 1)
         {
             String search_propre = Sanitizer.GetSafeHtmlFragment(Search);
             var sys = new GestionSys(mb);
@@ -152,19 +146,17 @@ namespace MC3Shopper.Controllers
             ViewBag.liste = list_search;
 
             return View();
-
         }
 
         [Route("Add")]
         [HttpPost]
         public JsonResult AddPanier(string AR_Ref, int Qte)
         {
-           
             //string reference=Sanitizer.GetSafeHtml(AR_Ref);
             var sys = new GestionSys(mb);
             Produit p = sys.FindAndCheckProduitByRef(AR_Ref, Qte);
             var panier = Security.DeSerialize<Panier>(Session["Panier"].ToString());
-            if(Qte==0 )
+            if (Qte == 0)
             {
                 return Json("Fail", JsonRequestBehavior.AllowGet);
             }
@@ -174,19 +166,16 @@ namespace MC3Shopper.Controllers
                 {
                     panier.AddToPanier(p);
                     Session["Panier"] = Security.Serialize(panier);
-                    
-                    return Json("Success", JsonRequestBehavior.AllowGet);
 
+                    return Json("Success", JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception e)
                 {
-                    
                     return Json("Fail", JsonRequestBehavior.AllowGet);
                 }
             }
 
             return Json("Fail", JsonRequestBehavior.AllowGet);
-
         }
     }
 }

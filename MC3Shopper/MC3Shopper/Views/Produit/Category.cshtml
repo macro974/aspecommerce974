@@ -1,11 +1,11 @@
 ﻿@using System.Globalization
 @{
-    ViewBag.Title= ViewBag.category;
+    ViewBag.Title = ViewBag.category;
     Layout = "~/Views/Shared/_Layout.cshtml";
     IFormatProvider culture = new CultureInfo("fr-FR", true);
 }
 
-<div class="page-header" >
+<div class="page-header">
     <h2 id="titre-cat">@ViewBag.category</h2>
 </div>
 <div class=" marginer-bottom">
@@ -16,5 +16,4 @@
         </div>
     </div>
 </div>
-    @{Html.RenderAction("_getListProduct", "Produit", new { Stat02 = @ViewBag.Category });}
-   
+@{Html.RenderAction("_getListProduct", "Produit", new { Stat02 = @ViewBag.Category });}

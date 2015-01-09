@@ -24,6 +24,7 @@ namespace MC3Shopper.Models
 
         public bool complete = false;
         public DateTime dateLivraison;
+
         public string DO_Piece { get; set; }
 
         public DateTime DO_Date { get; set; }

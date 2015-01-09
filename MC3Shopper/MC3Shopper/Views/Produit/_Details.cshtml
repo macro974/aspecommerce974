@@ -7,7 +7,6 @@
             <h2><small>Details de l'article :</small> @Model.Reference  </h2>
 
             <!-- -->
-            
         </div>
         <div class="modal-body">
             <div class="row">
@@ -25,8 +24,7 @@
                         | Stock Saint-Pierre <em><span class="badge">@Model.StockDispo_pierre</span></em>
                     </p>
                 </div>
-            </div>          
-            
+            </div>
         </div>
         <div>
             @foreach (Produit item in @Model.ProduitAssocies)
@@ -49,7 +47,6 @@ else
 {
     <span class="has-error"> Erreur : article introuvable</span>
 }
-   
 
 <script type="text/javascript">
     $(function() {

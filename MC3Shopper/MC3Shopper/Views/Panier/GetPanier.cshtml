@@ -1,33 +1,28 @@
-﻿@using System.Diagnostics.Eventing.Reader
-@using MC3Shopper.Models;
-    
-        
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-shopping-cart" style="margin-top: -4px;"></span><span class="num-cart">@ViewBag.count</span></a>
+﻿@using MC3Shopper.Models;
 
-        <ul class="dropdown-menu" style="min-height: 150px; max-height:350px; margin-top:18px; background-color:white; width:300px;">
-            <li>
-                <div style="padding: 15px; padding-bottom: 0px;">
+<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-shopping-cart" style="margin-top: -4px;"></span><span class="num-cart">@ViewBag.count</span></a>
 
-                    <label style="text-align: center;">Panier:</label><br/>
-                    <div id="panier-scroll">
-                        @if (@ViewBag.panier != null)
-                        {
-                            foreach (Produit p in @ViewBag.panier.monPanier)
-                            {
+<ul class="dropdown-menu" style="min-height: 150px; max-height:350px; margin-top:18px; background-color:white; width:300px;">
+    <li>
+        <div style="padding: 15px; padding-bottom: 0px;">
 
-                                <p>
-                                    <b>@p.Reference</b>- <i>@p.Designation</i> X @p.QteDemande <br />
-                                </p>}
+            <label style="text-align: center;">Panier:</label><br />
+            <div id="panier-scroll">
+                @if (@ViewBag.panier != null)
+                {
+                    foreach (Produit p in @ViewBag.panier.monPanier)
+                    {
 
-                        }
-                    </div>
-                   
-                    <input class="btn btn-primary btn-block" type="button" value="Voir mon panier" >
-                    @Html.ActionLink("Commander","ProcessStep","Panier", new {@class="btn btn-primary btn-block"})
-                    @Html.ActionLink("creer", "CreerCommande", "Panier", new { @class = "btn btn-primary btn-block" })
-                </div>
-            </li>
-        </ul>
-        
+                        <p>
+                            <b>@p.Reference</b>- <i>@p.Designation</i> X @p.QteDemande <br />
+                        </p>}
 
-   
+                }
+            </div>
+
+            <input class="btn btn-primary btn-block" type="button" value="Voir mon panier">
+            @Html.ActionLink("Commander", "ProcessStep", "Panier", new { @class = "btn btn-primary btn-block" })
+            @Html.ActionLink("creer", "CreerCommande", "Panier", new { @class = "btn btn-primary btn-block" })
+        </div>
+    </li>
+</ul>

@@ -7,11 +7,9 @@
     accessibility: true,
     arrows: true,
     dots: true,
-   
+
     slide: 'div',
     cssEase: 'linear'
-  
-
 });
 $('.paginator').slick({
     slidesToShow: 15,
@@ -26,7 +24,6 @@ function getUrlParameter(sParam) {
     {
         return sURLVariables[sParam];
     }
-    
 };
 
 $(".full-product").click(function() {
@@ -39,11 +36,9 @@ $(".full-product").mouseout(function() {
     $(this).css({ "border-left": "5px whitesmoke solid" });
 });
 
-
 $(".search-form").mouseover(function () {
     $("#search-icone").css({ "color": "#ff7d00" });
 });
 $(".search-form").mouseout(function () {
     $("#search-icone").css({ "color": "#fff" });
 });
-

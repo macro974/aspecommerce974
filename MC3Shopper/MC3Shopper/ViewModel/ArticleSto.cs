@@ -1,5 +1,5 @@
-﻿using System;
-using LINQtoCSV;
+﻿using LINQtoCSV;
+using System;
 
 namespace MC3Shopper.ViewModel
 {
@@ -26,7 +26,6 @@ namespace MC3Shopper.ViewModel
 
         [CsvColumn(Name = "Prochain arrivage ", FieldIndex = 7)]
         public string arrivage { get; set; }
-
 
         [CsvColumn(Name = "Prix", FieldIndex = 8, OutputFormat = "C3")]
         public decimal prix { get; set; }

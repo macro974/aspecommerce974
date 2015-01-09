@@ -30,7 +30,7 @@ namespace MC3Shopper.Models
             Prix = Price;
             QteDemande = 0;
             string path = "S:\\Raccourci Gesco\\v16\\Multimedia\\";
-            
+
             if (File.Exists("~/images/articles/" + Img))
             {
                 ImgPath = "~/images/articles/" + Img;
@@ -56,7 +56,7 @@ namespace MC3Shopper.Models
                 Prix = 35;
             }
             QteDemande = 1;
-            PrixTotal = Prix*int.Parse(QteDemande.ToString());
+            PrixTotal = Prix * int.Parse(QteDemande.ToString());
             ProduitAssocies = new List<Produit>();
             Taxes = new Dictionary<string, float>();
             Taxes["tva"] = 8.5f;
@@ -120,7 +120,7 @@ namespace MC3Shopper.Models
                     if (item.Key.ToLower().Contains("tva"))
                     {
                         tva = item.Value;
-                        PUTTC = Prix*decimal.Parse(tva.ToString());
+                        PUTTC = Prix * decimal.Parse(tva.ToString());
                     }
                 }
                 return tva;
@@ -128,7 +128,7 @@ namespace MC3Shopper.Models
             set
             {
                 tva = value;
-                PUTTC = Prix*decimal.Parse(value.ToString());
+                PUTTC = Prix * decimal.Parse(value.ToString());
             }
         }
 
@@ -149,7 +149,7 @@ namespace MC3Shopper.Models
             get
             {
                 decimal lol = decimal.Round(_prix, 2);
-                decimal ok = lol - ((lol/100)*decimal.Parse(_remise.ToString()));
+                decimal ok = lol - ((lol / 100) * decimal.Parse(_remise.ToString()));
                 decimal okk = decimal.Round(ok, 2);
                 return okk;
                 //return _prix - ((_prix / 100) * decimal.Parse(_remise.ToString()));
@@ -195,9 +195,9 @@ namespace MC3Shopper.Models
             get
             {
                 decimal lol = decimal.Round(_prix, 2);
-                decimal ok = lol - ((lol/100)*decimal.Parse(_remise.ToString()));
+                decimal ok = lol - ((lol / 100) * decimal.Parse(_remise.ToString()));
                 decimal okk = decimal.Round(ok, 6);
-                decimal test = PrixTotal*decimal.Parse(TVA.ToString())/100 + PrixTotal;
+                decimal test = PrixTotal * decimal.Parse(TVA.ToString()) / 100 + PrixTotal;
                 return decimal.Round(test, 2);
             }
         }

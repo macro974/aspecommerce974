@@ -3,11 +3,9 @@
     ViewBag.Title = "Commande";
 }
 
-
 <h2>ProcessStep</h2>
 
 <div class="container">
-
 
     <div class="row bs-wizard" style="border-bottom:0;">
 
@@ -15,11 +13,12 @@
             <div class="text-center bs-wizard-stepnum">Etape 1</div>
             <div class="progress"><div class="progress-bar"></div></div>
             @Ajax.ActionLink(" ", "ProcessStep1", "Panier",
-            new AjaxOptions {
+            new AjaxOptions
+            {
                 UpdateTargetId = "step",
                 InsertionMode = InsertionMode.Replace,
                 HttpMethod = "Get"
-            },new {@class ="bs-wizard-dot"})
+            }, new { @class = "bs-wizard-dot" })
 
             <div class="bs-wizard-info text-center">Panier</div>
         </div>
@@ -46,7 +45,5 @@
         </div>
     </div>
 
-    @{Html.RenderAction("ProcessStep1", "Panier");}
-
+    @{Html.RenderAction("_ProcessStep1", "Panier");}
 </div>
-

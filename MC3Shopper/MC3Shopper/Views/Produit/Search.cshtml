@@ -55,7 +55,6 @@
                     </td>
                     <td>
                         @Html.ActionLink(item.Reference, "Details", new { id = HttpUtility.UrlEncode(item.Reference).Replace('%', '!') }, new { @class = " modal-link Reference" })
-
                     </td>
                     <td>
                         @Html.ActionLink(item.Designation, "Details", new { id = HttpUtility.UrlEncode(item.Reference).Replace('%', '!') }, new { @class = " modal-link Reference" })<br />
@@ -88,8 +87,7 @@
     $(".add_panier").click(function (e) {
         e.preventDefault();
         var qte_value = $('input[id*="' + $(this).data("ref") + '"]').val();
-        
-        
+
         var posting = $.post("/Catalogue/Add", { AR_Ref: $(this).data("ref"), Qte: qte_value });
         posting.done(function (data) {
             if (data == "Success") {

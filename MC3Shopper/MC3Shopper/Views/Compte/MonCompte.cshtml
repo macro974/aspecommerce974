@@ -13,21 +13,18 @@
         <li><a href="#encours" data-toggle="tab">Encours</a></li>
         <li><a href="#historique" data-toggle="tab">Historique des commandes</a></li>
         <li><a href="#cotation" data-toggle="tab">Cotation</a></li>
-
     </ul>
 
     <div class="tab-content">
 
-
         <!---------MON COMPTE--------->
         <br />
         <div class="tab-pane active" id="monCompte">
-            
+
             <form class="form-horizontal">
                 <fieldset>
 
                     <!--Infos Client-->
-
 
                     <div class="col-md-6">
                         <!-- Form Name -->
@@ -72,7 +69,7 @@
                             <div class="col-md-6">
                                 <p class="texte-compte">@user.SIRET</p>
                             </div>
-                        </div> 
+                        </div>
                         <div class="row marginer">
                             <div class="col-md-4">
                                 <label class="col-md-4 pull-text">NAF</label>
@@ -109,7 +106,7 @@
                     <!-- Password input-->
                     <div class="col-md-6">
                         <!-- Form Name -->
-                        
+
                         <legend>Changer le mot de passe</legend>
 
                         <div class="form-group">
@@ -133,7 +130,6 @@
                             <div class="col-md-4">
                                 <button id="singlebutton" name="singlebutton" class="btn btn-primary" type="button">Valider</button>
                             </div>
-
                         </div>
                         <div id="result"></div>
                     </div>
@@ -201,7 +197,7 @@
                         </div>
                     </fieldset>
                 </form>
-            </div>          
+            </div>
         </div>
 
         <!---------HISTORIQUE--------->
@@ -210,31 +206,31 @@
                 <div class="col-md-12">
                     <legend>Historique</legend>
                 </div>
-                
+
                 <table class="table table-striped table-hover table-bordered table-body-center table-condensed">
                     <thead>
-                    <tr class="full-header">
-                        <th>
-                            N° Commande
-                        </th>
-                        <th>
-                            Commande Client
-                        </th>
-                        <th>
-                            Date de la commande
-                        </th>
-                        <th>
-                            Réference
-                        </th>
-                        <th>
-                            Designation
-                        </th>
-                        <th>
-                            Quantité
-                        </th>
-                    </tr>
+                        <tr class="full-header">
+                            <th>
+                                N° Commande
+                            </th>
+                            <th>
+                                Commande Client
+                            </th>
+                            <th>
+                                Date de la commande
+                            </th>
+                            <th>
+                                Réference
+                            </th>
+                            <th>
+                                Designation
+                            </th>
+                            <th>
+                                Quantité
+                            </th>
+                        </tr>
                     </thead>
-                    
+
                     <tbody>
                         @foreach (var item in historique)
                         {
@@ -257,7 +253,6 @@
                                 <td>
                                     @item.DL_Qte
                                 </td>
-
                             </tr>
                         }
                     </tbody>
@@ -285,11 +280,9 @@
                                 <button id="cotationbutton" name="cotationbutton" class="btn btn-primary">Valider</button>
                             </div>
                         </div>
-
                     </fieldset>
                 </form>
-            </div>         
-
+            </div>
         </div>
     </div>
 </div>

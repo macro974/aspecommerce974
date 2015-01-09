@@ -6,7 +6,7 @@ namespace MC3Shopper.Models
 {
     public class Security
     {
-        // classe serialization binaire 
+        // classe serialization binaire
         public static string Serialize<T>(T obj)
         {
             var bf = new BinaryFormatter();
@@ -23,7 +23,7 @@ namespace MC3Shopper.Models
             byte[] buff = Convert.FromBase64String(val);
             var bf = new BinaryFormatter();
             var ms = new MemoryStream(buff);
-            var result = (T) bf.Deserialize(ms);
+            var result = (T)bf.Deserialize(ms);
             ms.Close();
 
             return result;
