@@ -71,15 +71,16 @@ namespace MC3Shopper.Controllers
         [HttpGet]
         public ActionResult _getListProduct(string Stat02 = "", string Famille = "", int page = 1)
         {
+            string arref = HttpUtility.UrlDecode(Stat02.Replace('!', '%'));
             var sys = new GestionSys(mb);
 
             IPagedList<Produit> liste_perso =
-                sys.TousAllProductByCat(Stat02, Famille, page)
+                sys.TousAllProductByCat(arref, Famille, page)
                     .Where(x => x.QteEnCommande + x.StockDisponible > 0 && x.Prix > 0)
                     .ToPagedList(page, 25);
             var user = Security.DeSerialize<Utilisateur>(Session["user"].ToString());
             sys.RemiseToListProduit(liste_perso.ToList(), user);
-            ViewBag.Category = Stat02;
+            ViewBag.Category = arref;
 
             ViewBag.famille = Famille;
             ViewBag.liste = liste_perso;
