@@ -12,7 +12,6 @@
     scrollbar-arrow-color: black;
     scrollbar-shadow-color: #C0C0C0;
     scrollbar-dark-shadow-color: #C0C0C0;
-
 }
 
 .bobody {
@@ -98,12 +97,11 @@
 }
 /**
 .add_panier {
-    
     background: url(data:image/gif;base64,R0lGODlhVQAdAOZkAP/x5f/CjP+9gv/bu/z8/P+VOP39/fX19d7e3v+QLvn5+ejo6PPz89vb2/f39/T09Pj4+Ofn5+7u7uDg4OHh4eXl5e/v79/f39ra2unp6fb29vHx8ei6kuvr6+rq6vDw8P+SMePj4/r6+uy1hODPv/7kzf+6ffyiUfefUtzc3POmYePGrO3g1PuXPf6RMfbEmPqZQv/Jmenj3v6QMP61dv/y5v/w4uq4jPjm1f+PLfPgz//o1PyzcvSucPieTuDg3//17f/Ej//38P/Il93Sx/6mWf+gTP/48uzs7PqaRv/JmPepZPz59v3ImfvNpf/u3/3Jmvfl1v+RL/GvdeTk5Pzm0v+dRu3t7dnZ2OnIrP/8+f/79/+bQ9nZ2fLy8ubm5t3d3fv7+/////+PLP///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEAAGQALAAAAABVAB0AAAf/gGSCg4NPSkZjiYqLjI2Oj5CRjVwxNluEmJlCQZKdnp+giTQlmaU1IKGpqqoJUAalg0Coq7SOBbcFtAlOBLBaJrXBjABiYgC5qydRYaU7ws+JAdIAAbUvB8yYQ9DcYwAAtUsWDr2EVt3QAt/e7ODgAwXrjS4LXiKYn2KL+p38qvKP4g14FEKCg1eDPOnzl4+WugDu2nmDCGmChwPlBCkc449fMY+KPnoslmhhJAADHwFshCDCg2wa+3EMObNkzZkgbZKMpG5gRHcABEBC8IUBTDIybeKk2bGmSJOSBCJbNAAcJDBfvBztJ1In0683lUoKYOyb2W9Cr2bdGonh0qYj/52CjSqgrl27krBqJZSgLSOoH0Oa3Bk4LLpEeo8WUeX2cLQB1RQFgBypRWJCTVI1djxmgJiUiTyDdqTi8qAqnJ9NjvyYtaMbRI0SYsIjte1HPkhcWPCSkAEcUm4LT5SAQwOLGDEp0DFjuO0EI7qkKAgB4SACB1j0cO4YBYcuDX7Uu0foCBkFG2RkmZIkR1/utGCMWEEESwMEFQxmJETAwYcFFIDRAAZdFGjggQgmqOCCDDaYIAYNgDFBBVdgAwsZBECwQQcVUHABAmCEKOKIJJZo4okopjgiAhdQQEUGFlh4IYYKHPBBBwtE8MWOPPbo449ABinkkD1GkAESFjAAwTZRFxoQhgIaPMCAF1RWaeWVWGap5ZZcWsnAAxooEIZ1M/pGQBhopqnmmmy26eabcLJJAJmEBAIAOw==) no-repeat;
     display: inline-block;
     height: 100%;
     margin: 10% 10% 10% 10%;
-    text-indent: -9999px; 
+    text-indent: -9999px;
     width: 100%;
 }**/
 
@@ -137,8 +135,6 @@ li {
     margin-left: 0;
     margin-right: 0;
 }
-
-
 
 .span3 {
     display: inline-block;
@@ -440,24 +436,22 @@ footer {
     padding-top: 1%;
     border-top: 5px solid #f8f8ff;
     background-color: white;
-
 }
 .marginer-bottom {
     margin-bottom: 1%;
 }
-.pagination>.active>a, 
-.pagination>.active>span,   
-.pagination>.active>a:focus, 
+.pagination>.active>a,
+.pagination>.active>span,
+.pagination>.active>a:focus,
 .pagination>.active>span:focus {
     background-color: #ff8e11;
     border-color: #ff8e11;
-
 }
-.pagination>li>a, 
+.pagination>li>a,
 .pagination>li>span {
     color:black;
 }
-.pagination>li>a:hover, 
+.pagination>li>a:hover,
 .pagination>li>span:hover {
     color: #ff7d00;
     background-color: #efefef;
@@ -494,7 +488,6 @@ footer {
     max-height:200px;
     margin-bottom:1%;
     background-color:white;
-
 }
 ::-webkit-scrollbar { width: 5px; height: 5px;}
 ::-webkit-scrollbar-button {  background-color:orangered ; }
@@ -508,7 +501,6 @@ footer {
     background-color:white;
 }
 
-
 /*-----------PROCESS STEP-----------*/
 
 .bs-wizard {margin-top: 40px;}
@@ -519,8 +511,8 @@ footer {
 .bs-wizard > .bs-wizard-step + .bs-wizard-step {}
 .bs-wizard > .bs-wizard-step .bs-wizard-stepnum {color: #595959; font-size: 16px; margin-bottom: 5px;}
 .bs-wizard > .bs-wizard-step .bs-wizard-info {color: #999; font-size: 14px;}
-.bs-wizard > .bs-wizard-step > .bs-wizard-dot {position: absolute; width: 30px; height: 30px; display: block; background: #fbe8aa; top: 45px; left: 50%; margin-top: -15px; margin-left: -15px; border-radius: 50%;} 
-.bs-wizard > .bs-wizard-step > .bs-wizard-dot:after {content: ' '; width: 14px; height: 14px; background: #fbbd19; border-radius: 50px; position: absolute; top: 8px; left: 8px; } 
+.bs-wizard > .bs-wizard-step > .bs-wizard-dot {position: absolute; width: 30px; height: 30px; display: block; background: #fbe8aa; top: 45px; left: 50%; margin-top: -15px; margin-left: -15px; border-radius: 50%;}
+.bs-wizard > .bs-wizard-step > .bs-wizard-dot:after {content: ' '; width: 14px; height: 14px; background: #fbbd19; border-radius: 50px; position: absolute; top: 8px; left: 8px; }
 .bs-wizard > .bs-wizard-step > .progress {position: relative; border-radius: 0px; height: 8px; box-shadow: none; margin: 20px 0;}
 .bs-wizard > .bs-wizard-step > .progress > .progress-bar {width:0px; box-shadow: none; background: #fbe8aa;}
 .bs-wizard > .bs-wizard-step.complete > .progress > .progress-bar {width:100%;}
