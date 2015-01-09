@@ -14,14 +14,27 @@
         <div id="part1" class="col-xs-4 bs-wizard-step ">
             <div class="text-center bs-wizard-stepnum">Etape 1</div>
             <div class="progress"><div class="progress-bar"></div></div>
-            <a href="#" class="bs-wizard-dot"></a>
+            @Ajax.ActionLink(" ", "ProcessStep1", "Panier",
+            new AjaxOptions {
+                UpdateTargetId = "step",
+                InsertionMode = InsertionMode.Replace,
+                HttpMethod = "Get"
+            },new {@class ="bs-wizard-dot"})
+
             <div class="bs-wizard-info text-center">Panier</div>
         </div>
 
         <div id="part2" class="col-xs-4 bs-wizard-step ">
             <div class="text-center bs-wizard-stepnum">Etape 2</div>
             <div class="progress"><div class="progress-bar"></div></div>
-            <a href="#" class="bs-wizard-dot"></a>
+            @Ajax.ActionLink(" ", "ProcessStep2", "Panier",
+            new AjaxOptions
+            {
+                UpdateTargetId = "step",
+                InsertionMode = InsertionMode.Replace,
+                HttpMethod = "Get"
+            }, new { @class = "bs-wizard-dot" })
+
             <div class="bs-wizard-info text-center">Mode de livraison</div>
         </div>
 
