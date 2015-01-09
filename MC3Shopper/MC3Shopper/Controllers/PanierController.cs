@@ -59,7 +59,17 @@ namespace MC3Shopper.Controllers
 
         public ActionResult ProcessStep1()
         {
-            return PartialView();
+            if (Session["Panier"] != null)
+            {
+                Panier panier = Security.DeSerialize<Panier>(Session["panier"].ToString());
+                ViewBag.count = panier.monPanier.Count;
+                ViewBag.panier = panier;
+            }
+            else
+            {
+                ViewBag.panier = null;
+            }
+            return View();
         }
 
         public ActionResult ProcessStep2()
