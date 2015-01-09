@@ -598,7 +598,7 @@ namespace MC3Shopper.Models
             fiche.DL_MontantHT = double.Parse(myReader["DL_MontantHT"].ToString());
             fiche.DL_MontantTTC = double.Parse(myReader["DL_MontantTTC"].ToString());
             fiche.DL_MvtStock = int.Parse(myReader["DL_MvtStock"].ToString());
-            fiche.DL_No = int.Parse(myReader["DL_No"].ToString());
+           // fiche.DL_No = int.Parse(myReader["DL_No"].ToString());
             fiche.DL_PieceBC = myReader["DL_PieceBC"].ToString();
             fiche.DL_PrixRU = double.Parse(myReader["DL_PrixRU"].ToString());
             fiche.DL_PrixUnitaire = double.Parse(myReader["DL_PrixUnitaire"].ToString());
@@ -1284,9 +1284,9 @@ namespace MC3Shopper.Models
                       DL_Remise02REM_Valeur, DL_Remise03REM_Type, DL_Remise03REM_Valeur, DL_Taxe1, DL_Taxe2, DL_Taxe3, DL_TNomencl, DL_TRemExep,
                       DL_TRemPied, DL_TTC, DL_TypePL, DL_TypeTaux1, DL_TypeTaux2, DL_TypeTaux3, DL_TypeTaxe1, DL_TypeTaxe2, DL_TypeTaxe3, DL_Valorise,
                       DO_Date, DO_DateLivr, DO_Domaine, DO_Piece, DO_Ref, DO_Type, EU_Enumere, EU_Qte, DL_MontantHT, DL_MontantTTC,
-                      DL_FactPoids, DL_Escompte,cbMarq)
-VALUES     ('" + item.Reference + @"', 0, 0, '" + item.Reference + @"', '', '', '" + monUser.CodeClient + @"', " + depot + ", '" + item.CMUP.ToString("0.00").Replace(',', '.') + @"', '" + DateTime.Now.ToString("MM-dd-yyyy") + @"', NULL, '" + item.Designation.Replace("'", "''") + @"', 0, 10000, 0, 0, 0, NULL, NULL, 1, 0, 0,'" + item.PrixOriginal.ToString("0.00").Replace(',', '.') + @"', 0, 0, " + item.PUTTC.ToString("0.00").Replace(',', '.') + @", '" + item.QteDemande.ToString("0.00").Replace(',', '.') + @"',
-                      '" + item.QteDemande.ToString("0.00").Replace(',', '.') + "', '" + item.QteDemande.ToString("0.00").Replace(',', '.') + "',1, " + item.Remise.ToString("0.00").Replace(',', '.') + ", 0, 0, 0, 0, '" + item.TVA.ToString("0.00").Replace(',', '.') + @"', '" + item.Taxe2.ToString("0.00").Replace(',', '.') + @"', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '" + DateTime.Now.ToString("MM-dd-yyyy") + @"', '01/01/1900', 0, '" + numeroBC + "', NULL, 1, 0, '" + item.QteDemande.ToString("0.00").Replace(',', '.') + "','" + item.PrixTotal.ToString("0.00").Replace(',', '.') + @"', '" + item.PrixTTC.ToString("0.00").Replace(',', '.') + "', 0, 0," + cbmarq + ") ";
+                      DL_FactPoids, DL_Escompte,cbProt,DL_DateAvancement,cbMarq)
+VALUES     ('" + item.Reference + @"', 0, 0, '" + item.Reference + @"', '', '', '" + monUser.CodeClient + @"', " + depot + ", '" + item.CMUP.ToString("0.00").Replace(',', '.') + @"', '" + DateTime.Now.ToString("MM-dd-yyyy") + @"',' 1900-01-01', '" + item.Designation.Replace("'", "''") + @"', 0, 10000, 0, 0, 0, NULL, NULL, 1, 0, 0,'" + item.PrixOriginal.ToString("0.00").Replace(',', '.') + @"', 0, 0, " + item.PUTTC.ToString("0.00").Replace(',', '.') + @", '" + item.QteDemande.ToString("0.00").Replace(',', '.') + @"',
+                      '" + item.QteDemande.ToString("0.00").Replace(',', '.') + "', '" + item.QteDemande.ToString("0.00").Replace(',', '.') + "',1, " + item.Remise.ToString("0.00").Replace(',', '.') + ", 0, 0, 0, 0, '" + item.TVA.ToString("0.00").Replace(',', '.') + @"', '" + item.Taxe2.ToString("0.00").Replace(',', '.') + @"', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '" + DateTime.Now.ToString("MM-dd-yyyy") + @"', '01/01/1900', 0, '" + numeroBC + "', NULL, 1, 0, '" + item.QteDemande.ToString("0.00").Replace(',', '.') + "','" + item.PrixTotal.ToString("0.00").Replace(',', '.') + @"', '" + item.PrixTTC.ToString("0.00").Replace(',', '.') + "', 0, 0,0,'1900-01-01'," + cbmarq + ") ";
                 myCommand = new SqlCommand(statemnt, dbObject.myConnection);
 
                 myCommand.ExecuteScalar();
