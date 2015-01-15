@@ -24,7 +24,8 @@ namespace MC3Shopper
                 "~/Scripts/jquery.avgrund.min.js",
                 "~/Scripts/additionnal.js",
                 "~/Scripts/respond.js",
-                "~/Scripts/StepProcess.js"));
+                "~/Scripts/StepProcess.js",
+                "~/Scripts/StepProcessStyle.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                 "~/Content/avgrund.css",
