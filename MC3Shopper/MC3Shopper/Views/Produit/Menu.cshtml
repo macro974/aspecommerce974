@@ -35,7 +35,7 @@
 
             goto default;
         default:
-            <li>@Html.ActionLink(@item, "Category", new { Stat02 = HttpUtility.UrlEncode(@item).Replace('%', '!') })</li>
+            <li>@Html.ActionLink(@item, "Category", new { Stat02 =@item.Replace('/','_')})</li>
             i++;
             break;
         case 20:

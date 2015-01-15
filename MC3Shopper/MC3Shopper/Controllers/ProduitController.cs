@@ -35,6 +35,7 @@ namespace MC3Shopper.Controllers
             return PartialView("_Details", p);
         }
 
+        [ValidateInput(false)]
         [Route("{Stat02?}")]
         [Authorize]
         [HttpGet]
@@ -71,7 +72,7 @@ namespace MC3Shopper.Controllers
         [HttpGet]
         public ActionResult _getListProduct(string Stat02 = "", string Famille = "", int page = 1)
         {
-            string arref = HttpUtility.UrlDecode(Stat02.Replace('!', '%'));
+            string arref = Stat02.Replace('_','/');
             var sys = new GestionSys(mb);
 
             IPagedList<Produit> liste_perso =
@@ -96,7 +97,7 @@ namespace MC3Shopper.Controllers
         {
             var sys = new GestionSys(mb);
             var fiche_article = new List<ArticleSto>();
-            List<Produit> produit = sys.getAllProduitByRefAndFamille(Uri.UnescapeDataString(Stat02), Famille);
+            List<Produit> produit = sys.getAllProduitByRefAndFamille(Stat02, Famille);
             foreach (Produit item in produit)
             {
                 if (item.StockDisponible + item.QteEnCommande > 0 && item.Prix > 0)
