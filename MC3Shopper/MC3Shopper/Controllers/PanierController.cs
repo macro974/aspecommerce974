@@ -52,11 +52,6 @@ namespace MC3Shopper.Controllers
         [Route("Commander")]
         public ActionResult ProcessStep()
         {
-            return View();
-        }
-
-        public ActionResult _ProcessStep1()
-        {
             if (Session["Panier"] != null)
             {
                 Panier panier = Security.DeSerialize<Panier>(Session["panier"].ToString());
@@ -67,17 +62,7 @@ namespace MC3Shopper.Controllers
             {
                 ViewBag.panier = null;
             }
-            return PartialView("~/Views/Panier/ProcessStep1.cshtml");
-        }
-
-        public ActionResult ProcessStep2()
-        {
-            return PartialView();
-        }
-
-        public ActionResult ProcessStep3()
-        {
-            return PartialView();
+            return View();
         }
     }
 }

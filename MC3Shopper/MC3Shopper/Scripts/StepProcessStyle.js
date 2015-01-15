@@ -1,7 +1,16 @@
 ﻿function StepOne() {
+
     $("#part1").addClass("active");
+
     $("#part2").addClass("disabled");
     $("#part3").addClass("disabled");
+
+    $("#part2").removeClass("active");
+    $("#part3").removeClass("active");
+
+    $("#part2").removeClass("complete");
+    $("#part3").removeClass("complete");
+
     $("#part1").css({
         "-moz-box-shadow": "0px 12px 10px -10px #656565",
         "-webkit-box-shadow": "0px 12px 10px -10px #656565",
@@ -23,10 +32,17 @@
     });
 }
 function StepTwo() {
+
     $("#part1").removeClass("active");
     $("#part1").addClass("complete");
+
     $("#part2").removeClass("disabled");
+    $("#part3").removeClass("active");
+
     $("#part2").addClass("active");
+    $("#part3").addClass("disabled");
+
+
     $("#part1").css({
         "-moz-box-shadow": "",
         "-webkit-box-shadow": "",
@@ -48,10 +64,13 @@ function StepTwo() {
     });
 }
 function StepThree() {
-    $("#part2").removeClass("active");
+
+    $("#part3").addClass("active");
+
     $("#part2").addClass("complete");
     $("#part3").removeClass("disabled");
-    $("#part3").addClass("active");
+    $("#part2").removeClass("disabled");
+
     $("#part1").css({
         "-moz-box-shadow": "",
         "-webkit-box-shadow": "",
