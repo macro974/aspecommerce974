@@ -86,7 +86,7 @@ namespace MC3Shopper.Models
         {
             var p_copie = new List<Produit>();
             string statement2 =
-                "select Distinct AR_Ref,AS_QteSto-AS_QteRes AS pierre from F_ARTSTOCK where DE_No=2 AND AR_Ref IN(";
+                "select Distinct AR_Ref,AS_QteRes,AS_QteSto-AS_QteRes AS pierre from F_ARTSTOCK where DE_No=2 AND AR_Ref IN(";
             if (P.Count <= 0)
             {
             }
@@ -112,7 +112,8 @@ namespace MC3Shopper.Models
                 {
                     var p = new Produit();
                     p.Reference = myReader2[0].ToString();
-                    p.StockDispo_pierre = float.Parse(myReader2[1].ToString()) < 0
+                    p.QteRes_pierre = float.Parse(myReader2[1].ToString());
+                    p.StockDispo_pierre = float.Parse(myReader2[2].ToString()) < 0
                         ? 0
                         : float.Parse(myReader2[1].ToString());
                     p_copie.Add(p);
@@ -812,6 +813,7 @@ namespace MC3Shopper.Models
             return qte;
         }
 
+        
         public void RecupererListeFamilleRemise(Utilisateur monUser)
         {
             string statement = "SELECT * FROM F_FAMCLIENT WHERE CT_Num = '" + monUser.CodeClient + "'";
@@ -877,7 +879,7 @@ namespace MC3Shopper.Models
             blah.ExecuteNonQuery();
             var maListe = new List<Produit>();
             const string statement =
-                "select DISTINCT F_Article.AR_Ref,AR_Design,AR_PrixVen,AS_QteSto-AS_QteRes AS QTE,AS_MontSto from F_Article INNER JOIN F_ARTSTOCK ON F_ARTICLE.AR_Ref = F_ARTSTOCK.AR_Ref WHERE F_ARTSTOCK.DE_No = 1 AND AR_Sommeil = 0 AND AR_Publie = 1 AND AR_Stat02=@state AND AR_Stat01 LIKE @famille";
+                "select DISTINCT F_Article.AR_Ref,AR_Design,AR_PrixVen,AS_QteRes,AS_QteSto-AS_QteRes AS QTE,AS_MontSto from F_Article INNER JOIN F_ARTSTOCK ON F_ARTICLE.AR_Ref = F_ARTSTOCK.AR_Ref WHERE F_ARTSTOCK.DE_No = 1 AND AR_Sommeil = 0 AND AR_Publie = 1 AND AR_Stat02=@state AND AR_Stat01 LIKE @famille";
             var myCommand = new SqlCommand(statement, maDB.myConnection);
             myCommand.Parameters.Add("@state", SqlDbType.NVarChar, 50);
             myCommand.Parameters["@state"].Value = codestat;
@@ -892,7 +894,10 @@ namespace MC3Shopper.Models
                 {
                     StockDispo_denis = float.Parse(myReader["QTE"].ToString()) < 0
                         ? 0
-                        : float.Parse(myReader["QTE"].ToString())
+                        : float.Parse(myReader["QTE"].ToString()),
+                    QteRes_denis = float.Parse (myReader["AS_QteRes"].ToString()),
+                    
+                    
                 };
 
                 // get stock st pierre
@@ -1199,10 +1204,37 @@ namespace MC3Shopper.Models
             return null;
         }
 
-        public static string CreeCommande(Panier monPanier, Utilisateur monUser, int depot)
+        public  float getQTEResFromArticle(int DE_no, string Ar_ref)
+        {
+            maDB.open();
+            float qte = 0f;
+            string statement = "select AS_QteRes AS Qte from F_ARTSTOCK where AR_Ref=@ref and DE_No=@depot ";
+            var myCommand = new SqlCommand(statement, maDB.myConnection);
+            myCommand.Parameters.Add("@ref", SqlDbType.NVarChar, 50);
+            myCommand.Parameters["@ref"].Value = Ar_ref;
+            myCommand.Parameters.Add("@depot", SqlDbType.Int).Value = DE_no;
+            /** ########################## Fin #####################################*/
+
+            SqlDataReader myReader = null;
+            myReader = myCommand.ExecuteReader();
+            while (myReader.Read())
+            {
+                float f = float.Parse(myReader["Qte"].ToString());
+                if (f > 0)
+                {
+                    qte = f;
+                }
+            }
+            myReader.Close();
+            maDB.close();
+            return qte;
+        }
+       
+        public  string CreeCommande(Panier monPanier, Utilisateur monUser, int depot)
         {
             //ALTER DATABASE "nomDeLaBase" SET ARITHABORT ON
-
+            List<Produit> ListTransfert = new List<Produit>(); // Liste qui va servir pour le mouvement de transfert
+            String getdate=null;
             string numeroBC = GetNumeroBC();
             Database dbObject = new Database();
             int cbmarq = 0;
@@ -1220,7 +1252,20 @@ namespace MC3Shopper.Models
                 cbmarq = int.Parse(reader[0].ToString());
             }
             dbObject.close();
-
+            // get date 
+            dbObject.open();
+            /**
+            string statement1 = @"ALTER DATABASE MC3REUNION SET ARITHABORT ON";**/
+            statement1 = "select GETDATE()";
+            myCommand1 = new SqlCommand(statement1, dbObject.myConnection);
+            /**
+            myCommand1.ExecuteScalar();**/
+             reader = myCommand1.ExecuteReader();
+            while (reader.Read())
+            {
+                getdate = reader[0].ToString();
+            }
+            dbObject.close();
             dbObject.open();
             string minute = "";
             string heure = "";
@@ -1266,7 +1311,7 @@ namespace MC3Shopper.Models
                       DO_Expedit, DO_FinAbo, DO_FinPeriod, DO_Heure, DO_Imprim, DO_Langue, DO_NbFacture, DO_NoWeb, DO_Period, DO_Ref, DO_Regime,
                       DO_Reliquat, DO_Souche, DO_Statut, DO_Tarif, DO_Tiers, DO_Transaction, DO_Transfere, DO_TxEscompte, DO_Type, DO_TypeColis, DO_Ventile,
                       LI_No, N_CatCompta,cbMarq)
-    VALUES     ('" + numeroBC + @"',0, 0, '', '4111000000', '" + monUser.CodeClient + @"', " + depot + ", 0, 0, 0, 1, 1, '', '', '', '', 0, '" + DateTime.Now.ToString("MM-dd-yyyy") + @"', '01/01/1900', '01/01/1900', '01/01/1900', 0, 0, 0, 1, '01/01/1900', '01/01/1900',
+    VALUES     ('" + numeroBC + @"',0, 0, '', '4111000000', '" + monUser.CodeClient + @"', " + depot + ", 0, 0, 0, 1, 1, '', '', '', '', 0, '" + getdate + @"', '1900-01-01 00:00:00', '1900-01-01 00:00:00', '1900-01-01 00:00:00', 0, 0, 0, 1, '1900-01-01 00:00:00', '1900-01-01 00:00:00',
                        '" + heure + minute + seconde + @"', 0, 0, 1, '', 1, '" + Intt + "', 21, 0, 0, 0, 1, '" + monUser.CodeClient + @"', 11, 0, 0, 1, 1, 0, 84, 1," + cbmarq + ")";
             SqlCommand myCommand = new SqlCommand(statement, dbObject.myConnection);
 
@@ -1285,22 +1330,42 @@ namespace MC3Shopper.Models
                       DL_TRemPied, DL_TTC, DL_TypePL, DL_TypeTaux1, DL_TypeTaux2, DL_TypeTaux3, DL_TypeTaxe1, DL_TypeTaxe2, DL_TypeTaxe3, DL_Valorise,
                       DO_Date, DO_DateLivr, DO_Domaine, DO_Piece, DO_Ref, DO_Type, EU_Enumere, EU_Qte, DL_MontantHT, DL_MontantTTC,
                       DL_FactPoids, DL_Escompte,cbProt,DL_DateAvancement,cbMarq)
-VALUES     ('" + item.Reference + @"', 0, 0, '" + item.Reference + @"', '', '', '" + monUser.CodeClient + @"', " + depot + ", '" + item.CMUP.ToString("0.00").Replace(',', '.') + @"', '" + DateTime.Now.ToString("MM-dd-yyyy") + @"',' 1900-01-01', '" + item.Designation.Replace("'", "''") + @"', 0, 10000, 0, 0, 0, NULL, NULL, 1, 0, 0,'" + item.PrixOriginal.ToString("0.00").Replace(',', '.') + @"', 0, 0, " + item.PUTTC.ToString("0.00").Replace(',', '.') + @", '" + item.QteDemande.ToString("0.00").Replace(',', '.') + @"',
-                      '" + item.QteDemande.ToString("0.00").Replace(',', '.') + "', '" + item.QteDemande.ToString("0.00").Replace(',', '.') + "',1, " + item.Remise.ToString("0.00").Replace(',', '.') + ", 0, 0, 0, 0, '" + item.TVA.ToString("0.00").Replace(',', '.') + @"', '" + item.Taxe2.ToString("0.00").Replace(',', '.') + @"', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '" + DateTime.Now.ToString("MM-dd-yyyy") + @"', '01/01/1900', 0, '" + numeroBC + "', NULL, 1, 0, '" + item.QteDemande.ToString("0.00").Replace(',', '.') + "','" + item.PrixTotal.ToString("0.00").Replace(',', '.') + @"', '" + item.PrixTTC.ToString("0.00").Replace(',', '.') + "', 0, 0,0,'1900-01-01'," + cbmarq + ") ";
+VALUES     ('" + item.Reference + @"', 0, 0, '" + item.Reference + @"', '', '', '" + monUser.CodeClient + @"', " + depot + ", '" + item.CMUP.ToString("0.00").Replace(',', '.') + @"', '" + getdate + @"','1900-01-01 00:00:00', '" + item.Designation.Replace("'", "''") + @"', 0, 10000, 0, 0, 0, NULL, NULL, 1, 0, 0,'" + item.PrixOriginal.ToString("0.00").Replace(',', '.') + @"', 0, 0, " + item.PUTTC.ToString("0.00").Replace(',', '.') + @", '" + item.QteDemande.ToString("0.00").Replace(',', '.') + @"',
+                      '" + item.QteDemande.ToString("0.00").Replace(',', '.') + "', '" + item.QteDemande.ToString("0.00").Replace(',', '.') + "',1, " + item.Remise.ToString("0.00").Replace(',', '.') + ", 0, 0, 0, 0, '" + item.TVA.ToString("0.00").Replace(',', '.') + @"', '" + item.Taxe2.ToString("0.00").Replace(',', '.') + @"', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '" + getdate + @"', '1900-01-01 00:00:00', 0, '" + numeroBC + "', NULL, 1, 0, '" + item.QteDemande.ToString("0.00").Replace(',', '.') + "','" + item.PrixTotal.ToString("0.00").Replace(',', '.') + @"', '" + item.PrixTTC.ToString("0.00").Replace(',', '.') + "', 0, 0,0,'1900-01-01 00:00:00'," + cbmarq + ") ";
                 myCommand = new SqlCommand(statemnt, dbObject.myConnection);
 
                 myCommand.ExecuteScalar();
                 dbObject.close();
 
-                float stockRes = item.StockRes + item.QteDemande;
+                float stockRes = 0;
+                Trace.WriteLine("test", "stockres :" + stockRes+"");
+                if(depot ==1)
+                {
+                    
+                    stockRes =getQTEResFromArticle(depot,item.Reference) + item.QteDemande;
+                    if((item.StockDispo_denis-item.QteDemande)<0)
+                    {
+                        ListTransfert.Add(item);
+                    }
+                }
+                else
+                {
+                    stockRes = item.QteRes_pierre + item.QteDemande;
+                    if ((item.StockDispo_pierre - item.QteDemande) < 0)
+                    {
+                        ListTransfert.Add(item);
+                    }
+                }
                 dbObject.open();
-                statemnt = @"UPDATE F_ARTSTOCK SET AS_QteRes='" + stockRes.ToString("0.00").Replace(',', '.') + "' WHERE AR_Ref='" + item.Reference + "' AND DE_No=" + depot + "";
+                statemnt = @"UPDATE F_ARTSTOCK SET AS_QteRes='" + stockRes.ToString().Replace(',', '.') + "' WHERE AR_Ref='" + item.Reference + "' AND DE_No=" + depot + "";
                 myCommand = new SqlCommand(statemnt, dbObject.myConnection);
 
                 myCommand.ExecuteScalar();
                 dbObject.close();
             }
+
             return numeroBC;
         }
+        
     }
 }

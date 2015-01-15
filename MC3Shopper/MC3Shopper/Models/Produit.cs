@@ -210,6 +210,10 @@ namespace MC3Shopper.Models
 
         public float StockDispo_pierre { get; set; }
 
+        
+        public float QteRes_denis { get; set; }
+
+        public float QteRes_pierre { get; set; }
         public float StockDispo_denis { get; set; }
 
         public float QteEnCommande { get; set; }
