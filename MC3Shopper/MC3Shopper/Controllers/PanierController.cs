@@ -40,7 +40,6 @@ namespace MC3Shopper.Controllers
         //[Route("Commander")]
         public ActionResult CreerCommande()
         {
-            
             var user = Security.DeSerialize<Utilisateur>(Session["user"].ToString());
             GestionSys sys = new GestionSys(mb, user);
             Panier panier = Security.DeSerialize<Panier>(Session["panier"].ToString());
@@ -49,7 +48,7 @@ namespace MC3Shopper.Controllers
             return View();
         }
 
-        [Route("Commander")]
+        [Route("Commander/")]
         public ActionResult ProcessStep()
         {
             if (Session["Panier"] != null)
