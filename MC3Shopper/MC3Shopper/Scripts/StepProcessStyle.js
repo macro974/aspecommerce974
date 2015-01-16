@@ -1,5 +1,4 @@
 ﻿function StepOne() {
-
     $("#part1").addClass("active");
 
     $("#part2").addClass("disabled");
@@ -32,7 +31,6 @@
     });
 }
 function StepTwo() {
-
     $("#part1").removeClass("active");
     $("#part1").addClass("complete");
 
@@ -41,7 +39,6 @@ function StepTwo() {
 
     $("#part2").addClass("active");
     $("#part3").addClass("disabled");
-
 
     $("#part1").css({
         "-moz-box-shadow": "",
@@ -64,7 +61,6 @@ function StepTwo() {
     });
 }
 function StepThree() {
-
     $("#part3").addClass("active");
 
     $("#part2").addClass("complete");

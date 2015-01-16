@@ -53,7 +53,6 @@
                         <td>
                             @Html.ActionLink(item.Designation, "Details", new { id = HttpUtility.UrlEncode(item.Reference).Replace('%', '!') }, new { @class = " modal-link Reference" })<br />
                             <p><em class="alert-success">@arrive</em></p>
-                        
                         </td>
                         <td>
                             <input type="text" class="qte" value="0" id="@item.Reference" />   <span class="">@item.StockDisponible </span>

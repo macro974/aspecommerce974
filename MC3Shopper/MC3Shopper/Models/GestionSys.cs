@@ -599,7 +599,7 @@ namespace MC3Shopper.Models
             fiche.DL_MontantHT = double.Parse(myReader["DL_MontantHT"].ToString());
             fiche.DL_MontantTTC = double.Parse(myReader["DL_MontantTTC"].ToString());
             fiche.DL_MvtStock = int.Parse(myReader["DL_MvtStock"].ToString());
-           // fiche.DL_No = int.Parse(myReader["DL_No"].ToString());
+            // fiche.DL_No = int.Parse(myReader["DL_No"].ToString());
             fiche.DL_PieceBC = myReader["DL_PieceBC"].ToString();
             fiche.DL_PrixRU = double.Parse(myReader["DL_PrixRU"].ToString());
             fiche.DL_PrixUnitaire = double.Parse(myReader["DL_PrixUnitaire"].ToString());
@@ -813,7 +813,6 @@ namespace MC3Shopper.Models
             return qte;
         }
 
-        
         public void RecupererListeFamilleRemise(Utilisateur monUser)
         {
             string statement = "SELECT * FROM F_FAMCLIENT WHERE CT_Num = '" + monUser.CodeClient + "'";
@@ -895,9 +894,7 @@ namespace MC3Shopper.Models
                     StockDispo_denis = float.Parse(myReader["QTE"].ToString()) < 0
                         ? 0
                         : float.Parse(myReader["QTE"].ToString()),
-                    QteRes_denis = float.Parse (myReader["AS_QteRes"].ToString()),
-                    
-                    
+                    QteRes_denis = float.Parse(myReader["AS_QteRes"].ToString()),
                 };
 
                 // get stock st pierre
@@ -1204,7 +1201,7 @@ namespace MC3Shopper.Models
             return null;
         }
 
-        public  float getQTEResFromArticle(int DE_no, string Ar_ref)
+        public float getQTEResFromArticle(int DE_no, string Ar_ref)
         {
             maDB.open();
             float qte = 0f;
@@ -1229,12 +1226,12 @@ namespace MC3Shopper.Models
             maDB.close();
             return qte;
         }
-       
-        public  string CreeCommande(Panier monPanier, Utilisateur monUser, int depot)
+
+        public string CreeCommande(Panier monPanier, Utilisateur monUser, int depot)
         {
             //ALTER DATABASE "nomDeLaBase" SET ARITHABORT ON
             List<Produit> ListTransfert = new List<Produit>(); // Liste qui va servir pour le mouvement de transfert
-            String getdate=null;
+            String getdate = null;
             string numeroBC = GetNumeroBC();
             Database dbObject = new Database();
             int cbmarq = 0;
@@ -1252,7 +1249,7 @@ namespace MC3Shopper.Models
                 cbmarq = int.Parse(reader[0].ToString());
             }
             dbObject.close();
-            // get date 
+            // get date
             dbObject.open();
             /**
             string statement1 = @"ALTER DATABASE MC3REUNION SET ARITHABORT ON";**/
@@ -1260,7 +1257,7 @@ namespace MC3Shopper.Models
             myCommand1 = new SqlCommand(statement1, dbObject.myConnection);
             /**
             myCommand1.ExecuteScalar();**/
-             reader = myCommand1.ExecuteReader();
+            reader = myCommand1.ExecuteReader();
             while (reader.Read())
             {
                 getdate = reader[0].ToString();
@@ -1338,12 +1335,11 @@ VALUES     ('" + item.Reference + @"', 0, 0, '" + item.Reference + @"', '', '', 
                 dbObject.close();
 
                 float stockRes = 0;
-                Trace.WriteLine("test", "stockres :" + stockRes+"");
-                if(depot ==1)
+                Trace.WriteLine("test", "stockres :" + stockRes + "");
+                if (depot == 1)
                 {
-                    
-                    stockRes =getQTEResFromArticle(depot,item.Reference) + item.QteDemande;
-                    if((item.StockDispo_denis-item.QteDemande)<0)
+                    stockRes = getQTEResFromArticle(depot, item.Reference) + item.QteDemande;
+                    if ((item.StockDispo_denis - item.QteDemande) < 0)
                     {
                         ListTransfert.Add(item);
                     }
@@ -1366,6 +1362,5 @@ VALUES     ('" + item.Reference + @"', 0, 0, '" + item.Reference + @"', '', '', 
 
             return numeroBC;
         }
-        
     }
 }

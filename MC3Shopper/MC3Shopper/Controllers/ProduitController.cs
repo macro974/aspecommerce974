@@ -72,7 +72,7 @@ namespace MC3Shopper.Controllers
         [HttpGet]
         public ActionResult _getListProduct(string Stat02 = "", string Famille = "", int page = 1)
         {
-            string arref = Stat02.Replace('_','/');
+            string arref = Stat02.Replace('_', '/');
             var sys = new GestionSys(mb);
 
             IPagedList<Produit> liste_perso =
