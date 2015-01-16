@@ -30,7 +30,7 @@ namespace MC3Shopper.Models
             Prix = Price;
             QteDemande = 0;
             string path = "S:\\Raccourci Gesco\\v16\\Multimedia\\";
-
+            //String[] ch_img = Img.Split()
             if (File.Exists("~/images/articles/" + Img))
             {
                 ImgPath = "~/images/articles/" + Img;

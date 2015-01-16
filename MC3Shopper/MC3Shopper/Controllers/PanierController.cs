@@ -8,7 +8,8 @@ namespace MC3Shopper.Controllers
         private readonly Database mb = new Database();
 
         // GET: Panier
-        public ActionResult GetPanier()
+       
+        public ActionResult _GetPanier()
         {
             if (Session["Panier"] != null)
             {
@@ -56,6 +57,7 @@ namespace MC3Shopper.Controllers
                 Panier panier = Security.DeSerialize<Panier>(Session["panier"].ToString());
                 ViewBag.count = panier.monPanier.Count;
                 ViewBag.panier = panier;
+                ViewBag.totalpanier = panier.TotalPanier;
             }
             else
             {

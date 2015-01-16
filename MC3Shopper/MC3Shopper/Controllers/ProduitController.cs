@@ -80,6 +80,10 @@ namespace MC3Shopper.Controllers
                     .Where(x => x.QteEnCommande + x.StockDisponible > 0 && x.Prix > 0)
                     .ToPagedList(page, 25);
             var user = Security.DeSerialize<Utilisateur>(Session["user"].ToString());
+            if(user ==null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             sys.RemiseToListProduit(liste_perso.ToList(), user);
             ViewBag.Category = arref;
 

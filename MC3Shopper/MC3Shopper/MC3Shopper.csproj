@@ -291,7 +291,7 @@
     <Content Include="Views\Compte\SignIn.cshtml" />
     <Content Include="Views\Compte\MonCompte.cshtml" />
     <Content Include="Views\Produit\Search.cshtml" />
-    <Content Include="Views\Panier\GetPanier.cshtml" />
+    <Content Include="Views\Panier\_GetPanier.cshtml" />
     <Content Include="Views\Panier\ProcessStep.cshtml" />
     <Content Include="Views\Panier\CreerCommande.cshtml" />
   </ItemGroup>
