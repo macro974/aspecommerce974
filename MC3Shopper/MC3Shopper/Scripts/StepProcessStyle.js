@@ -1,4 +1,8 @@
 ﻿function StepOne() {
+    $(".progress-bar").animate({
+        width: "0%"
+    });
+
     $("#part1").addClass("active");
 
     $("#part2").addClass("disabled");
@@ -29,8 +33,21 @@
         "-o-box-shadow": "",
         "box-shadow": ""
     });
+
+    $(".step-1").css({ "font-size": "1.5em", "color": "black" });
+    $(".step-2").css({ "font-size": "1em", "color": "slategrey" });
+    $(".step-3").css({ "font-size": "1em", "color": "slategrey" });
+
+    $("#slide-step2").hide();
+    $("#slide-step3").hide();
+    $("#slide-step1").fadeIn();
+    
 }
 function StepTwo() {
+
+    $(".progress-bar").animate({
+        width: "50%"
+    });
     $("#part1").removeClass("active");
     $("#part1").addClass("complete");
 
@@ -59,13 +76,29 @@ function StepTwo() {
         "-o-box-shadow": "",
         "box-shadow": ""
     });
+
+    $(".step-1").css({ "font-size": "1em", "color": "slategrey" });
+    $(".step-2").css({ "font-size": "1.5em", "color": "black" });
+    $(".step-3").css({ "font-size": "1em", "color": "slategrey" });
+
+    $("#slide-step1").hide();    
+    $("#slide-step3").hide();
+    $("#slide-step2").fadeIn();
+    
 }
 function StepThree() {
+    $(".progress-bar").animate({
+        width: "100%"
+    });
     $("#part3").addClass("active");
 
     $("#part2").addClass("complete");
+    $("#part1").addClass("complete");
+    
     $("#part3").removeClass("disabled");
     $("#part2").removeClass("disabled");
+    $("#part2").removeClass("active");
+    $("#part1").removeClass("active");
 
     $("#part1").css({
         "-moz-box-shadow": "",
@@ -86,4 +119,13 @@ function StepThree() {
         "box-shadow": "0px 12px 10px -10px #656565",
         "filter": "progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=180, Strength=10)"
     });
+
+    $(".step-1").css({ "font-size": "1em", "color": "slategrey" });
+    $(".step-2").css({ "font-size": "1em", "color": "slategrey" });
+    $(".step-3").css({ "font-size": "1.5em", "color": "black" });
+
+    $("#slide-step1").hide();
+    $("#slide-step2").hide();
+    $("#slide-step3").fadeIn();
+
 }
