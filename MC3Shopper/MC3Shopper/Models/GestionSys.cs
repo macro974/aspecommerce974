@@ -912,6 +912,32 @@ namespace MC3Shopper.Models
             Debug.WriteLine(" temps fonction recup stock est de :{0}", sw.Elapsed);
             sw.Restart();
             GEtqteCommandeProduit(maListe);
+            foreach (Produit item in maListe)
+            {
+                dbObject.open();
+                //statement = "SELECT * FROM F_ARTCOMPTA INNER JOIN F_TAXE ON F_TAXE.TA_Code = F_ARTCOMPTA.ACP_ComptaCPT_Taxe1 WHERE     (F_ARTCOMPTA.AR_Ref = '" + item.Reference + "')";
+                //statement = "SELECT * FROM F_ARTCOMPTA INNER JOIN F_TAXE ON F_TAXE.TA_Code = F_ARTCOMPTA.ACP_ComptaCPT_Taxe1 WHERE     (F_ARTCOMPTA.AR_Ref = '" + item.Reference + "')";
+                string statement1 = @"SELECT     *
+                    FROM         F_ARTCOMPTA INNER JOIN
+                      F_TAXE ON F_TAXE.TA_Code = F_ARTCOMPTA.ACP_ComptaCPT_Taxe1 OR F_TAXE.TA_Code = F_ARTCOMPTA.ACP_ComptaCPT_Taxe2 OR 
+                      F_TAXE.TA_Code = F_ARTCOMPTA.ACP_ComptaCPT_Taxe3
+            WHERE     (F_ARTCOMPTA.AR_Ref = '" + item.Reference + "') AND (F_ARTCOMPTA.ACP_Champ = 1) AND (F_ARTCOMPTA.ACP_Type = 0)";
+                myCommand = new SqlCommand(statement1, dbObject.myConnection);
+
+                myReader = null;
+                myReader = myCommand.ExecuteReader();
+                //  
+                while (myReader.Read())
+                {
+                    //item.Taxes.Add(myReader["TA_Intitule"].ToString(), float.Parse(myReader["TA_Taux"].ToString()));
+                    //item.TVA = float.Parse(myReader["TA_Taux"].ToString());
+                    //item.Taxe2 = float.Parse(myReader["ACP_ComptaCPT_Taxe2"].ToString());
+                    //item.Taxe3 = float.Parse(myReader["ACP_ComptaCPT_Taxe3"].ToString());
+                    item.Taxes[myReader["TA_Intitule"].ToString()] = float.Parse(myReader["TA_Taux"].ToString());
+                    //item.Taxes[myReader["TA_Intitule"].ToString()] = float.Parse(myReader["TA_Taux"].ToString());
+                }
+                dbObject.close();
+            }
             sw.Stop();
             Debug.WriteLine(" temps fonction doc_ligne est de :{0}", sw.Elapsed);
 
