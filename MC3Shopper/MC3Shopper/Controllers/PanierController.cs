@@ -8,7 +8,8 @@ namespace MC3Shopper.Controllers
         private readonly Database mb = new Database();
 
         // GET: Panier
-        public ActionResult GetPanier()
+       
+        public ActionResult _GetPanier()
         {
             if (Session["Panier"] != null)
             {

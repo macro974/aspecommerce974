@@ -48,7 +48,7 @@
 
                     <li class="dropdown panier ">
                         @{
-                            Html.RenderAction("GetPanier", "Panier");
+                            Html.RenderAction("_GetPanier", "Panier");
                         }
                      </li>
 
@@ -180,7 +180,7 @@
 
     function update_panier(){
         $.ajax({
-            url: "@Url.Action("GetPanier","Panier")"
+            url: "@Url.Action("_GetPanier","Panier")"
 
         }).done(function (data) {
             $('.panier').html(data);
