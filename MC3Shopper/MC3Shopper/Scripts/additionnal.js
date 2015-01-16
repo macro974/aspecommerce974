@@ -66,12 +66,17 @@ $(function () {
 });
 
 StepOne();
-$("#part1").click(function () {
-    StepOne();
-});
-$("#part2").click(function () {
+$("#next1").click(function () {
     StepTwo();
 });
-$("#part3").click(function () {
+$("#next2").click(function () {
     StepThree()
+});
+
+
+$("#return1").click(function () {
+    StepOne();
+});
+$("#return2").click(function () {
+    StepTwo();
 });
