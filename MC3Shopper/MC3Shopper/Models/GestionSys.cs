@@ -835,14 +835,15 @@ namespace MC3Shopper.Models
             var sw = new Stopwatch();
             sw.Start();
             var maListe = new List<Produit>();
+            
             string statement =
                 "select DISTINCT F_Article.AR_Ref,AR_Design,AR_PrixVen,AS_QteSto-AS_QteRes AS QTE,AS_MontSto " +
                 "from F_Article INNER JOIN F_ARTSTOCK ON F_ARTICLE.AR_Ref = F_ARTSTOCK.AR_Ref " +
-                "WHERE F_ARTSTOCK.DE_No = 1 AND AR_Sommeil = 0 AND AR_Publie = 1 AND AR_Stat02=@state AND AR_Stat01 LIKE @famille";
+                "WHERE F_ARTSTOCK.DE_No = 1 AND AR_Sommeil = 0 AND AR_Publie = 1 AND AR_Stat02=@state AND (AR_Stat01 LIKE @famille OR AR_Stat01 LIKE '%')";
             var myCommand = new SqlCommand(statement, maDB.myConnection);
             myCommand.Parameters.Add("@state", SqlDbType.NVarChar, 50);
             myCommand.Parameters["@state"].Value = codestat;
-            myCommand.Parameters.Add("@famille", SqlDbType.NVarChar).Value = "%" + famille + "%";
+            myCommand.Parameters.Add("@famille", SqlDbType.NVarChar,50).Value = "%" + famille + "%";
             SqlDataReader myReader = null;
             myReader = myCommand.ExecuteReader();
             while (myReader.Read())
@@ -878,7 +879,7 @@ namespace MC3Shopper.Models
             blah.ExecuteNonQuery();
             var maListe = new List<Produit>();
             const string statement =
-                "select DISTINCT F_Article.AR_Ref,AR_Design,AR_PrixVen,AS_QteRes,AS_QteSto-AS_QteRes AS QTE,AS_MontSto from F_Article INNER JOIN F_ARTSTOCK ON F_ARTICLE.AR_Ref = F_ARTSTOCK.AR_Ref WHERE F_ARTSTOCK.DE_No = 1 AND AR_Sommeil = 0 AND AR_Publie = 1 AND AR_Stat02=@state AND AR_Stat01 LIKE @famille";
+                "select DISTINCT F_Article.AR_Ref,AR_Photo,AR_Design,AR_PrixVen,AS_QteRes,AS_QteSto-AS_QteRes AS QTE,AS_MontSto from F_Article INNER JOIN F_ARTSTOCK ON F_ARTICLE.AR_Ref = F_ARTSTOCK.AR_Ref WHERE F_ARTSTOCK.DE_No = 1 AND AR_Sommeil = 0 AND AR_Publie = 1 AND AR_Stat02=@state AND AR_Stat01 LIKE @famille";
             var myCommand = new SqlCommand(statement, maDB.myConnection);
             myCommand.Parameters.Add("@state", SqlDbType.NVarChar, 50);
             myCommand.Parameters["@state"].Value = codestat;
@@ -888,7 +889,7 @@ namespace MC3Shopper.Models
             myReader = myCommand.ExecuteReader();
             while (myReader.Read())
             {
-                var monProduit = new Produit(myReader["AR_Ref"].ToString(), myReader["AR_Ref"].ToString(),
+                var monProduit = new Produit(myReader["AR_Photo"].ToString(), myReader["AR_Ref"].ToString(),
                     myReader["AR_Design"].ToString(), decimal.Parse(myReader["AR_PrixVen"].ToString()))
                 {
                     StockDispo_denis = float.Parse(myReader["QTE"].ToString()) < 0
