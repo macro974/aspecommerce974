@@ -79,7 +79,7 @@ namespace MC3Shopper.Controllers
                 sys.TousAllProductByCat(arref, Famille, page)
                     .Where(x => x.QteEnCommande + x.StockDisponible > 0 && x.Prix > 0)
                     .ToPagedList(page, 25);
-            var user = Security.DeSerialize<Utilisateur>(Session["user"].ToString());
+            var user = Security.DeSerialize<Utilisateur>(Session["user"].ToString()!=null?Session["user"].ToString():null);
             if(user ==null)
             {
                 return RedirectToAction("Index", "Home");
