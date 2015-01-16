@@ -56,6 +56,7 @@ namespace MC3Shopper.Controllers
                 Panier panier = Security.DeSerialize<Panier>(Session["panier"].ToString());
                 ViewBag.count = panier.monPanier.Count;
                 ViewBag.panier = panier;
+                ViewBag.totalpanier = panier.TotalPanier;
             }
             else
             {
