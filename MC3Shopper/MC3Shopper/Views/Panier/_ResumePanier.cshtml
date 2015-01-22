@@ -32,6 +32,7 @@
                 
                     foreach (Produit p in @ViewBag.panier.monPanier)
                     {
+                        float max= p.StockDisponible+@p.QteEnCommande;
                         <tr>
                             <td>
                                 @p.Reference
@@ -40,7 +41,7 @@
                                 @p.Designation<a href="#" class="btn btn-default pull-right item-remove" data-ref="@p.Reference"><span class="glyphicon glyphicon-remove"></span></a>
                             </td>
                             <td>
-                                <input class="form-control" style="width:70px" type="number" value="@p.QteDemande" />
+                                <input class="form-control edit-qte" style="width:70px" type="number"  min="1" max="@max" value="@p.QteDemande" data-ref="@p.Reference" />
                             </td>
                             <td style="text-align:right">
                                 @p.PrixTotal €
@@ -88,22 +89,37 @@
     </div>
 </div>
    <script>
-    $(".item-remove").click(function () {
-        var value=$(this).data("ref");
-        var posting = $.post("/Panier/Remove", { AR_Ref: value });
-        posting.done(function (data) {
-            if(data=="Success")
-            {
-                refresh_panier();
-                update_panier();
-            }
-            else {
-                console.log(data);
-            }
+       $(".item-remove").click(function () {
+           var value = $(this).data("ref");
+           var posting = $.post("/Panier/Remove", { AR_Ref: value });
+           posting.done(function (data) {
+               if (data == "Success") {
+                   refresh_panier();
+                   update_panier();
+               }
+               else {
+                   console.log(data);
+               }
 
-        })
+           });
 
-    })
+       });
+       $(":input.edit-qte").bind('input', function () {
+
+           var posting = $.post("/Panier/EditQuantity", { AR_Ref: $(this).data("ref"), Qte: $(this).val() });
+           posting.done(function (data) {
+               if (data == "Success") {
+                   refresh_panier();
+                   update_panier();
+               }
+               else {
+                   console.log(data);
+               }
+
+           });
+           
+
+       });
 
 </script>
 

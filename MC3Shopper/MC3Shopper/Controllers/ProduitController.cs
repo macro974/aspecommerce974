@@ -169,17 +169,17 @@ namespace MC3Shopper.Controllers
             }
             if (p != null)
             {
-                try
-                {
+                //try
+                //{
                     panier.AddToPanier(p);
                     Session["Panier"] = Security.Serialize(panier);
 
                     return Json("Success", JsonRequestBehavior.AllowGet);
-                }
-                catch (Exception e)
-                {
-                    return Json("Fail", JsonRequestBehavior.AllowGet);
-                }
+                //}
+                //catch (Exception e)
+                //{
+                    //return Json("Fail", JsonRequestBehavior.AllowGet);
+                //}
             }
 
             return Json("Fail", JsonRequestBehavior.AllowGet);

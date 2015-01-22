@@ -30,7 +30,8 @@
                       
                     </div>
                 }
-                    @if (@ViewBag.panier.monPanier.Count <= 0)
+                
+                    @if (@ViewBag.panier==null ||@ViewBag.panier.monPanier.Count <= 0)
                     {
                         <a href="/Commander" class="btn btn-primary btn-block disabled">Commander</a>
                     }
