@@ -207,5 +207,9 @@ namespace MC3Shopper.Models
                 this.monPanier.Add(Produit);
             }
         }
+        public decimal TotalTTC ()
+        {
+            return totalPanier + GetEcoTaxePanier() + GetTVADuPanier();
+        }
     }
 }
