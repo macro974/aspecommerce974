@@ -32,7 +32,6 @@
     </div>
     <div class="col-md-12" id="slide-step1">
         <legend>Panier</legend>
-        <div class="row">
             <table class="table table-striped table-hover table-bordered table-body-center table-condensed ">
                 <thead>
                     <tr class="full-header">
@@ -74,14 +73,23 @@
                     }
                 </tbody>
             </table>
+        <div class="row">
             <table class="pull-right" id="totalpanier">
-                <thead>
-                    <tr>
-                        <th>Total du Panier</th>
-                    </tr>
-                </thead>
                 <tbody>
                     <tr>
+                        <td style="min-width:150px">&Eacute;co taxe</td>
+                        <td style="text-align: right; min-width: 150px">
+                            <b>@ViewBag.panier.GetEcoTaxePanier().ToString("0.00") €</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>TVA</td>
+                        <td style="text-align:right">
+                            <b>@ViewBag.panier.GetTVADuPanier().ToString("0.00") €</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="background-color:#ddd"><b>Total du panier</b></td>
                         <td style="text-align:right">
                             <b>@ViewBag.totalpanier €</b>
                         </td>
@@ -89,6 +97,7 @@
                 </tbody>
             </table>
         </div>
+            
         <div class="row">
                 <!--@ViewBag.panier.TotalTTC()-->
             <!--@ViewBag.panier.GetTVADuPanier().ToString("0.00") pour la tva -->
