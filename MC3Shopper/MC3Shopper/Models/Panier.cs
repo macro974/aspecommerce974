@@ -81,7 +81,7 @@ namespace MC3Shopper.Models
             return totalTVA;
         }
 
-        public void Plus(string Reference)
+        public void Plus(string Reference,int Qte)
         {
             var monProduit = new Produit();
             foreach (Produit item in monPanier)
@@ -90,9 +90,9 @@ namespace MC3Shopper.Models
                 {
                     //if (item.QteDemande < item.StockDisponible + item.QteEnCommande)
                     //{
-                    item.QteDemande += 1;
+                    item.QteDemande += Qte;
                     monProduit = item;
-                    Add(monProduit);
+                    AddToPanier(monProduit);
                     //}
                 }
             }
@@ -100,18 +100,18 @@ namespace MC3Shopper.Models
             //Add(monProduit);
         }
 
-        public void Moins(string Reference)
+        public void Moins(string Reference,int Qte)
         {
             var monProduit = new Produit();
             foreach (Produit item in monPanier)
             {
                 if (item.Reference.Equals(Reference))
                 {
-                    item.QteDemande -= 1;
+                    item.QteDemande -= Qte;
                     monProduit = item;
                 }
             }
-            Add(monProduit);
+            AddToPanier(monProduit);
         }
 
         public void Suprrimer(string Reference)
@@ -188,6 +188,7 @@ namespace MC3Shopper.Models
         public void AddToPanier(Produit Produit)
         {
             Produit item = this.monPanier.Find(x => x.Reference == Produit.Reference);
+
             if (item != null)
             {
                 // check si les 2 quantités ajouté ne dépasse pas le stock prévu
@@ -209,7 +210,30 @@ namespace MC3Shopper.Models
         }
         public decimal TotalTTC ()
         {
+            
             return totalPanier + GetEcoTaxePanier() + GetTVADuPanier();
         }
+        public void ChangerQuantite(string Ar_ref , int Qte)
+        {
+            Produit p = new Produit();
+            foreach(var item in monPanier)
+            {
+                if(item.Reference.Equals(Ar_ref))
+                {
+                    if( Qte <= item.QteEnCommande + item.StockDisponible)
+                    {
+                        TotalPanier -= item.PrixTotal;
+                        item.QteDemande = Qte;
+
+                        item.PrixTotal = item.Prix * int.Parse(item.QteDemande.ToString());
+                        TotalPanier += item.PrixTotal;
+                    }
+                    
+                   
+
+                }
+            }
+        }
+        
     }
 }

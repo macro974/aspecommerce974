@@ -35,6 +35,7 @@ namespace MC3Shopper.Controllers
             }
             else
             {
+                
                 ViewBag.panier = null;
             }
             return PartialView();
@@ -86,6 +87,25 @@ namespace MC3Shopper.Controllers
                     return Json("Fail", JsonRequestBehavior.AllowGet);
                 }
             
+            
+
+        }
+
+        public JsonResult EditQuantity ( string AR_ref, int Qte)
+        {
+
+            try
+            {
+                var panier = Security.DeSerialize<Panier>(Session["Panier"].ToString());
+
+                panier.ChangerQuantite(AR_ref, Qte);
+                Session["Panier"] = Security.Serialize(panier);
+                return Json("Success", JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json("Fail", JsonRequestBehavior.AllowGet);
+            }
             
 
         }
