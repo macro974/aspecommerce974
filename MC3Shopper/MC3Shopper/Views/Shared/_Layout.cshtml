@@ -187,6 +187,11 @@
 
         });
     };
+        function refresh_panier() {
+            $.get('/Resume', function (data) {
+                $('#slide-step1').html(data);
+            });
+        };
         function count_panier() {
             $.ajax({
                 url: "@Url.Action("CountPanier","Panier")"
