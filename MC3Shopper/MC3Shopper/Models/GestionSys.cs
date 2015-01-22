@@ -157,6 +157,20 @@ namespace MC3Shopper.Models
                 }
             }
         }
+        public void RemiseToProduit(Produit p, Utilisateur user)
+        {
+            foreach (var item in user.Remises)
+            {
+                if(item.Key.Equals(p.CodeFamille))
+                {
+                    p.Remise = item.Value;
+                }
+            }
+            if(p.Remise >0 )
+            {
+                p.PrixFormate = p.Prix.ToString("0.00") + "€ (PP:" + p.PrixOriginal.ToString("0.00") + "€)";
+            }
+        }
 
         public void GEtqteCommandeProduit(List<Produit> p)
         {
@@ -807,6 +821,7 @@ namespace MC3Shopper.Models
                 //item.Taxes[myReader["TA_Intitule"].ToString()] = float.Parse(myReader["TA_Taux"].ToString());
             }
             maDB.close();
+
             return monProduit;
         }
 
@@ -902,7 +917,7 @@ namespace MC3Shopper.Models
             blah.ExecuteNonQuery();
             var maListe = new List<Produit>();
             const string statement =
-                "select DISTINCT F_Article.AR_Ref,AR_Photo,AR_Design,AR_PrixVen,AS_QteRes,AS_QteSto-AS_QteRes AS QTE,AS_MontSto from F_Article INNER JOIN F_ARTSTOCK ON F_ARTICLE.AR_Ref = F_ARTSTOCK.AR_Ref WHERE F_ARTSTOCK.DE_No = 1 AND AR_Sommeil = 0 AND AR_Publie = 1 AND AR_Stat02=@state AND AR_Stat01 LIKE @famille";
+                "select DISTINCT F_Article.AR_Ref,AR_Photo,AR_Design,AR_PrixVen,AS_QteRes,F_Article.FA_CodeFamille,AS_QteSto-AS_QteRes AS QTE,AS_MontSto from F_Article INNER JOIN F_ARTSTOCK ON F_ARTICLE.AR_Ref = F_ARTSTOCK.AR_Ref WHERE F_ARTSTOCK.DE_No = 1 AND AR_Sommeil = 0 AND AR_Publie = 1 AND AR_Stat02=@state AND AR_Stat01 LIKE @famille";
             var myCommand = new SqlCommand(statement, maDB.myConnection);
             myCommand.Parameters.Add("@state", SqlDbType.NVarChar, 50);
             myCommand.Parameters["@state"].Value = codestat;
@@ -915,6 +930,7 @@ namespace MC3Shopper.Models
                 var monProduit = new Produit(myReader["AR_Photo"].ToString(), myReader["AR_Ref"].ToString(),
                     myReader["AR_Design"].ToString(), decimal.Parse(myReader["AR_PrixVen"].ToString()))
                 {
+                    CodeFamille=myReader["FA_CodeFamille"].ToString(),
                     StockDispo_denis = float.Parse(myReader["QTE"].ToString()) < 0
                         ? 0
                         : float.Parse(myReader["QTE"].ToString()),

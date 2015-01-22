@@ -162,6 +162,7 @@ namespace MC3Shopper.Controllers
             var sys = new GestionSys(mb);
             Produit p = sys.FindAndCheckProduitByRef(AR_Ref, Qte);
             var panier = Security.DeSerialize<Panier>(Session["Panier"].ToString());
+            var user = Security.DeSerialize<Panier>(Session["user"].ToString());
             if (Qte == 0)
             {
                 return Json("Fail", JsonRequestBehavior.AllowGet);
