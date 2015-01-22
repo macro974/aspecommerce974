@@ -66,9 +66,13 @@ $(function () {
 });
 
 StepOne();
+
+
 $("#next1").click(function () {
     StepTwo();
 });
+
+
 $("#next2").click(function () {
     StepThree()
 });
