@@ -75,22 +75,3 @@
     
 </div>
 
-<script>
-    $(".item-remove").click(function () {
-        var value=$(this).data("ref");
-        var posting = $.post("/Panier/Remove", { AR_Ref: value });
-        posting.done(function (data) {
-            if(data=="Success")
-            {
-                refresh_panier();
-                update_panier();
-            }
-            else {
-                console.log(data);
-            }
-
-        })
-
-    })
-
-</script>

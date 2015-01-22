@@ -7,18 +7,40 @@
         <div style="padding: 15px; padding-bottom: 0px;">
 
             <label style="text-align: center;">Panier:</label><br />
-            <div id="panier-scroll">
+           
                 @if (@ViewBag.panier != null)
                 {
-                    foreach (Produit p in @ViewBag.panier.monPanier)
-                    {
-                        <p>
-                            <b>@p.Reference</b>- <i>@p.Designation</i> X @p.QteDemande <br />
-                        </p>
-                    }
+                    
+                    <div id="panier-scroll">
+                        @if(@ViewBag.panier.monPanier.Count<=0)
+                        {
+                            <p>
+                                Votre Panier est vide :(
+                            </p>
+                        }
+                        else
+                        {
+                            foreach (Produit p in @ViewBag.panier.monPanier)
+                            {
+                                <p>
+                                    <b>@p.Reference</b>- <i>@p.Designation</i> X @p.QteDemande <br />
+                                </p>
+                            }
+                        }
+                      
+                    </div>
                 }
-            </div>
-            <a href="/Commander" class="btn btn-primary btn-block">Commander</a>
+                    @if (@ViewBag.panier.monPanier.Count <= 0)
+                    {
+                        <a href="/Commander" class="btn btn-primary btn-block disabled">Commander</a>
+                    }
+                    else
+                    {
+                        <a href="/Commander" class="btn btn-primary btn-block ">Commander</a>
+                    }
+                   
+                
+           
         </div>
     </li>
 </ul>

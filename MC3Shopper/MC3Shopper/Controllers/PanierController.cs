@@ -35,6 +35,7 @@ namespace MC3Shopper.Controllers
             }
             else
             {
+                
                 ViewBag.panier = null;
             }
             return PartialView();
