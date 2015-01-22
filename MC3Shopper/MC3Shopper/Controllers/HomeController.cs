@@ -32,5 +32,11 @@ namespace MC3Shopper.Controllers
 
             return View();
         }
+
+        [Authorize]
+        public ActionResult CGV()
+        {
+            return View();
+        }
     }
 }

@@ -295,6 +295,7 @@
     <Content Include="Views\Panier\ProcessStep.cshtml" />
     <Content Include="Views\Panier\CreerCommande.cshtml" />
     <Content Include="Views\Panier\_ResumePanier.cshtml" />
+    <Content Include="Views\Home\CGV.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
