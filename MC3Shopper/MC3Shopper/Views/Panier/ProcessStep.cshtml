@@ -33,41 +33,47 @@
     <div class="col-md-12" id="slide-step1">
         @{
             Html.RenderAction("_ResumePanier", "Panier");
-        }
+                        }
         <!--Vue partielle  Résume Panier-->
         </div>
-    <div class="btn btn-primary" id="next1">Suivant</div>
-        <div class="col-md-12" id="slide-step2">
-            <div class="row">
-                <legend>Lieu de livraison</legend>
-                Je souhaite
-                <select id="mode" class="" style="max-width:170px">
-                    <option>un retrait</option>
-                    <option>une livraison</option>
-                </select>
-                à
-                <select id="lieu" class="" style="max-width:170px">
+            <div class="btn btn-primary" id="next1">Suivant</div>
+    <div class="col-md-12" id="slide-step2">
+        <div class="row">
+            <legend>Lieu de livraison</legend>
+            Je souhaite
+            <select id="mode" class="" style="max-width:170px">
+                <option>un retrait</option>
+                <option>une livraison</option>
+            </select>
+            à
+            <select id="lieu" class="" style="max-width:170px">
 
-                    <option>St Denis</option>
-                    <option>St Pierre</option>
-                </select>
-                <input type="checkbox" />Livraison partielle
-
-            </div>
-            <div class="row" style="margin:auto">
-                <div class="btn btn-primary" id="return1">Précédent</div>
-                <div class="btn btn-primary" id="next2">Suivant</div>
-            </div>
+                <option>St Denis</option>
+                <option>St Pierre</option>
+            </select>
+            <input type="checkbox" />Livraison partielle      
 
         </div>
 
-        <div class="col-md-12" id="slide-step3">
-            <legend>Confirmation</legend>
-            <div class="btn btn-primary" id="return2">Précédent</div>
-            <div class="btn btn-primary" id="next3">Confirmer</div>
+        <!--DATEPICKER-->
+        <div>
+            <p>Date: <input type="date" id="datepicker"></p>
         </div>
+
+        <div class="row" style="margin:auto">
+            <div class="btn btn-primary" id="return1">Précédent</div>
+            <div class="btn btn-primary" id="next2">Suivant</div>
+        </div>    
 
     </div>
+
+    <div class="col-md-12" id="slide-step3">
+        <legend>Confirmation</legend>
+        <div class="btn btn-primary" id="return2">Précédent</div>
+        <div class="btn btn-primary" id="next3">Confirmer</div>
+    </div>
+    
+</div>
 
 <script>
     $(".item-remove").click(function () {

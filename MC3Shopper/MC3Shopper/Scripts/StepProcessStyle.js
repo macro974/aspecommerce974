@@ -129,3 +129,7 @@ function StepThree() {
     $("#slide-step3").fadeIn();
 
 }
+
+$(function () {
+    $("#datepicker").datepicker();
+});
