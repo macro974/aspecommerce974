@@ -1,4 +1,5 @@
 ﻿using MC3Shopper.Models;
+using System;
 using System.Web.Mvc;
 
 namespace MC3Shopper.Controllers
@@ -23,7 +24,7 @@ namespace MC3Shopper.Controllers
             }
             return PartialView();
         }
-
+        [Route("Resume/")]
         public ActionResult _ResumePanier()
         {
             if (Session["Panier"] != null)
@@ -67,18 +68,26 @@ namespace MC3Shopper.Controllers
         [Route("Commander/")]
         public ActionResult ProcessStep()
         {
-            if (Session["Panier"] != null)
-            {
-                Panier panier = Security.DeSerialize<Panier>(Session["panier"].ToString());
-                ViewBag.count = panier.monPanier.Count;
-                ViewBag.panier = panier;
-                ViewBag.totalpanier = panier.TotalPanier;
-            }
-            else
-            {
-                ViewBag.panier = null;
-            }
+           
             return View();
+        }
+
+        public JsonResult Remove(string AR_Ref)
+        {
+            try
+            {
+                var panier = Security.DeSerialize<Panier>(Session["Panier"].ToString());
+                panier.Suprrimer(AR_Ref);
+                Session["Panier"] = Security.Serialize(panier);
+                  return Json("Success", JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception e)
+                {
+                    return Json("Fail", JsonRequestBehavior.AllowGet);
+                }
+            
+            
+
         }
     }
 }
