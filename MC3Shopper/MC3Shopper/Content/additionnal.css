@@ -569,10 +569,12 @@ footer {
 #totalpanier td{
     padding:5px 5px 5px 5px;
     border-top:1px lightgrey solid;
+    border-left:1px lightgrey solid;
 }      
 #totalpanier th{
     padding:5px 5px 5px 5px;
     background-color: #ddd;
+    border-left:1px lightgrey solid;
 }   
 #dropdown-panier{
     min-height:100px; 
