@@ -111,11 +111,11 @@ namespace MC3Shopper.Models
                 while (myReader2.Read())
                 {
                     var p = new Produit();
-                    p.Reference = myReader2[0].ToString();
-                    p.QteRes_pierre = float.Parse(myReader2[1].ToString());
-                    p.StockDispo_pierre = float.Parse(myReader2[2].ToString()) < 0
+                    p.Reference = myReader2["AR_Ref"].ToString();
+                    p.QteRes_pierre = float.Parse(myReader2["AS_QteRes"].ToString());
+                    p.StockDispo_pierre = float.Parse(myReader2["pierre"].ToString()) < 0
                         ? 0
-                        : float.Parse(myReader2[1].ToString());
+                        : float.Parse(myReader2["pierre"].ToString());
                     p_copie.Add(p);
                 }
                 myReader2.Close();

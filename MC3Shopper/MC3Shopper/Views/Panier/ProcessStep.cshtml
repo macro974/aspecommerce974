@@ -33,30 +33,37 @@
     <div class="col-md-12" id="slide-step1">
         @{
             Html.RenderAction("_ResumePanier", "Panier");
-                        }
-        <!--Vue partielle  Résume Panier-->
-        </div>
-            <div class="btn btn-primary" id="next1">Suivant</div>
+        }
+        <div class="btn btn-primary" id="next1">Suivant</div>
+
+    </div>
+            
     <div class="col-md-12" id="slide-step2">
         <div class="row">
             <legend>Lieu de livraison</legend>
-            Je souhaite
-            <select id="mode" class="" style="max-width:170px">
-                <option>un retrait</option>
-                <option>une livraison</option>
-            </select>
-            à
-            <select id="lieu" class="" style="max-width:170px">
-
-                <option>St Denis</option>
-                <option>St Pierre</option>
-            </select>
-            le
-            <input type="date" id="datepicker"> <!--DATEPICKER-->
-            .
-            <input type="checkbox" />Livraison partielle      
-
-        </div>
+            <div class="col-md-3">
+                
+                <label>Je souhaite...</label>
+                <select id="mode" class="form-control" >
+                    <option>--</option>
+                    <option>faire un retrait</option>
+                    <option>une livraison</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label>Lieu</label>
+                <select id="lieu" class="form-control" >
+                    <option>--</option>
+                    <option>St Denis</option>
+                    <option>St Pierre</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label>Date</label>
+                <input type="text" id="datepicker" class="form-control" style="background-color:white"> <!--DATEPICKER-->
+                <input type="checkbox" />Livraison partielle
+            </div>           
+     </div>
 
         
 
