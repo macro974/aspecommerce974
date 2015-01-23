@@ -17,7 +17,7 @@ namespace MC3Shopper.Models
         private Dictionary<string, float> _taxes;
         private decimal prixTotal;
         private float tva;
-
+        private int _AR_UnitePoids;
         public Produit()
         {
         }
@@ -228,12 +228,8 @@ namespace MC3Shopper.Models
 
         public double AR_PoidsBrut { get; set; }
 
-        public double DL_PoidsBrut
-        {
-            get { return DL_PoidsBrut; }
-
-            set { }
-        }
+        public double DL_PoidsBrut {get;set;}
+        
 
         public double DL_PoidsNet { get; set; }
 
@@ -246,8 +242,8 @@ namespace MC3Shopper.Models
 
             set
             {
-                AR_UnitePoids = value;
-                switch (AR_UnitePoids)
+                _AR_UnitePoids = value;
+                switch (_AR_UnitePoids)
                 {
                     case 0:
                         DL_PoidsBrut = AR_PoidsBrut * 1000000;

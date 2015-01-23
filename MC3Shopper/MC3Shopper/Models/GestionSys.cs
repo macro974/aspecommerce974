@@ -1429,11 +1429,11 @@ VALUES     ('" + item.Reference + @"', 0, 0, '" + item.Reference + @"', '', '', 
                 {
                     // instructions de pour le choix de du poids suivant l'objet
                     int MvtStock = 0;
-                    for(int i=0;i==1;i++)
+                    for (int i = 0; i == 1; i++)
                     {
                         MvtStock = i > 0 ? 1 : 3;
-                    
-                    statement = @"INSERT INTO F_DOCLIGNE
+
+                        statement = @"INSERT INTO F_DOCLIGNE
                       (DO_Domaine,DO_Type,CT_Num ,DO_Piece,DL_PieceBC,DL_PieceBL,DO_Date,DL_DateBC,DL_DateBL,DL_Ligne,DO_Ref,DL_TNomencl,DL_TRemPied,DL_TRemExep,AR_Ref,DL_Design,DL_Qte,DL_QteBC,DL_QteBL,DL_PoidsNet,DL_PoidsBrut,
                         DL_Remise01REM_Valeur,DL_Remise01REM_Type,DL_Remise02REM_Valeur,DL_Remise02REM_Type,DL_Remise03REM_Valeur,
                         DL_Remise03REM_Type,DL_PrixUnitaire,DL_PUBC,DL_Taxe1,DL_TypeTaux1,DL_TypeTaxe1,DL_Taxe2,DL_TypeTaux2,DL_TypeTaxe2,AG_No1,AG_No2,DL_PrixRU,DL_CMUP,
@@ -1448,41 +1448,41 @@ VALUES     ('" + item.Reference + @"', 0, 0, '" + item.Reference + @"', '', '', 
 @DL_No,@DO_DateLivr,@CA_Num,@DL_Taxe3,@DL_TypeTaux3,@DL_TypeTaxe3,
 @DL_Frais,@DL_Valorise,@AR_RefCompose,@DL_NonLivre,@AC_RefClient,@DL_MontantHT,@DL_MontantTTC,@DL_FactPoids,@DL_Escompte,
 @cbProt,@cbMarq,@cbCreateur,@cbModification,@cbReplication,@cbFlag,@CO_No,@DT_No,@DL_PiecePL,@DL_DatePL,@DL_QtePL,@DL_NoColis,@DL_NoLink,@RP_Code,@DL_QteRessource,@DL_DateAvancement)";
-                     myCommand = new SqlCommand(statement, maDB.myConnection);
-                    // Méthode sql prépare hyper longue 
-                     myCommand.Parameters.Add("@DO_Domaine", SqlDbType.Int).Value = 2;
-                     myCommand.Parameters.Add("@Do_Type", SqlDbType.Int).Value = 23;
-                     myCommand.Parameters.Add("@CT_Num", SqlDbType.VarChar, 50).Value = doc_entete.DO_Tiers;
-                     myCommand.Parameters.Add("@DO_Piece", SqlDbType.NVarChar, 50).Value = doc_entete.DO_Piece;
-                     myCommand.Parameters.Add("@DL_PieceBC", SqlDbType.NVarChar, 50).Value = "";
-                     myCommand.Parameters.Add("@DL_PieceBL", SqlDbType.NVarChar, 50).Value = "";
-                     myCommand.Parameters.Add("@DO_Date", SqlDbType.SmallDateTime).Value = doc_entete.DO_Date;
-                     myCommand.Parameters.Add("@DL_DateBC", SqlDbType.SmallDateTime).Value = "1900-01-01 00:00:00";
-                     myCommand.Parameters.Add("@DO_DateBL", SqlDbType.SmallDateTime).Value = doc_entete.DO_Date;
-                     myCommand.Parameters.Add("@DL_Ligne", SqlDbType.Int).Value = getMaxDLligne(doc_entete.DO_Piece);
-                     myCommand.Parameters.Add("@DO_Ref", SqlDbType.NVarChar, 50).Value = doc_entete.DO_Ref;
-                     myCommand.Parameters.Add("@DL_TNomencl", SqlDbType.Int).Value = 0;
-                     myCommand.Parameters.Add("@DL_TRemPied", SqlDbType.Int).Value = 0;
-                     myCommand.Parameters.Add("@DL_TRemExep", SqlDbType.Int).Value = 0;
-                     myCommand.Parameters.Add("@AR_Ref", SqlDbType.NVarChar, 50).Value = item.Reference;
-                     myCommand.Parameters.Add("@DL_Design", SqlDbType.NVarChar, 50).Value = item.Designation;
-                     myCommand.Parameters.Add("@DL_Qte", SqlDbType.Float).Value = item.QteDemande;
-                     myCommand.Parameters.Add("@DL_QteBC", SqlDbType.Float).Value = item.QteDemande;
-                     myCommand.Parameters.Add("@DL_QteBL", SqlDbType.Float).Value = 0.000000;
-                     myCommand.Parameters.Add("@DL_QteBL", SqlDbType.Float).Value = 0.000000;
-                     myCommand.Parameters.Add("@DL_PoidsNet", SqlDbType.Float).Value = item.DL_PoidsNet;
-                     myCommand.Parameters.Add("@DL_PoidsBrut", SqlDbType.Float).Value = item.DL_PoidsBrut;
+                        myCommand = new SqlCommand(statement, maDB.myConnection);
+                        // Méthode sql prépare hyper longue 
+                        myCommand.Parameters.Add("@DO_Domaine", SqlDbType.Int).Value = 2;
+                        myCommand.Parameters.Add("@Do_Type", SqlDbType.Int).Value = 23;
+                        myCommand.Parameters.Add("@CT_Num", SqlDbType.VarChar, 50).Value = doc_entete.DO_Tiers;
+                        myCommand.Parameters.Add("@DO_Piece", SqlDbType.NVarChar, 50).Value = doc_entete.DO_Piece;
+                        myCommand.Parameters.Add("@DL_PieceBC", SqlDbType.NVarChar, 50).Value = "";
+                        myCommand.Parameters.Add("@DL_PieceBL", SqlDbType.NVarChar, 50).Value = "";
+                        myCommand.Parameters.Add("@DO_Date", SqlDbType.SmallDateTime).Value = doc_entete.DO_Date;
+                        myCommand.Parameters.Add("@DL_DateBC", SqlDbType.SmallDateTime).Value = "1900-01-01 00:00:00";
+                        myCommand.Parameters.Add("@DO_DateBL", SqlDbType.SmallDateTime).Value = doc_entete.DO_Date;
+                        myCommand.Parameters.Add("@DL_Ligne", SqlDbType.Int).Value = getMaxDLligne(doc_entete.DO_Piece);
+                        myCommand.Parameters.Add("@DO_Ref", SqlDbType.NVarChar, 50).Value = doc_entete.DO_Ref;
+                        myCommand.Parameters.Add("@DL_TNomencl", SqlDbType.Int).Value = 0;
+                        myCommand.Parameters.Add("@DL_TRemPied", SqlDbType.Int).Value = 0;
+                        myCommand.Parameters.Add("@DL_TRemExep", SqlDbType.Int).Value = 0;
+                        myCommand.Parameters.Add("@AR_Ref", SqlDbType.NVarChar, 50).Value = item.Reference;
+                        myCommand.Parameters.Add("@DL_Design", SqlDbType.NVarChar, 50).Value = item.Designation;
+                        myCommand.Parameters.Add("@DL_Qte", SqlDbType.Float).Value = item.QteDemande;
+                        myCommand.Parameters.Add("@DL_QteBC", SqlDbType.Float).Value = item.QteDemande;
+                        myCommand.Parameters.Add("@DL_QteBL", SqlDbType.Float).Value = 0.000000;
+                        myCommand.Parameters.Add("@DL_QteBL", SqlDbType.Float).Value = 0.000000;
+                        myCommand.Parameters.Add("@DL_PoidsNet", SqlDbType.Float).Value = item.DL_PoidsNet;
+                        myCommand.Parameters.Add("@DL_PoidsBrut", SqlDbType.Float).Value = item.DL_PoidsBrut;
                         // 2eme ligne 
-                     myCommand.Parameters.Add("@DL_Remise01REM_Valeur", SqlDbType.Float).Value = 0.000000;
-                     myCommand.Parameters.Add("@DL_Remise01REM_Type", SqlDbType.Int).Value = 0;
-                     myCommand.Parameters.Add("@DL_Remise02REM_Valeur", SqlDbType.Float).Value = 0.000000;
-                     myCommand.Parameters.Add("@DL_Remise02REM_Type", SqlDbType.Int).Value = 0;
-                     myCommand.Parameters.Add("@DL_Remise03REM_Valeur", SqlDbType.Float).Value = 0.000000;
-                     myCommand.Parameters.Add("@DL_Remise03REM_Type", SqlDbType.Int).Value = 0;
+                        myCommand.Parameters.Add("@DL_Remise01REM_Valeur", SqlDbType.Float).Value = 0.000000;
+                        myCommand.Parameters.Add("@DL_Remise01REM_Type", SqlDbType.Int).Value = 0;
+                        myCommand.Parameters.Add("@DL_Remise02REM_Valeur", SqlDbType.Float).Value = 0.000000;
+                        myCommand.Parameters.Add("@DL_Remise02REM_Type", SqlDbType.Int).Value = 0;
+                        myCommand.Parameters.Add("@DL_Remise03REM_Valeur", SqlDbType.Float).Value = 0.000000;
+                        myCommand.Parameters.Add("@DL_Remise03REM_Type", SqlDbType.Int).Value = 0;
                         // 3eme ligne 
-                     myCommand.Parameters.Add("@DL_PrixUnitaire", SqlDbType.Float).Value = item.Prix;
-                    myCommand.Parameters.Add("@DL_PUBC", SqlDbType.Float).Value = 0f;
-            
+                        myCommand.Parameters.Add("@DL_PrixUnitaire", SqlDbType.Float).Value = item.Prix;
+                        myCommand.Parameters.Add("@DL_PUBC", SqlDbType.Float).Value = 0f;
+
                     }
                 }
             }
@@ -1491,8 +1491,8 @@ VALUES     ('" + item.Reference + @"', 0, 0, '" + item.Reference + @"', '', '', 
         public int getMaxDLligne(string DO_Piece)
         {
             maDB.open();
-            int Dl_Ligne=10000;
-            string statement = "select MAX(DL_Ligne) from F_DOCLIGNE where DO_Piece='"+DO_Piece+"' ";
+            int Dl_Ligne = 10000;
+            string statement = "select MAX(DL_Ligne) from F_DOCLIGNE where DO_Piece='" + DO_Piece + "' ";
             SqlCommand myCommand = new SqlCommand(statement, maDB.myConnection);
             SqlDataReader reader = myCommand.ExecuteReader();
 
@@ -1500,12 +1500,13 @@ VALUES     ('" + item.Reference + @"', 0, 0, '" + item.Reference + @"', '', '', 
             {
                 while (reader.Read())
                 {
-                    Dl_Ligne +=  int.Parse(reader[0].ToString());
+                    Dl_Ligne += int.Parse(reader[0].ToString());
                 }
                 reader.Close();
                 maDB.close();
-        }
+            }
             return Dl_Ligne;
-            
+
+        }
     }
 }
