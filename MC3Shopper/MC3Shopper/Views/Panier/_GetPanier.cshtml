@@ -7,10 +7,10 @@
         <div style="padding: 15px; padding-bottom: 0px;">
 
             <label style="text-align: center;">Panier:</label><br />
-           
+
                 @if (@ViewBag.panier != null)
                 {
-                    
+
                     <div id="panier-scroll">
                         @if(@ViewBag.panier.monPanier.Count<=0)
                         {
@@ -27,10 +27,9 @@
                                 </p>
                             }
                         }
-                      
                     </div>
                 }
-                
+
                     @if (@ViewBag.panier==null ||@ViewBag.panier.monPanier.Count <= 0)
                     {
                         <a href="/Commander" class="btn btn-primary btn-block disabled">Commander</a>
@@ -39,9 +38,6 @@
                     {
                         <a href="/Commander" class="btn btn-primary btn-block ">Commander</a>
                     }
-                   
-                
-           
         </div>
     </li>
 </ul>

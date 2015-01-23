@@ -9,7 +9,7 @@ namespace MC3Shopper.Controllers
         private readonly Database mb = new Database();
 
         // GET: Panier
-       
+
         public ActionResult _GetPanier()
         {
             if (Session["Panier"] != null)
@@ -24,6 +24,7 @@ namespace MC3Shopper.Controllers
             }
             return PartialView();
         }
+
         [Route("Resume/")]
         public ActionResult _ResumePanier()
         {
@@ -35,7 +36,6 @@ namespace MC3Shopper.Controllers
             }
             else
             {
-                
                 ViewBag.panier = null;
             }
             return PartialView();
@@ -69,7 +69,6 @@ namespace MC3Shopper.Controllers
         [Route("Commander/")]
         public ActionResult ProcessStep()
         {
-           
             return View();
         }
 
@@ -80,20 +79,16 @@ namespace MC3Shopper.Controllers
                 var panier = Security.DeSerialize<Panier>(Session["Panier"].ToString());
                 panier.Suprrimer(AR_Ref);
                 Session["Panier"] = Security.Serialize(panier);
-                  return Json("Success", JsonRequestBehavior.AllowGet);
-                }
-                catch (Exception e)
-                {
-                    return Json("Fail", JsonRequestBehavior.AllowGet);
-                }
-            
-            
-
+                return Json("Success", JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json("Fail", JsonRequestBehavior.AllowGet);
+            }
         }
 
-        public JsonResult EditQuantity ( string AR_ref, int Qte)
+        public JsonResult EditQuantity(string AR_ref, int Qte)
         {
-
             try
             {
                 var panier = Security.DeSerialize<Panier>(Session["Panier"].ToString());
@@ -106,8 +101,6 @@ namespace MC3Shopper.Controllers
             {
                 return Json("Fail", JsonRequestBehavior.AllowGet);
             }
-            
-
         }
     }
 }
