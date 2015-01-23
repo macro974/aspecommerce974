@@ -1,4 +1,11 @@
-﻿<div class="col-xs-12">
+﻿@{
+    ViewBag.Title = "Contact";
+}
+
+
+<script src="http://maps.googleapis.com/maps/api/js"></script>
+
+<div class="col-xs-12">
     <h1>MC3 Océan Indien</h1>
 </div>
     
@@ -10,6 +17,8 @@
             Sainte Marie, <b>97438</b>
         </p>
     </address>
+    </br>
+    <div id="mapStemarie" style="width:300px;height:180px;"></div>
 </div>
 <div class="col-md-4">
     <h3>Sud</h3>
@@ -20,6 +29,8 @@
             Saint Pierre, <b>97410</b>
         </p>
     </address>
+    
+    <div id="mapStpierre" style="width:300px;height:180px;"></div>
 </div>
 <div class="col-md-4">
     <h3>Contact mail</h3>

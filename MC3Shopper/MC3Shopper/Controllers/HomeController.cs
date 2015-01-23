@@ -33,6 +33,7 @@ namespace MC3Shopper.Controllers
             return View();
         }
 
+        [Route("CGV/")]
         [Authorize]
         public ActionResult CGV()
         {
