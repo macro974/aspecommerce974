@@ -130,6 +130,13 @@ function StepThree() {
 
 }
 
-$(function () {
-    $("#datepicker").datepicker();
+$(document).ready(function () {
+    console.log("launch datepicker");
+    try{
+        $("#datepicker").datepicker();
+    }
+    catch(exeption){
+        console.log("erreur datepicker "+ exeption.message);
+    }
+
 });
