@@ -84,3 +84,40 @@ $("#return1").click(function () {
 $("#return2").click(function () {
     StepTwo();
 });
+
+function initialize() {
+
+    /*Ste-Marie*/
+    var positionLatLong = new google.maps.LatLng(-20.899630, 55.537149);
+    var mapProp = {
+        center: positionLatLong,
+        zoom: 16,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    var map = new google.maps.Map(document.getElementById("mapStemarie"), mapProp);
+
+    var marker = new google.maps.Marker({
+        position: positionLatLong,
+        map: map,
+        title: 'MC3 Ste-Marie'
+    });
+
+    /*St-Pierre*/
+    var positionLatLong2 = new google.maps.LatLng(-21.321784, 55.449269);
+    var mapProp2 = {
+        center: positionLatLong2,
+        zoom: 16,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    var map2 = new google.maps.Map(document.getElementById("mapStpierre"), mapProp2);
+
+    var marker2 = new google.maps.Marker({
+        position: positionLatLong2,
+        map: map2,
+        title: 'MC3 St-Pierre'
+    });
+
+    
+    
+}
+google.maps.event.addDomListener(window, 'load', initialize);
