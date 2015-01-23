@@ -223,5 +223,61 @@ namespace MC3Shopper.Models
         public DateTime? QteLivraison { get; set; }
 
         public float QteDemande { get; set; }
+
+        public double AR_PoidsNet { get; set; }
+
+        public double AR_PoidsBrut { get; set; }
+
+        public double DL_PoidsBrut
+        {
+            get { return DL_PoidsBrut; }
+
+            set { }
+        }
+
+        public double DL_PoidsNet { get; set; }
+
+        public int AR_UnitePoids
+        {
+            get
+            {
+                return AR_UnitePoids;
+            }
+
+            set
+            {
+                AR_UnitePoids = value;
+                switch (AR_UnitePoids)
+                {
+                    case 0:
+                        DL_PoidsBrut = AR_PoidsBrut * 1000000;
+                        DL_PoidsNet = AR_PoidsNet * 1000000;
+                        break;
+
+                    case 1:
+                        DL_PoidsBrut = AR_PoidsBrut * 100000;
+                        DL_PoidsNet = AR_PoidsNet * 100000;
+                        break;
+
+                    case 2:
+                        DL_PoidsBrut = AR_PoidsBrut * 1000;
+                        DL_PoidsNet = AR_PoidsNet * 1000;
+                        break;
+
+                    case 3:
+                        DL_PoidsBrut = AR_PoidsBrut * 1;
+                        DL_PoidsNet = AR_PoidsNet * 1;
+                        break;
+
+                    case 5:
+                        DL_PoidsBrut = AR_PoidsBrut * 0.001;
+                        DL_PoidsNet = AR_PoidsNet * 0.001;
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+        }
     }
 }

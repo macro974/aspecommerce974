@@ -81,7 +81,7 @@ namespace MC3Shopper.Models
             return totalTVA;
         }
 
-        public void Plus(string Reference,int Qte)
+        public void Plus(string Reference, int Qte)
         {
             var monProduit = new Produit();
             foreach (Produit item in monPanier)
@@ -100,7 +100,7 @@ namespace MC3Shopper.Models
             //Add(monProduit);
         }
 
-        public void Moins(string Reference,int Qte)
+        public void Moins(string Reference, int Qte)
         {
             var monProduit = new Produit();
             foreach (Produit item in monPanier)
@@ -208,19 +208,20 @@ namespace MC3Shopper.Models
                 this.monPanier.Add(Produit);
             }
         }
-        public decimal TotalTTC ()
+
+        public decimal TotalTTC()
         {
-            
             return totalPanier + GetEcoTaxePanier() + GetTVADuPanier();
         }
-        public void ChangerQuantite(string Ar_ref , int Qte)
+
+        public void ChangerQuantite(string Ar_ref, int Qte)
         {
             Produit p = new Produit();
-            foreach(var item in monPanier)
+            foreach (var item in monPanier)
             {
-                if(item.Reference.Equals(Ar_ref))
+                if (item.Reference.Equals(Ar_ref))
                 {
-                    if( Qte <= item.QteEnCommande + item.StockDisponible)
+                    if (Qte <= item.QteEnCommande + item.StockDisponible)
                     {
                         TotalPanier -= item.PrixTotal;
                         item.QteDemande = Qte;
@@ -228,12 +229,8 @@ namespace MC3Shopper.Models
                         item.PrixTotal = item.Prix * int.Parse(item.QteDemande.ToString());
                         TotalPanier += item.PrixTotal;
                     }
-                    
-                   
-
                 }
             }
         }
-        
     }
 }

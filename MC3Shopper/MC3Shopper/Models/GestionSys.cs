@@ -157,16 +157,17 @@ namespace MC3Shopper.Models
                 }
             }
         }
+
         public void RemiseToProduit(Produit p, Utilisateur user)
         {
             foreach (var item in user.Remises)
             {
-                if(item.Key.Equals(p.CodeFamille))
+                if (item.Key.Equals(p.CodeFamille))
                 {
                     p.Remise = item.Value;
                 }
             }
-            if(p.Remise >0 )
+            if (p.Remise > 0)
             {
                 p.PrixFormate = p.Prix.ToString("0.00") + "€ (PP:" + p.PrixOriginal.ToString("0.00") + "€)";
             }
@@ -775,7 +776,7 @@ namespace MC3Shopper.Models
             Produit monProduit = null;
             ;
             string statement =
-                "select DISTINCT F_Article.AR_Ref,AR_Design,AR_PrixVen,AS_QteSto,AS_QteRes,AS_MontSto,F_Article.FA_CodeFamille from F_Article INNER JOIN F_ARTSTOCK ON F_ARTICLE.AR_Ref = F_ARTSTOCK.AR_Ref WHERE F_ARTSTOCK.DE_No = 1 AND AR_Sommeil = 0 AND AR_Publie = 1 AND F_Article.AR_Ref=@ref";
+                "select DISTINCT F_Article.AR_Ref,F_Article.AR_UnitePoids,F_Article.AR_PoidsNet,F_Article.AR_PoidsBrut,AR_Design,AR_PrixVen,AS_QteSto,AS_QteRes,AS_MontSto,F_Article.FA_CodeFamille from F_Article INNER JOIN F_ARTSTOCK ON F_ARTICLE.AR_Ref = F_ARTSTOCK.AR_Ref WHERE F_ARTSTOCK.DE_No = 1 AND AR_Sommeil = 0 AND AR_Publie = 1 AND F_Article.AR_Ref=@ref";
             var myCommand = new SqlCommand(statement, maDB.myConnection);
             myCommand.Parameters.Add("@ref", SqlDbType.NVarChar, 50);
             myCommand.Parameters["@ref"].Value = AR_Ref;
@@ -791,6 +792,9 @@ namespace MC3Shopper.Models
                 float stock = float.Parse(myReader["AS_QteSto"].ToString());
                 float stockRes = float.Parse(myReader["AS_QteRes"].ToString());
                 monProduit.StockDispo_denis = stock - stockRes <= 0 ? 0 : stock - stockRes;
+                monProduit.AR_PoidsNet = double.Parse(myReader["AR_PoidsNet"].ToString());
+                monProduit.AR_PoidsBrut = double.Parse(myReader["AR_PoidsBrut"].ToString());
+                monProduit.AR_UnitePoids = int.Parse(myReader["AR_UnitePoids"].ToString());
             }
             myReader.Close();
             maDB.close();
@@ -803,14 +807,14 @@ namespace MC3Shopper.Models
             //statement = "SELECT * FROM F_ARTCOMPTA INNER JOIN F_TAXE ON F_TAXE.TA_Code = F_ARTCOMPTA.ACP_ComptaCPT_Taxe1 WHERE     (F_ARTCOMPTA.AR_Ref = '" + item.Reference + "')";
             string statement1 = @"SELECT     *
                     FROM         F_ARTCOMPTA INNER JOIN
-                      F_TAXE ON F_TAXE.TA_Code = F_ARTCOMPTA.ACP_ComptaCPT_Taxe1 OR F_TAXE.TA_Code = F_ARTCOMPTA.ACP_ComptaCPT_Taxe2 OR 
+                      F_TAXE ON F_TAXE.TA_Code = F_ARTCOMPTA.ACP_ComptaCPT_Taxe1 OR F_TAXE.TA_Code = F_ARTCOMPTA.ACP_ComptaCPT_Taxe2 OR
                       F_TAXE.TA_Code = F_ARTCOMPTA.ACP_ComptaCPT_Taxe3
             WHERE     (F_ARTCOMPTA.AR_Ref = '" + monProduit.Reference + "') AND (F_ARTCOMPTA.ACP_Champ = 1) AND (F_ARTCOMPTA.ACP_Type = 0)";
             myCommand = new SqlCommand(statement1, dbObject.myConnection);
 
             myReader = null;
             myReader = myCommand.ExecuteReader();
-            //  
+            //
             while (myReader.Read())
             {
                 //item.Taxes.Add(myReader["TA_Intitule"].ToString(), float.Parse(myReader["TA_Taux"].ToString()));
@@ -873,7 +877,7 @@ namespace MC3Shopper.Models
             var sw = new Stopwatch();
             sw.Start();
             var maListe = new List<Produit>();
-            
+
             string statement =
                 "select DISTINCT F_Article.AR_Ref,AR_Design,AR_PrixVen,AS_QteSto-AS_QteRes AS QTE,AS_MontSto " +
                 "from F_Article INNER JOIN F_ARTSTOCK ON F_ARTICLE.AR_Ref = F_ARTSTOCK.AR_Ref " +
@@ -881,7 +885,7 @@ namespace MC3Shopper.Models
             var myCommand = new SqlCommand(statement, maDB.myConnection);
             myCommand.Parameters.Add("@state", SqlDbType.NVarChar, 50);
             myCommand.Parameters["@state"].Value = codestat;
-            myCommand.Parameters.Add("@famille", SqlDbType.NVarChar,50).Value = "%" + famille + "%";
+            myCommand.Parameters.Add("@famille", SqlDbType.NVarChar, 50).Value = "%" + famille + "%";
             SqlDataReader myReader = null;
             myReader = myCommand.ExecuteReader();
             while (myReader.Read())
@@ -930,7 +934,7 @@ namespace MC3Shopper.Models
                 var monProduit = new Produit(myReader["AR_Photo"].ToString(), myReader["AR_Ref"].ToString(),
                     myReader["AR_Design"].ToString(), decimal.Parse(myReader["AR_PrixVen"].ToString()))
                 {
-                    CodeFamille=myReader["FA_CodeFamille"].ToString(),
+                    CodeFamille = myReader["FA_CodeFamille"].ToString(),
                     StockDispo_denis = float.Parse(myReader["QTE"].ToString()) < 0
                         ? 0
                         : float.Parse(myReader["QTE"].ToString()),
@@ -1402,5 +1406,106 @@ VALUES     ('" + item.Reference + @"', 0, 0, '" + item.Reference + @"', '', '', 
 
             return numeroBC;
         }
+
+        public void MouvementTransfert(List<Produit> lp, Utilisateur user, int Depot)
+        {
+            // selection de la docentete
+            entetedocument doc_entete = new entetedocument();
+            maDB.open();
+            string statement = "select top 1 * from F_DOCENTETE where DO_Domaine=2 and DO_Type=23   and DO_Ref LIKE '[^**]%[NS]>_' and DO_Tiers=" + Depot + " order by DO_Date asc";
+            SqlCommand myCommand = new SqlCommand(statement, maDB.myConnection);
+            SqlDataReader reader = myCommand.ExecuteReader();
+
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    doc_entete = remplirEntete(reader);
+                }
+                reader.Close();
+                maDB.close();
+                // creation nouveau f_docligne
+                foreach (var item in lp)
+                {
+                    // instructions de pour le choix de du poids suivant l'objet
+                    int MvtStock = 0;
+                    for(int i=0;i==1;i++)
+                    {
+                        MvtStock = i > 0 ? 1 : 3;
+                    
+                    statement = @"INSERT INTO F_DOCLIGNE
+                      (DO_Domaine,DO_Type,CT_Num ,DO_Piece,DL_PieceBC,DL_PieceBL,DO_Date,DL_DateBC,DL_DateBL,DL_Ligne,DO_Ref,DL_TNomencl,DL_TRemPied,DL_TRemExep,AR_Ref,DL_Design,DL_Qte,DL_QteBC,DL_QteBL,DL_PoidsNet,DL_PoidsBrut,
+                        DL_Remise01REM_Valeur,DL_Remise01REM_Type,DL_Remise02REM_Valeur,DL_Remise02REM_Type,DL_Remise03REM_Valeur,
+                        DL_Remise03REM_Type,DL_PrixUnitaire,DL_PUBC,DL_Taxe1,DL_TypeTaux1,DL_TypeTaxe1,DL_Taxe2,DL_TypeTaux2,DL_TypeTaxe2,AG_No1,AG_No2,DL_PrixRU,DL_CMUP,
+                        DL_MvtStock,AF_RefFourniss,EU_Enumere,EU_Qte,DL_TTC,DE_No,DL_NoRef,DL_TypePL,DL_PUDevise,DL_PUTTC,
+                        DL_No,DO_DateLivr,CA_Num,DL_Taxe3,DL_TypeTaux3,DL_TypeTaxe3,
+                        DL_Frais,DL_Valorise,AR_RefCompose,DL_NonLivre,AC_RefClient,DL_MontantHT,DL_MontantTTC,DL_FactPoids,DL_Escompte,
+                        cbProt,cbMarq,cbCreateur,cbModification,cbReplication,cbFlag,CO_No,DT_No,DL_PiecePL,DL_DatePL,DL_QtePL,DL_NoColis,DL_NoLink,RP_Code,DL_QteRessource,DL_DateAvancement)
+                        VALUES(@DO_Domaine,@DO_Type,@CT_Num ,@DO_Piece,@DL_PieceBC,@DL_PieceBL,@DO_Date,@DL_DateBC,@DL_DateBL,@DL_Ligne,@DO_Ref,@DL_TNomencl,@DL_TRemPied,@DL_TRemExep,@AR_Ref,@DL_Design,@DL_Qte,@DL_QteBC,@DL_QteBL,@DL_PoidsNet,@DL_PoidsBrut,
+@DL_Remise01REM_Valeur,@DL_Remise01REM_Type,DL_Remise02REM_Valeur,@DL_Remise02REM_Type,DL_Remise03REM_Valeur,
+@DL_Remise03REM_Type,@DL_PrixUnitaire,@DL_PUBC,@DL_Taxe1,@DL_TypeTaux1,@DL_TypeTaxe1,@DL_Taxe2,@DL_TypeTaux2,@DL_TypeTaxe2,@AG_No1,@AG_No2,@DL_PrixRU,@DL_CMUP,
+@DL_MvtStock,@AF_RefFourniss,@EU_Enumere,@EU_Qte,@DL_TTC,@DE_No,@DL_NoRef,@DL_TypePL,@DL_PUDevise,@DL_PUTTC,
+@DL_No,@DO_DateLivr,@CA_Num,@DL_Taxe3,@DL_TypeTaux3,@DL_TypeTaxe3,
+@DL_Frais,@DL_Valorise,@AR_RefCompose,@DL_NonLivre,@AC_RefClient,@DL_MontantHT,@DL_MontantTTC,@DL_FactPoids,@DL_Escompte,
+@cbProt,@cbMarq,@cbCreateur,@cbModification,@cbReplication,@cbFlag,@CO_No,@DT_No,@DL_PiecePL,@DL_DatePL,@DL_QtePL,@DL_NoColis,@DL_NoLink,@RP_Code,@DL_QteRessource,@DL_DateAvancement)";
+                     myCommand = new SqlCommand(statement, maDB.myConnection);
+                    // Méthode sql prépare hyper longue 
+                     myCommand.Parameters.Add("@DO_Domaine", SqlDbType.Int).Value = 2;
+                     myCommand.Parameters.Add("@Do_Type", SqlDbType.Int).Value = 23;
+                     myCommand.Parameters.Add("@CT_Num", SqlDbType.VarChar, 50).Value = doc_entete.DO_Tiers;
+                     myCommand.Parameters.Add("@DO_Piece", SqlDbType.NVarChar, 50).Value = doc_entete.DO_Piece;
+                     myCommand.Parameters.Add("@DL_PieceBC", SqlDbType.NVarChar, 50).Value = "";
+                     myCommand.Parameters.Add("@DL_PieceBL", SqlDbType.NVarChar, 50).Value = "";
+                     myCommand.Parameters.Add("@DO_Date", SqlDbType.SmallDateTime).Value = doc_entete.DO_Date;
+                     myCommand.Parameters.Add("@DL_DateBC", SqlDbType.SmallDateTime).Value = "1900-01-01 00:00:00";
+                     myCommand.Parameters.Add("@DO_DateBL", SqlDbType.SmallDateTime).Value = doc_entete.DO_Date;
+                     myCommand.Parameters.Add("@DL_Ligne", SqlDbType.Int).Value = getMaxDLligne(doc_entete.DO_Piece);
+                     myCommand.Parameters.Add("@DO_Ref", SqlDbType.NVarChar, 50).Value = doc_entete.DO_Ref;
+                     myCommand.Parameters.Add("@DL_TNomencl", SqlDbType.Int).Value = 0;
+                     myCommand.Parameters.Add("@DL_TRemPied", SqlDbType.Int).Value = 0;
+                     myCommand.Parameters.Add("@DL_TRemExep", SqlDbType.Int).Value = 0;
+                     myCommand.Parameters.Add("@AR_Ref", SqlDbType.NVarChar, 50).Value = item.Reference;
+                     myCommand.Parameters.Add("@DL_Design", SqlDbType.NVarChar, 50).Value = item.Designation;
+                     myCommand.Parameters.Add("@DL_Qte", SqlDbType.Float).Value = item.QteDemande;
+                     myCommand.Parameters.Add("@DL_QteBC", SqlDbType.Float).Value = item.QteDemande;
+                     myCommand.Parameters.Add("@DL_QteBL", SqlDbType.Float).Value = 0.000000;
+                     myCommand.Parameters.Add("@DL_QteBL", SqlDbType.Float).Value = 0.000000;
+                     myCommand.Parameters.Add("@DL_PoidsNet", SqlDbType.Float).Value = item.DL_PoidsNet;
+                     myCommand.Parameters.Add("@DL_PoidsBrut", SqlDbType.Float).Value = item.DL_PoidsBrut;
+                        // 2eme ligne 
+                     myCommand.Parameters.Add("@DL_Remise01REM_Valeur", SqlDbType.Float).Value = 0.000000;
+                     myCommand.Parameters.Add("@DL_Remise01REM_Type", SqlDbType.Int).Value = 0;
+                     myCommand.Parameters.Add("@DL_Remise02REM_Valeur", SqlDbType.Float).Value = 0.000000;
+                     myCommand.Parameters.Add("@DL_Remise02REM_Type", SqlDbType.Int).Value = 0;
+                     myCommand.Parameters.Add("@DL_Remise03REM_Valeur", SqlDbType.Float).Value = 0.000000;
+                     myCommand.Parameters.Add("@DL_Remise03REM_Type", SqlDbType.Int).Value = 0;
+                        // 3eme ligne 
+                     myCommand.Parameters.Add("@DL_PrixUnitaire", SqlDbType.Float).Value = item.Prix;
+                    myCommand.Parameters.Add("@DL_PUBC", SqlDbType.Float).Value = 0f;
+            
+                    }
+                }
+            }
+        }
+
+        public int getMaxDLligne(string DO_Piece)
+        {
+            maDB.open();
+            int Dl_Ligne=10000;
+            string statement = "select MAX(DL_Ligne) from F_DOCLIGNE where DO_Piece='"+DO_Piece+"' ";
+            SqlCommand myCommand = new SqlCommand(statement, maDB.myConnection);
+            SqlDataReader reader = myCommand.ExecuteReader();
+
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    Dl_Ligne +=  int.Parse(reader[0].ToString());
+                }
+                reader.Close();
+                maDB.close();
+        }
+            return Dl_Ligne;
+            
     }
 }

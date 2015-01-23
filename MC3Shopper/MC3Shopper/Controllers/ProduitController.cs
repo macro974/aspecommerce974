@@ -79,8 +79,8 @@ namespace MC3Shopper.Controllers
                 sys.TousAllProductByCat(arref, Famille, page)
                     .Where(x => x.QteEnCommande + x.StockDisponible > 0 && x.Prix > 0)
                     .ToPagedList(page, 25);
-            var user = Security.DeSerialize<Utilisateur>(Session["user"].ToString()!=null?Session["user"].ToString():null);
-            if(user ==null)
+            var user = Security.DeSerialize<Utilisateur>(Session["user"].ToString() != null ? Session["user"].ToString() : null);
+            if (user == null)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -171,14 +171,14 @@ namespace MC3Shopper.Controllers
             {
                 //try
                 //{
-                    panier.AddToPanier(p);
-                    Session["Panier"] = Security.Serialize(panier);
+                panier.AddToPanier(p);
+                Session["Panier"] = Security.Serialize(panier);
 
-                    return Json("Success", JsonRequestBehavior.AllowGet);
+                return Json("Success", JsonRequestBehavior.AllowGet);
                 //}
                 //catch (Exception e)
                 //{
-                    //return Json("Fail", JsonRequestBehavior.AllowGet);
+                //return Json("Fail", JsonRequestBehavior.AllowGet);
                 //}
             }
 
